@@ -1,9 +1,12 @@
-import Login from "../pages/Login.svelte";
-import Main from "../pages/Main.svelte";
+import ItemListPage from "../pages/ItemListPage.svelte";
+import LoginPage from "../pages/LoginPage.svelte";
+import MainPage from "../pages/MainPage.svelte";
 
 const routes = {
-	"/": Login,
-	"/main": Main,
+	"/": LoginPage,
+	"/main": MainPage,
+
+	"/item": ItemListPage,
 };
 
 export default routes;

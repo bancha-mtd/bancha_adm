@@ -10,17 +10,19 @@
 
 <style>
 	button {
-		color: #adadad;
-		font-size: 18px;
+		color: #aaaaaa;
+		font-size: 16px;
 		width: 200px;
-		padding: 0 20px 0 40px;
+		height: 38px;
+		line-height: 30px;
+		padding: 4px 20px 4px 40px;
 		text-align: start;
 	}
 	button:hover {
-		background-color: #f6f6f6;
+		background-color: #eeeeee;
 		transition: all 0.3s linear;
 	}
 	.selected {
-		background-color: #f6f6f6;
+		background-color: #eeeeee;
 	}
 </style>

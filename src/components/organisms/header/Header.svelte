@@ -4,16 +4,16 @@
 	import { nickname } from "../../stores/UserInfoStore";
 </script>
 
-<div>
+<header>
 	<HeaderLogo />
 	<WhiteText text={$nickname} fontSize="20px" />
-</div>
+</header>
 
 <style>
-	div {
+	header {
 		width: calc(100vw - 20px);
 		height: 50px;
-		background-color: #adadad;
+		background-color: #aaaaaa;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

@@ -3,6 +3,3 @@
 </script>
 
 <LoginPanel />
-
-<style>
-</style>
