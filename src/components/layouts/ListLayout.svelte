@@ -4,7 +4,9 @@
 </script>
 
 <section style="width: {width};height: {height}">
-	<slot />
+	<ul>
+		<slot />
+	</ul>
 </section>
 
 <style>
@@ -12,8 +14,12 @@
 		background-color: white;
 		border-radius: 10px;
 		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		margin-bottom: 20px;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
 	}
 </style>

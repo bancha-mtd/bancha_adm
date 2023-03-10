@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Link from "../atoms/links/Link.svelte";
+	import LinkedText from "../atoms/links/LinkedText.svelte";
 	import BoldText from "../atoms/texts/BoldText.svelte";
 
 	export let title: string;
@@ -9,9 +9,11 @@
 </script>
 
 <section class="panel" style="width: {width};height: {height}">
-	<BoldText text={title} />
+	<BoldText>{title}</BoldText>
 	<slot />
-	<div class="to-detail"><Link text="자세히 보기" {to} /></div>
+	<div class="to-detail">
+		<LinkedText {to}><div class="to-detail">자세히 보기</div></LinkedText>
+	</div>
 </section>
 
 <style>
@@ -27,6 +29,7 @@
 		font-size: 16px;
 		color: #aaaaaa;
 		text-decoration: underline;
-		text-align: right;
+		display: flex;
+		justify-content: end;
 	}
 </style>

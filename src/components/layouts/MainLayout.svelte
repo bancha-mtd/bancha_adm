@@ -8,6 +8,6 @@
 <style>
 	main {
 		width: calc(100vw - 200px);
-		background-color: #aaaaaa;
+		background-color: #ddd;
 	}
 </style>

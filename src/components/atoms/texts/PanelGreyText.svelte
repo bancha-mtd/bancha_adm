@@ -1,10 +1,9 @@
 <script lang="ts">
-	export let text: string;
 	export let fontSize: string = "100px";
 </script>
 
 <div style="font-size:{fontSize}">
-	{text}
+	<slot />
 </div>
 
 <style>

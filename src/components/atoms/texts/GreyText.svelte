@@ -9,7 +9,7 @@
 
 <style>
 	div {
-		color: #444444;
+		color: #777;
 		text-align: center;
 	}
 </style>

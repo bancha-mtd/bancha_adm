@@ -10,10 +10,10 @@
 </script>
 
 <ListItemLayout {head}>
-	<DarkGreyText text={title} width="40%" />
-	<DarkGreyText text={date} width="20%" />
-	<DarkGreyText text={count} width="20%" />
-	<DarkGreyText text={price} width="20%" />
+	<DarkGreyText width="40%">{title}</DarkGreyText>
+	<DarkGreyText width="20%">{date}</DarkGreyText>
+	<DarkGreyText width="20%">{count}</DarkGreyText>
+	<DarkGreyText width="20%">{price}</DarkGreyText>
 </ListItemLayout>
 
 <style>

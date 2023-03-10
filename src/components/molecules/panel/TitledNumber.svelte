@@ -5,11 +5,12 @@
 
 	export let title: string;
 	export let value: number;
+	export let fontSize: string = "100px";
 </script>
 
 <SpaceAroundCol>
-	<DarkGreyText text={title} />
-	<PanelGreyText text={value.toLocaleString()} />
+	<DarkGreyText>{title}</DarkGreyText>
+	<PanelGreyText {fontSize}>{value.toLocaleString()}</PanelGreyText>
 </SpaceAroundCol>
 
 <style>

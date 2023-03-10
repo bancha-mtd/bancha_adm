@@ -4,13 +4,13 @@
 	export let title: string;
 </script>
 
-<div>
-	<BoldText text={title} fontSize={"20px"} />
+<header>
+	<BoldText fontSize={"20px"}>{title}</BoldText>
 	<slot />
-</div>
+</header>
 
 <style>
-	div {
+	header {
 		height: 50px;
 		display: flex;
 		justify-content: space-between;

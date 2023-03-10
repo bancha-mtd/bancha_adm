@@ -11,7 +11,7 @@
 	width="100%"
 	height="calc((100%-20px)/2)"
 >
-	<PanelGreyText text={value.toLocaleString()} />
+	<PanelGreyText>{value.toLocaleString()}</PanelGreyText>
 </TitledPanelLayout>
 
 <style>

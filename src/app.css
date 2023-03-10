@@ -33,6 +33,7 @@ input {
   line-height: 1.5;
   font-weight: 400;
   border: none;
+  box-sizing: border-box;
 }
 
 .card {

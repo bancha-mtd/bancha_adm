@@ -2,14 +2,17 @@
 	import { push } from "svelte-spa-router";
 	import BlackTextButton from "../../atoms/buttons/BlackTextButton.svelte";
 	import GreyTextButton from "../../atoms/buttons/GreyTextButton.svelte";
+	import { selected } from "../../stores/MenuStore";
 
 	export let title: string;
 	export let menus: string[];
 	export let routers: string[];
 	export let startIdx: number;
-	export let selected: number;
 
-	let height = "0";
+	let height =
+		startIdx <= $selected && $selected < startIdx + menus.length
+			? (menus.length * 38).toString()
+			: "0";
 </script>
 
 <div class="section">
@@ -24,10 +27,10 @@
 			<GreyTextButton
 				text={menu}
 				onClick={() => {
-					selected = i + startIdx;
+					$selected = i + startIdx;
 					push(routers[i]);
 				}}
-				selected={startIdx + i == selected ? "selected" : ""}
+				selected={startIdx + i == $selected ? "selected" : ""}
 			/>
 		{/each}
 	</div>

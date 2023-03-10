@@ -15,7 +15,7 @@
 		background-color: #efefef;
 		border-radius: 10px;
 		width: 380px;
-		height: 30px;
+		height: 50px;
 		padding: 10px;
 
 		font-size: 20px;

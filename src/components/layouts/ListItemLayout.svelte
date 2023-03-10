@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let head: boolean;
+	export let head: boolean = false;
 	let border = "1px solid #ccc";
 </script>
 
@@ -12,7 +12,6 @@
 		width: 100%;
 		height: 50px;
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
 	}
 </style>

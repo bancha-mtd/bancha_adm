@@ -24,7 +24,7 @@
 			placeholder={"비밀번호"}
 		/>
 	</div>
-	<GreyButton onClick={login} width="400px" height="50px" text="로그인" />
+	<GreyButton onClick={login} width="400px">로그인</GreyButton>
 </main>
 
 <style>

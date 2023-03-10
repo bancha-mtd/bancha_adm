@@ -1,13 +1,12 @@
 <script lang="ts">
 	import DarkGreyText from "../../atoms/texts/DarkGreyText.svelte";
-
 	export let type: string;
 	export let value: number;
 </script>
 
 <li>
-	<DarkGreyText text={type} />
-	<DarkGreyText text="{value}건" />
+	<DarkGreyText>{type}</DarkGreyText>
+	<DarkGreyText>{value}건</DarkGreyText>
 </li>
 
 <style>

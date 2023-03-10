@@ -18,19 +18,20 @@ export let menus:Writable<string[][]> = writable([
   ["상품", "방문자"],
 ]);
 export let routers:Writable<string[][]> = writable([
-  ["item", "category", "none", "exhibition", "section"],
-  ["reservation", "review"],
-  ["user", "partner", "manager", "qa", "파트너 정산", "포인트 내역"],
-  ["message", "push"],
+  ["/item", "/category", "/none", "/exhibition", "/section"],
+  ["/reservation", "/review"],
+  ["/user", "/partner", "/manager", "/qa", "/calculate", "/point"],
+  ["/message", "push"],
   [
-    "event",
-    "banner",
-    "pre",
-    "keyword",
-    "refund",
-    "point",
-    "preset/message",
-    "preset/alarm",
+    "/event",
+    "/banner",
+    "/pre",
+    "/keyword",
+    "/refund",
+    "/point",
+    "/preset/message",
+    "/preset/alarm",
   ],
-  ["stat/item", "stat/user"],
+  ["/stat/item", "/stat/user"],
 ]);
+export let selected:Writable<number> = writable(-1);
