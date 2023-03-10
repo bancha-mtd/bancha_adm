@@ -10,6 +10,8 @@ import SectionListPage from "../pages/item/SectionListPage.svelte";
 import LoginPage from "../pages/LoginPage.svelte";
 import MainPage from "../pages/MainPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
+import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.svelte";
+import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
 
 const routes = {
 	"/": LoginPage,
@@ -28,6 +30,9 @@ const routes = {
 
 	"/section": SectionListPage,
 	"/section/:id": SectionDetailPage,
+
+	"/reservation": ReservationListPage,
+	"/reservation/:id": ReservationDetailPage,
 
 	"*": NotFound,
 };

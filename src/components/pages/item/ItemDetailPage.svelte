@@ -9,7 +9,7 @@
 <MainLayout>
 	<PageHeader title="상품관리" />
 	<PageLayout>
-		<div>SIUUUUUUUUU</div>
+		<div>수정예정</div>
 		<div>{params.id}</div>
 	</PageLayout>
 </MainLayout>

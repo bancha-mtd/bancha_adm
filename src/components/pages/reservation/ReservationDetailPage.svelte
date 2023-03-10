@@ -7,7 +7,7 @@
 </script>
 
 <MainLayout>
-	<PageHeader title="기획전" />
+	<PageHeader title="예약관리" />
 	<PageLayout>
 		<div>수정예정</div>
 		<div>{params.id}</div>

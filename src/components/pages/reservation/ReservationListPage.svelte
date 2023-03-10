@@ -2,14 +2,14 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
-
-	export let params: any;
+	import ReservationList from "../../organisms/reservation/ReservationList.svelte";
+	import ReservationListPanel from "../../organisms/reservation/ReservationListPanel.svelte";
 </script>
 
 <MainLayout>
-	<PageHeader title="기획전" />
+	<PageHeader title="예약관리" />
 	<PageLayout>
-		<div>수정예정</div>
-		<div>{params.id}</div>
+		<ReservationListPanel />
+		<ReservationList />
 	</PageLayout>
 </MainLayout>

@@ -9,7 +9,7 @@
 <MainLayout>
 	<PageHeader title="그룹 딜" />
 	<PageLayout>
-		<div>SIUUUUUUUUU</div>
+		<div>수정예정</div>
 		<div>{params.id}</div>
 	</PageLayout>
 </MainLayout>
