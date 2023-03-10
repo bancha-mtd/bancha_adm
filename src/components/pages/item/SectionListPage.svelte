@@ -2,14 +2,12 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
-	import ItemList from "../../organisms/list/ItemList.svelte";
-	import ItemListPanel from "../../organisms/panel/ItemListPanel.svelte";
+	import SectionList from "../../organisms/list/SectionList.svelte";
 </script>
 
 <MainLayout>
-	<PageHeader title="상품관리" />
+	<PageHeader title="섹션" />
 	<PageLayout>
-		<ItemListPanel />
-		<ItemList />
+		<SectionList />
 	</PageLayout>
 </MainLayout>

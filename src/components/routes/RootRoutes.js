@@ -4,6 +4,8 @@ import GroupDealDetailPage from "../pages/item/GroupDealDetailPage.svelte";
 import GroupDealListPage from "../pages/item/GroupDealListPage.svelte";
 import ItemDetailPage from "../pages/item/ItemDetailPage.svelte";
 import ItemListPage from "../pages/item/ItemListPage.svelte";
+import SectionDetailPage from "../pages/item/SectionDetailPage.svelte";
+import SectionListPage from "../pages/item/SectionListPage.svelte";
 import LoginPage from "../pages/LoginPage.svelte";
 import MainPage from "../pages/MainPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
@@ -20,6 +22,9 @@ const routes = {
 
 	"/groupdeal": GroupDealListPage,
 	"/groupdeal/:id": GroupDealDetailPage,
+
+	"/section": SectionListPage,
+	"/section/:id": SectionDetailPage,
 
 	"*": NotFound,
 };

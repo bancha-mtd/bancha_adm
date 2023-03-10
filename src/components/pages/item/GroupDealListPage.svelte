@@ -2,7 +2,7 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
-	import GroupDealList from "../../organisms/groupdeal/GroupDealList.svelte";
+	import GroupDealList from "../../organisms/list/GroupDealList.svelte";
 </script>
 
 <MainLayout>
