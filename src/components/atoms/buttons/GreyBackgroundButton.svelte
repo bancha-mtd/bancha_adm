@@ -17,7 +17,6 @@
 		background-color: #aaa;
 		color: white;
 		border-radius: 10px;
-
 		font-size: 20px;
 	}
 </style>

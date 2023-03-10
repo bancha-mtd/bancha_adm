@@ -1,11 +1,10 @@
 <script lang="ts">
-	export let text: string;
 	export let onClick: () => void;
 	export let selected: string;
 </script>
 
 <button on:click={onClick} class={selected}>
-	{text}
+	<slot />
 </button>
 
 <style>

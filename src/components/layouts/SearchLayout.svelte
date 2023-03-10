@@ -5,8 +5,8 @@
 <style>
 	section {
 		display: flex;
-		gap: 50px;
-		align-items: baseline;
+		justify-content: space-between;
+		align-items: end;
 		margin-bottom: 20px;
 	}
 </style>

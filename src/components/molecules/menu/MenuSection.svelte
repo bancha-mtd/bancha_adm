@@ -17,21 +17,20 @@
 
 <div class="section">
 	<BlackTextButton
-		text={title}
 		onClick={() => {
 			height = height === "0" ? (menus.length * 38).toString() : "0";
-		}}
-	/>
+		}}>{title}</BlackTextButton
+	>
 	<div style="height:{height}px" class="list">
 		{#each menus as menu, i}
 			<GreyTextButton
-				text={menu}
 				onClick={() => {
 					$selected = i + startIdx;
 					push(routers[i]);
 				}}
 				selected={startIdx + i == $selected ? "selected" : ""}
-			/>
+				>{menu}</GreyTextButton
+			>
 		{/each}
 	</div>
 </div>
