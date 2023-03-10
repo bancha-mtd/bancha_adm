@@ -1,3 +1,4 @@
+import CategoryListPage from "../pages/item/CategoryListPage.svelte";
 import ExhibitionDetailPage from "../pages/item/ExhibitionDetailPage.svelte";
 import ExhibitionListPage from "../pages/item/ExhibitionListPage.svelte";
 import GroupDealDetailPage from "../pages/item/GroupDealDetailPage.svelte";
@@ -16,6 +17,8 @@ const routes = {
 
 	"/item": ItemListPage,
 	"/item/:id": ItemDetailPage,
+
+	"/category": CategoryListPage,
 
 	"/exhibition": ExhibitionListPage,
 	"/exhibition/:id": ExhibitionDetailPage,

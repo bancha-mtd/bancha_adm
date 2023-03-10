@@ -2,7 +2,7 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
-	import ExhibitionList from "../../organisms/list/ExhibitionList.svelte";
+	import ExhibitionList from "../../organisms/exhibition/ExhibitionList.svelte";
 </script>
 
 <MainLayout>
