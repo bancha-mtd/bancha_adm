@@ -7,7 +7,7 @@
 </script>
 
 <MainLayout>
-	<PageHeader title="기획전" />
+	<PageHeader title="그룹 딜" />
 	<PageLayout>
 		<div>SIUUUUUUUUU</div>
 		<div>{params.id}</div>

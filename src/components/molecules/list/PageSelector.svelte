@@ -1,6 +1,5 @@
 <script lang="ts">
 	import PageTextButton from "../../atoms/buttons/PageTextButton.svelte";
-	import Text from "../../atoms/texts/Text.svelte";
 	import PageSelectorLayout from "../../layouts/PageSelectorLayout.svelte";
 
 	export let curPage: number;
@@ -33,8 +32,6 @@
 					curPage = page;
 				}}>{page}</PageTextButton
 			>
-		{:else}
-			<Text />
 		{/if}
 	{/each}
 	{#if rangeMin + 10 < maxPage}

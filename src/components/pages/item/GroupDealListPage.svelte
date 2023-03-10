@@ -2,14 +2,12 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
-
-	export let params: any;
+	import GroupDealList from "../../organisms/groupdeal/GroupDealList.svelte";
 </script>
 
 <MainLayout>
-	<PageHeader title="기획전" />
+	<PageHeader title="그룹 딜" />
 	<PageLayout>
-		<div>SIUUUUUUUUU</div>
-		<div>{params.id}</div>
+		<GroupDealList />
 	</PageLayout>
 </MainLayout>

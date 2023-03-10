@@ -5,7 +5,7 @@
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 	import ListLayout from "../../layouts/ListLayout.svelte";
 	import SearchLayout from "../../layouts/SearchLayout.svelte";
-	import ExhibitionListItem from "../../molecules/list/ExhibitionListItem.svelte";
+	import GroupDealListItem from "../../molecules/list/GroupDealListItem.svelte";
 	import PageSelector from "../../molecules/list/PageSelector.svelte";
 	import Search from "../../molecules/search/Search.svelte";
 	import TransparentSelect from "../../molecules/search/TransparentSelect.svelte";
@@ -13,7 +13,6 @@
 	let sortIsActive: object[] = [
 		{ id: 1, name: "전체" },
 		{ id: 2, name: "진행 중" },
-		{ id: 3, name: "예정" },
 		{ id: 4, name: "종료" },
 	];
 	let searchQuery: string = "";
@@ -35,24 +34,22 @@
 	</SpaceBetween>
 	<GreyBackgroundButton
 		onClick={addExhibition}
-		width="110px"
+		width="120px"
 		height="30px"
-		fontSize="16px">+ 기획전 추가</GreyBackgroundButton
+		fontSize="16px">+ 그룹 딜 추가</GreyBackgroundButton
 	>
 </SearchLayout>
 
 <ListLayout>
 	<ListItemLayout head={true}>
-		<GreyText width="10%">코드</GreyText>
-		<GreyText width="30%">기획전명</GreyText>
-		<GreyText width="10%">참여 공급자</GreyText>
-		<GreyText width="10%">상품</GreyText>
-		<GreyText width="10%">시작일자</GreyText>
-		<GreyText width="10%">종료일자</GreyText>
-		<GreyText width="10%">조회수</GreyText>
-		<GreyText width="10%">판매량</GreyText>
+		<GreyText width="15%">코드</GreyText>
+		<GreyText width="25%">상품명</GreyText>
+		<GreyText width="15%">할인 후 금액</GreyText>
+		<GreyText width="15%">파트너</GreyText>
+		<GreyText width="15%">마감일자</GreyText>
+		<GreyText width="15%">모집인원</GreyText>
 	</ListItemLayout>
-	<ExhibitionListItem />
+	<GroupDealListItem />
 </ListLayout>
 
 <PageSelector {curPage} {maxPage} {rangeMin} />

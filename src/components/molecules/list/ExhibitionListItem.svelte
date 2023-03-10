@@ -15,7 +15,7 @@
 
 <ListItemLayout>
 	<Text width="10%">{id}</Text>
-	<LinkedText to="/item/{id}" width="30%">{title}</LinkedText>
+	<LinkedText to="/exhibition/{id}" width="30%">{title}</LinkedText>
 	<Text width="10%">{partners}</Text>
 	<Text width="10%">{items}</Text>
 	<Text width="10%">{dateBegin}</Text>
