@@ -12,6 +12,8 @@ import MainPage from "../pages/MainPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
 import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.svelte";
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
+import ReviewDetailPage from "../pages/reservation/ReviewDetailPage.svelte";
+import ReviewListPage from "../pages/reservation/ReviewListPage.svelte";
 
 const routes = {
 	"/": LoginPage,
@@ -33,6 +35,9 @@ const routes = {
 
 	"/reservation": ReservationListPage,
 	"/reservation/:id": ReservationDetailPage,
+
+	"/review": ReviewListPage,
+	"/review/:id": ReviewDetailPage,
 
 	"*": NotFound,
 };
