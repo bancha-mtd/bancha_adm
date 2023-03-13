@@ -21,7 +21,7 @@ export let routers:Writable<string[][]> = writable([
   ["/item", "/exhibition", "/groupdeal", "/category", "/section"],
   ["/reservation", "/review"],
   ["/member", "/partner", "/manager", "/point"],
-  ["/message", "push"],
+  ["/message", "/push"],
   [
     "/event",
     "/banner",
