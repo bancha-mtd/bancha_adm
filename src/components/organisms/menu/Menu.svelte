@@ -26,18 +26,18 @@
 		title="알림"
 		menus={$menus[3]}
 		routers={$routers[3]}
-		startIdx={13}
+		startIdx={11}
 	/>
 	<MenuSection
 		title="설정"
 		menus={$menus[4]}
 		routers={$routers[4]}
-		startIdx={15}
+		startIdx={13}
 	/>
 	<MenuSection
 		title="통계"
 		menus={$menus[5]}
 		routers={$routers[5]}
-		startIdx={23}
+		startIdx={21}
 	/>
 </div>

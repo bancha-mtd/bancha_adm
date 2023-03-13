@@ -9,6 +9,7 @@ import SectionDetailPage from "../pages/item/SectionDetailPage.svelte";
 import SectionListPage from "../pages/item/SectionListPage.svelte";
 import LoginPage from "../pages/LoginPage.svelte";
 import MainPage from "../pages/MainPage.svelte";
+import ManagerListPage from "../pages/member/ManagerListPage.svelte";
 import MemberDetailPage from "../pages/member/MemberDetailPage.svelte";
 import MemberListPage from "../pages/member/MemberListPage.svelte";
 import PartnerDetailPage from "../pages/member/PartnerDetailPage.svelte";
@@ -48,6 +49,8 @@ const routes = {
 
 	"/partner": PartnerListPage,
 	"/partner/:id": PartnerDetailPage,
+
+	"/manager": ManagerListPage,
 
 	"*": NotFound,
 };
