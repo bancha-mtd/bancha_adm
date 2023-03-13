@@ -28,9 +28,9 @@ export let routers:Writable<string[][]> = writable([
     "/pre",
     "/keyword",
     "/refund",
-    "/point",
-    "/preset/message",
-    "/preset/alarm",
+    "/pointPreset",
+    "/messagePreset",
+    "/alarmPreset",
   ],
   ["/stat/item", "/stat/user"],
 ]);
