@@ -11,6 +11,6 @@
 
 <ListItemLayout>
 	<LinkedText to="/push/{id}" width="45%">{content}</LinkedText>
-	<Text width="25%">{sendDate}</Text>
-	<Text width="20%">{status}</Text>
+	<Text width="30%">{sendDate}</Text>
+	<Text width="15%">{status}</Text>
 </ListItemLayout>

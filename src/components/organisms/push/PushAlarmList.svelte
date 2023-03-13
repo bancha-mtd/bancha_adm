@@ -33,8 +33,8 @@
 <ListLayout>
 	<ListItemLayout head={true}>
 		<GreyText width="45%">내용</GreyText>
-		<GreyText width="25%">발송일시</GreyText>
-		<GreyText width="20%">상태</GreyText>
+		<GreyText width="30%">발송일시</GreyText>
+		<GreyText width="15%">상태</GreyText>
 	</ListItemLayout>
 	<PushAlarmListItem />
 </ListLayout>
