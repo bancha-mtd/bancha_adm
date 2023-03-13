@@ -48,6 +48,19 @@ div, section {
   box-sizing: border-box;
 }
 
+@keyframes init {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+section {
+  animation: init 1s;
+}
+
 button {
   font-family: 'Noto Sans KR', sans-serif;
   border: none;

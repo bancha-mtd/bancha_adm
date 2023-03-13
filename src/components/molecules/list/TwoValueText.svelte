@@ -8,7 +8,7 @@
 
 <div style="width:{width}">
 	<Text fontSize="16px">{val1}</Text>
-	<Text fontSize="16px">{val2}</Text>
+	<Text fontSize="16px">({val2})</Text>
 </div>
 
 <style>

@@ -20,7 +20,7 @@ export let menus:Writable<string[][]> = writable([
 export let routers:Writable<string[][]> = writable([
   ["/item", "/category", "/groupdeal", "/exhibition", "/section"],
   ["/reservation", "/review"],
-  ["/user", "/partner", "/manager", "/qa", "/calculate", "/point"],
+  ["/member", "/partner", "/manager", "/qa", "/calculate", "/point"],
   ["/message", "push"],
   [
     "/event",

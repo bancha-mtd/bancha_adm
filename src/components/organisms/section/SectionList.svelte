@@ -13,7 +13,7 @@
 	let sortIsActive: object[] = [
 		{ id: 1, name: "전체" },
 		{ id: 2, name: "진행 중" },
-		{ id: 4, name: "종료" },
+		{ id: 3, name: "종료" },
 	];
 	let searchQuery: string = "";
 	let selectedIsActive: object = sortIsActive[0];
