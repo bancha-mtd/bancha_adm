@@ -14,6 +14,7 @@ import MemberDetailPage from "../pages/member/MemberDetailPage.svelte";
 import MemberListPage from "../pages/member/MemberListPage.svelte";
 import PartnerDetailPage from "../pages/member/PartnerDetailPage.svelte";
 import PartnerListPage from "../pages/member/PartnerListPage.svelte";
+import PointRecordListPage from "../pages/member/PointRecordListPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
 import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.svelte";
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
@@ -51,6 +52,8 @@ const routes = {
 	"/partner/:id": PartnerDetailPage,
 
 	"/manager": ManagerListPage,
+
+	"/point": PointRecordListPage,
 
 	"*": NotFound,
 };
