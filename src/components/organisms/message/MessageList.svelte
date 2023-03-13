@@ -7,8 +7,16 @@
 	import MessageListItem from "../../molecules/list/MessageListItem.svelte";
 	import PageSelector from "../../molecules/list/PageSelector.svelte";
 	import Search from "../../molecules/search/Search.svelte";
+	import TransparentSelect from "../../molecules/search/TransparentSelect.svelte";
+
+	let sortStatus: object[] = [
+		{ id: 1, name: "전체" },
+		{ id: 2, name: "성공" },
+		{ id: 3, name: "실패" },
+	];
 
 	let searchQuery: string = "";
+	let selectedStatus: object = sortStatus[0];
 
 	let curPage: number = 1;
 	let maxPage: number = 20;
@@ -18,6 +26,7 @@
 <SearchLayout>
 	<SpaceBetween gap="20px" alignItems="end">
 		<Search onEnter={() => console.log(searchQuery)} value={searchQuery} />
+		<TransparentSelect lists={sortStatus} selected={selectedStatus} />
 	</SpaceBetween>
 </SearchLayout>
 
