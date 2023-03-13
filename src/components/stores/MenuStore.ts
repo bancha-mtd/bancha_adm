@@ -15,7 +15,7 @@ export let menus:Writable<string[][]> = writable([
     "문자메시지",
     "푸쉬알림",
   ],
-  ["상품", "방문자", "추가예정"],
+  ["상품", "방문자"],
 ]);
 export let routers:Writable<string[][]> = writable([
   ["/item", "/exhibition", "/groupdeal", "/category", "/section"],
