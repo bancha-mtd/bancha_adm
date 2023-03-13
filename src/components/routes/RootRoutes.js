@@ -16,6 +16,8 @@ import PartnerDetailPage from "../pages/member/PartnerDetailPage.svelte";
 import PartnerListPage from "../pages/member/PartnerListPage.svelte";
 import PointRecordListPage from "../pages/member/PointRecordListPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
+import MessageDetailPage from "../pages/notification/MessageDetailPage.svelte";
+import MessageListPage from "../pages/notification/MessageListPage.svelte";
 import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.svelte";
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
 import ReviewDetailPage from "../pages/reservation/ReviewDetailPage.svelte";
@@ -54,6 +56,9 @@ const routes = {
 	"/manager": ManagerListPage,
 
 	"/point": PointRecordListPage,
+
+	"/message": MessageListPage,
+	"/message/:id": MessageDetailPage,
 
 	"*": NotFound,
 };
