@@ -18,6 +18,8 @@ import PointRecordListPage from "../pages/member/PointRecordListPage.svelte";
 import NotFound from "../pages/NotFound.svelte";
 import MessageDetailPage from "../pages/notification/MessageDetailPage.svelte";
 import MessageListPage from "../pages/notification/MessageListPage.svelte";
+import PushAlarmDetailPage from "../pages/notification/PushAlarmDetailPage.svelte";
+import PushAlarmListPage from "../pages/notification/PushAlarmListPage.svelte";
 import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.svelte";
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
 import ReviewDetailPage from "../pages/reservation/ReviewDetailPage.svelte";
@@ -59,6 +61,9 @@ const routes = {
 
 	"/message": MessageListPage,
 	"/message/:id": MessageDetailPage,
+
+	"/push": PushAlarmListPage,
+	"/push/:id": PushAlarmDetailPage,
 
 	"*": NotFound,
 };
