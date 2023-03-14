@@ -24,6 +24,8 @@ import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.sv
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
 import ReviewDetailPage from "../pages/reservation/ReviewDetailPage.svelte";
 import ReviewListPage from "../pages/reservation/ReviewListPage.svelte";
+import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
+import EventListPage from "../pages/setting/EventListPage.svelte";
 
 const routes = {
 	"/": LoginPage,
@@ -64,6 +66,9 @@ const routes = {
 
 	"/push": PushAlarmListPage,
 	"/push/:id": PushAlarmDetailPage,
+
+	"/event": EventListPage,
+	"/event/:id": EventDetailPage,
 
 	"*": NotFound,
 };
