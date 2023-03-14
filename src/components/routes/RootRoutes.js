@@ -24,6 +24,8 @@ import ReservationDetailPage from "../pages/reservation/ReservationDetailPage.sv
 import ReservationListPage from "../pages/reservation/ReservationListPage.svelte";
 import ReviewDetailPage from "../pages/reservation/ReviewDetailPage.svelte";
 import ReviewListPage from "../pages/reservation/ReviewListPage.svelte";
+import BannerDetailpage from "../pages/setting/BannerDetailpage.svelte";
+import BannerListPage from "../pages/setting/BannerListPage.svelte";
 import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
 import EventListPage from "../pages/setting/EventListPage.svelte";
 
@@ -69,6 +71,9 @@ const routes = {
 
 	"/event": EventListPage,
 	"/event/:id": EventDetailPage,
+
+	"/banner": BannerListPage,
+	"/banner/:id": BannerDetailpage,
 
 	"*": NotFound,
 };
