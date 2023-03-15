@@ -29,6 +29,8 @@ import BannerListPage from "../pages/setting/BannerListPage.svelte";
 import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
 import EventListPage from "../pages/setting/EventListPage.svelte";
 import KeywordPage from "../pages/setting/KeywordPage.svelte";
+import PointPresetDetailPage from "../pages/setting/PointPresetDetailPage.svelte";
+import PointPresetPage from "../pages/setting/PointPresetPage.svelte";
 import PreScreenListPage from "../pages/setting/PreScreenListPage.svelte";
 import RefundDetailPage from "../pages/setting/RefundDetailPage.svelte";
 import RefundListPage from "../pages/setting/RefundListPage.svelte";
@@ -85,6 +87,9 @@ const routes = {
 
 	"/refund": RefundListPage,
 	"/refund/:id": RefundDetailPage,
+
+	"/preset/point": PointPresetPage,
+	"/preset/point/:id": PointPresetDetailPage,
 
 	"*": NotFound,
 };
