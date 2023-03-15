@@ -30,6 +30,8 @@ import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
 import EventListPage from "../pages/setting/EventListPage.svelte";
 import KeywordPage from "../pages/setting/KeywordPage.svelte";
 import PreScreenListPage from "../pages/setting/PreScreenListPage.svelte";
+import RefundDetailPage from "../pages/setting/RefundDetailPage.svelte";
+import RefundListPage from "../pages/setting/RefundListPage.svelte";
 
 const routes = {
 	"/": LoginPage,
@@ -80,6 +82,9 @@ const routes = {
 	"/pre": PreScreenListPage,
 
 	"/keyword": KeywordPage,
+
+	"/refund": RefundListPage,
+	"/refund/:id": RefundDetailPage,
 
 	"*": NotFound,
 };
