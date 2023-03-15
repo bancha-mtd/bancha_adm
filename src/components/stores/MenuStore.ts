@@ -30,7 +30,7 @@ export let routers:Writable<string[][]> = writable([
     "/refund",
     "/preset/point",
     "/preset/message",
-    "/preset/alarm",
+    "/preset/push",
   ],
   ["/stat/item", "/stat/user"],
 ]);
