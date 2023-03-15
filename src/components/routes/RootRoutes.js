@@ -28,6 +28,7 @@ import BannerDetailpage from "../pages/setting/BannerDetailpage.svelte";
 import BannerListPage from "../pages/setting/BannerListPage.svelte";
 import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
 import EventListPage from "../pages/setting/EventListPage.svelte";
+import PreScreenListPage from "../pages/setting/PreScreenListPage.svelte";
 
 const routes = {
 	"/": LoginPage,
@@ -74,6 +75,8 @@ const routes = {
 
 	"/banner": BannerListPage,
 	"/banner/:id": BannerDetailpage,
+
+	"/pre": PreScreenListPage,
 
 	"*": NotFound,
 };

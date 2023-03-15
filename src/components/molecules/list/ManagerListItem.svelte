@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
-	import SmallInput from "../../atoms/inputs/SmallInput.svelte";
+	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 	import ListItemSelector from "./ListItemSelector.svelte";
@@ -32,7 +32,7 @@
 	<Text width="25%">{email}</Text>
 	<ListItemSelector bind:selected lists={gradeList} width="12%" />
 	<Text width="12%">{nickname}</Text>
-	<SmallInput bind:value={group} width="15%" />
+	<BorderedInput bind:value={group} width="15%" />
 	<Text width="12%">{active}</Text>
 	<div>
 		<GreyBackgroundButton height="30px" fontSize="16px" onClick={modify}

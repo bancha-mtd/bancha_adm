@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import Image from "../../atoms/images/Image.svelte";
-	import SmallInput from "../../atoms/inputs/SmallInput.svelte";
+	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 
@@ -18,10 +18,10 @@
 
 <ListItemLayout>
 	<Text width="12%">{id}</Text>
-	<SmallInput bind:value={title} width="30%" />
+	<BorderedInput bind:value={title} width="30%" />
 	<Text width="12%">{items}</Text>
-	<SmallInput bind:value={active} width="12%" />
-	<SmallInput bind:value={priority} width="12%" />
+	<BorderedInput bind:value={active} width="12%" />
+	<BorderedInput bind:value={priority} width="12%" />
 	<div>
 		<Image src={icon} />
 	</div>

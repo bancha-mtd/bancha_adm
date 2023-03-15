@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let value: string;
 	export let width: string;
+	export let placeholder: string;
 </script>
 
 <div style="width:{width}">
-	<input bind:value placeholder="검색어를 입력하세요" />
+	<input bind:value {placeholder} />
 </div>
 
 <style>
