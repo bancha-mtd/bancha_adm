@@ -28,6 +28,7 @@ import BannerDetailpage from "../pages/setting/BannerDetailpage.svelte";
 import BannerListPage from "../pages/setting/BannerListPage.svelte";
 import EventDetailPage from "../pages/setting/EventDetailPage.svelte";
 import EventListPage from "../pages/setting/EventListPage.svelte";
+import KeywordPage from "../pages/setting/KeywordPage.svelte";
 import PreScreenListPage from "../pages/setting/PreScreenListPage.svelte";
 
 const routes = {
@@ -77,6 +78,8 @@ const routes = {
 	"/banner/:id": BannerDetailpage,
 
 	"/pre": PreScreenListPage,
+
+	"/keyword": KeywordPage,
 
 	"*": NotFound,
 };
