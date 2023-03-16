@@ -3,9 +3,11 @@
 	export let width: string = "70px";
 	export let height: string = "50px";
 	export let fontSize: string = "20px";
+	export let type: string = "button";
 </script>
 
 <button
+	{type}
 	on:click={onClick}
 	style="width:{width};height:{height};font-size:{fontSize}"
 >

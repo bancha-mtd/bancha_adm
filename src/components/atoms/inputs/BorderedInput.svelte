@@ -11,5 +11,6 @@
 	input {
 		border: 1px solid #ccc;
 		font-size: 18px;
+		text-align: center;
 	}
 </style>
