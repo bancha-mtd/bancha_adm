@@ -19,7 +19,7 @@
 	let password: string;
 
 	const login = () => {
-		const res = APIs.login(userId, password).then(() => {
+		APIs.login(userId, password).then(() => {
 			push("/main");
 		});
 		email.set(userId);
