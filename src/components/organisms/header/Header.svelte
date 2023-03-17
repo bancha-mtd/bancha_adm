@@ -6,7 +6,7 @@
 
 <header>
 	<HeaderLogo />
-	<WhiteText text={$nickname} fontSize="20px" />
+	<WhiteText fontSize="20px">{$nickname}</WhiteText>
 </header>
 
 <style>
