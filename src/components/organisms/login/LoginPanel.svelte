@@ -7,15 +7,10 @@
 	import LoginLogo from "../../molecules/login/LoginLogo.svelte";
 	import APIs from "../../utils/APIs";
 
-	import {
-		isLoggedIn,
-		email,
-		nickname,
-		type,
-	} from "../../stores/UserInfoStore";
+	import { isLoggedIn, email } from "../../stores/UserInfoStore";
 
 	onMount(() => {
-		if (isLoggedIn) {
+		if ($isLoggedIn) {
 			push("/main");
 		}
 	});
@@ -24,8 +19,10 @@
 	let password: string;
 
 	const login = () => {
-		const res = APIs.login(userId, password);
-		push("/main");
+		const res = APIs.login(userId, password).then(() => {
+			push("/main");
+		});
+		email.set(userId);
 	};
 </script>
 

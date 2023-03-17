@@ -6,14 +6,23 @@ import {
 	isLoggedIn,
 	type,
 	nickname,
+	managerId,
 } from "../stores/UserInfoStore";
 
 const parseJwt = (token) => {
-	try {
-		return JSON.parse(atob(token.split(".")[1]));
-	} catch (e) {
-		return null;
-	}
+	let base64Url = token.split(".")[1];
+	let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+	let jsonPayload = decodeURIComponent(
+		window
+			.atob(base64)
+			.split("")
+			.map(function (c) {
+				return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+			})
+			.join("")
+	);
+
+	return JSON.parse(jsonPayload);
 };
 
 const instance = axios.create({
@@ -30,11 +39,15 @@ const Requets = {
 			})
 			.then((res) => {
 				if (res.status === 200) {
-					console.log(res.status);
+					let tokenInfo = parseJwt(res.data.accessToken);
+
 					isLoggedIn.set(true);
 					grantType.set(res.data.grantType);
 					accessToken.set(res.data.accessToken);
 					refreshToken.set(res.data.refreshToken);
+					type.set(tokenInfo.authType);
+					nickname.set(tokenInfo.managerName);
+					managerId.set(tokenInfo.id);
 
 					instance.defaults.headers.common[
 						"Authorization"
