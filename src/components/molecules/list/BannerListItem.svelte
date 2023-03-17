@@ -3,7 +3,16 @@
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 
-	export let item: object = {
+	interface BannerItem {
+		id: string;
+		title: string;
+		priority: string;
+		startDate: string;
+		endDate: string;
+		clicks: string;
+	}
+
+	export let item: BannerItem = {
 		id: "코드",
 		title: "제목",
 		priority: "순위",

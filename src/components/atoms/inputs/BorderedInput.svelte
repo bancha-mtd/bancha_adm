@@ -2,7 +2,7 @@
 	export let value: string;
 	export let width: string = "100%";
 	export let height: string = "30px";
-	export let placeholder: string;
+	export let placeholder: string = "";
 </script>
 
 <input style="width:{width};height:{height}" bind:value {placeholder} />

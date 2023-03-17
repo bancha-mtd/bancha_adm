@@ -5,25 +5,36 @@
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 
-	export let id: string = "코드";
-	export let title: string = "카테고리명";
-	export let items: string = "상품수";
-	export let active: string = "노출";
-	export let priority: string = "노출순위";
-	export let icon: string = "src\\assets\\svelte.svg";
+	interface CategoryItem {
+		id: string;
+		title: string;
+		items: string;
+		active: string;
+		priority: string;
+		icon: string;
+	}
+
+	export let item: CategoryItem = {
+		id: "코드",
+		title: "제목",
+		items: "상품수",
+		active: "노출",
+		priority: "순위",
+		icon: "src\\assets\\svelte.svg",
+	};
 	export let modify: () => void = () => {
-		console.log(id, title, items, active, priority, icon);
+		console.log(item);
 	};
 </script>
 
 <ListItemLayout>
-	<Text width="12%">{id}</Text>
-	<BorderedInput bind:value={title} width="30%" />
-	<Text width="12%">{items}</Text>
-	<BorderedInput bind:value={active} width="12%" />
-	<BorderedInput bind:value={priority} width="12%" />
+	<Text width="12%">{item.id}</Text>
+	<BorderedInput bind:value={item.title} width="30%" />
+	<Text width="12%">{item.items}</Text>
+	<BorderedInput bind:value={item.active} width="12%" />
+	<BorderedInput bind:value={item.priority} width="12%" />
 	<div>
-		<Image src={icon} />
+		<Image src={item.icon} />
 	</div>
 	<GreyBackgroundButton height="30px" fontSize="16px" onClick={modify}
 		>수정</GreyBackgroundButton
