@@ -1,4 +1,13 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+	import { push } from "svelte-spa-router";
+	import { isLoggedIn } from "../stores/UserInfoStore";
+
+	onMount(() => {
+		if (!$isLoggedIn) {
+			push("/");
+		}
+	});
 </script>
 
 <main>
