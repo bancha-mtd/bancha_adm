@@ -8,16 +8,55 @@
 	import PreScreenDetailPanel from "./PreScreenDetailPanel.svelte";
 	import APIs from "../../utils/APIs";
 
+	interface PreScreenObject {
+		id: number;
+		title: string;
+		contents: string;
+	}
+
 	onMount(async () => {
-		const res = APIs.getPreScreen().then((res) => {
-			console.log(res);
-			list = res[1];
+		APIs.getPreScreen().then((res) => {
+			list = res.data;
 		});
 	});
-	let list: any[] = [];
-	let selected: object = undefined;
-	let select = (obj: object) => {
+
+	let list: PreScreenObject[] = [];
+	let selected: PreScreenObject = { id: -1, title: "", contents: "" };
+	let file: Blob;
+	let select = (obj: PreScreenObject) => {
 		selected = obj;
+	};
+
+	let addPreScreen = () => {
+		let form = new FormData();
+		if (selected.title == "" || file === undefined) {
+			alert("제목과 이미지를 모두 채워주세요!");
+			return;
+		}
+		form.append("title", selected.title);
+		form.append("preScreenImage", file, file.name);
+		APIs.addPreScreen(form).then((res) => {
+			selected.id = res[1].id;
+			APIs.getPreScreen().then((res) => {
+				list = res.data;
+			});
+		});
+	};
+	let deletePreScreen = () => {
+		APIs.deletePreScreen(selected.id)
+			.then(() => {
+				reset();
+				selected.id = -3;
+			})
+			.then(() => {
+				APIs.getPreScreen().then((res) => {
+					list = res.data;
+				});
+				reset();
+			});
+	};
+	let reset = () => {
+		selected = { id: -1, title: "", contents: "" };
 	};
 </script>
 
@@ -31,5 +70,11 @@
 			<PreScreenListItem onClick={select} item={element} />
 		{/each}
 	</ListLayout>
-	<PreScreenDetailPanel {selected} />
+	<PreScreenDetailPanel
+		bind:selected
+		{addPreScreen}
+		{deletePreScreen}
+		{reset}
+		bind:file
+	/>
 </SpaceBetween>

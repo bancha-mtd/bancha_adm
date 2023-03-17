@@ -6,20 +6,17 @@
 	import BoldText from "../../atoms/texts/BoldText.svelte";
 	import DropZone from "./DropZone.svelte";
 
-	export let selected: object = { id: -1, title: "", contents: "" };
-	let file: Blob;
-	let frm = new FormData();
+	interface PreScreenObject {
+		id: number;
+		title: string;
+		contents: string;
+	}
 
-	let addPreScreen = () => {
-		console.log(selected);
-		// frm.append('')
-	};
-	let deletePreScreen = () => {
-		console.log(selected);
-	};
-	let reset = () => {
-		selected = { id: -1, title: "", contents: "" };
-	};
+	export let selected: PreScreenObject;
+	export let addPreScreen: () => void;
+	export let deletePreScreen: () => void;
+	export let reset: () => void;
+	export let file: Blob;
 </script>
 
 <div class="panel">
@@ -27,18 +24,11 @@
 		<BoldText fontSize="18px">프리스크린 상세</BoldText>
 		<SpaceBetween gap="10px">
 			<GreyBackgroundButton
-				onClick={addPreScreen}
+				onClick={selected.id < 0 ? addPreScreen : deletePreScreen}
 				width="50px"
 				height="30px"
 				fontSize="16px"
-				>{selected.id < 0 ? "등록" : "수정"}
-			</GreyBackgroundButton>
-			<GreyBackgroundButton
-				onClick={deletePreScreen}
-				width="50px"
-				height="30px"
-				fontSize="16px"
-				>삭제
+				>{selected.id < 0 ? "등록" : "삭제"}
 			</GreyBackgroundButton>
 			<GreyBackgroundButton
 				onClick={reset}

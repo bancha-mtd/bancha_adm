@@ -7,6 +7,7 @@
 
 	let fileHandler = (e) => {
 		file = e.target.files[0];
+		console.log(e.target.files[0]);
 		img = URL.createObjectURL(file);
 		onEnd();
 	};
