@@ -1,5 +1,4 @@
 <script lang="ts">
-	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
