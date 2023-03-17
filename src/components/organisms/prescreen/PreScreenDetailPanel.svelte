@@ -2,48 +2,70 @@
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import Image from "../../atoms/images/Image.svelte";
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
+	import SpaceBetween from "../../atoms/layouts/SpaceBetween.svelte";
 	import BoldText from "../../atoms/texts/BoldText.svelte";
 	import DropZone from "./DropZone.svelte";
 
 	export let selected: object = { id: -1, title: "", contents: "" };
+	let file: Blob;
+	let frm = new FormData();
 
 	let addPreScreen = () => {
-		console.log("SIUUUUUU");
 		console.log(selected);
+		// frm.append('')
+	};
+	let deletePreScreen = () => {
+		console.log(selected);
+	};
+	let reset = () => {
+		selected = { id: -1, title: "", contents: "" };
 	};
 </script>
 
 <div class="panel">
 	<div class="paneltitle">
 		<BoldText fontSize="18px">프리스크린 상세</BoldText>
-		<GreyBackgroundButton
-			onClick={addPreScreen}
-			width="50px"
-			height="30px"
-			fontSize="16px"
-			>{#if selected.id !== -1}등록{:else}삭제{/if}</GreyBackgroundButton
-		>
+		<SpaceBetween gap="10px">
+			<GreyBackgroundButton
+				onClick={addPreScreen}
+				width="50px"
+				height="30px"
+				fontSize="16px"
+				>{selected.id < 0 ? "등록" : "수정"}
+			</GreyBackgroundButton>
+			<GreyBackgroundButton
+				onClick={deletePreScreen}
+				width="50px"
+				height="30px"
+				fontSize="16px"
+				>삭제
+			</GreyBackgroundButton>
+			<GreyBackgroundButton
+				onClick={reset}
+				width="50px"
+				height="30px"
+				fontSize="16px"
+				>취소
+			</GreyBackgroundButton>
+		</SpaceBetween>
 	</div>
 	<div class="title">
 		<BoldText fontSize="18px">프리스크린 이름</BoldText>
 		<BorderedInput
-			width="70%"
+			width="100%"
 			height="30px"
-			value={selected.title}
+			bind:value={selected.title}
 			placeholder=""
 		/>
 	</div>
 	<BoldText fontSize="18px">이미지</BoldText>
-	<div
-		class="images"
-		style="border:{selected.id === -1 ? 'none' : '1px solid #ccc'}"
-	>
+	<div class="images">
 		{#if selected.id === -1}
 			<DropZone
-				bind:file={selected.contents}
+				bind:file
+				bind:img={selected.contents}
 				onEnd={() => {
 					selected.id = -2;
-					console.log(selected);
 				}}
 			/>
 		{:else if selected.id === -2}

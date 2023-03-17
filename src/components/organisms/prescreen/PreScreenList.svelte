@@ -1,20 +1,18 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import axios from "axios";
 	import SpaceBetween from "../../atoms/layouts/SpaceBetween.svelte";
 	import GreyText from "../../atoms/texts/GreyText.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 	import ListLayout from "../../layouts/ListLayout.svelte";
 	import PreScreenListItem from "../../molecules/list/PreScreenListItem.svelte";
 	import PreScreenDetailPanel from "./PreScreenDetailPanel.svelte";
+	import APIs from "../../utils/APIs";
 
 	onMount(async () => {
-		const res = await axios
-			.get("http://3.38.18.168/admin/pre-screen/edit-form")
-			.then((res) => {
-				list = res.data;
-				// selected = list[0];
-			});
+		const res = APIs.getPreScreen().then((res) => {
+			console.log(res);
+			list = res[1];
+		});
 	});
 	let list: any[] = [];
 	let selected: object = undefined;
