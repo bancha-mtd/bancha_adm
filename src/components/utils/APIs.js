@@ -74,6 +74,24 @@ const Requets = {
 				return [e.response.status, e.response.data];
 			});
 	},
+	getItemStatistic: async () => {
+		const response = await instance
+			.get("/admin/product/statistics")
+			.catch((e) => {
+				console.log(e);
+				return [e.response.status, e.response.data];
+			});
+		return response;
+	},
+	getItem: async (obj) => {
+		const response = await instance
+			.post("/admin/product/management", obj)
+			.catch((e) => {
+				console.log(e);
+				return [e.response.status, e.response.data];
+			});
+		return response;
+	},
 	getPreScreen: async () => {
 		const response = await instance
 			.get("/admin/pre-screen/edit-form")

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let fontSize: string = "18px";
+	export let fontSize: string = "16px";
 	export let width: string = "auto";
 </script>
 

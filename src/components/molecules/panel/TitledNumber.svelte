@@ -1,17 +1,19 @@
 <script lang="ts">
-	import SpaceAroundCol from "../../atoms/layouts/SpaceAroundCol.svelte";
+	import SpaceBetweenCol from "../../atoms/layouts/SpaceBetweenCol.svelte";
 	import DarkGreyText from "../../atoms/texts/DarkGreyText.svelte";
 	import PanelGreyText from "../../atoms/texts/PanelGreyText.svelte";
 
 	export let title: string;
 	export let value: number;
-	export let fontSize: string = "100px";
+	export let fontSize: string = "80px";
 </script>
 
-<SpaceAroundCol>
+<SpaceBetweenCol height="100px">
 	<DarkGreyText>{title}</DarkGreyText>
-	<PanelGreyText {fontSize}>{value.toLocaleString()}</PanelGreyText>
-</SpaceAroundCol>
+	<PanelGreyText marginTop="-20px" {fontSize}
+		>{value.toLocaleString()}</PanelGreyText
+	>
+</SpaceBetweenCol>
 
 <style>
 </style>

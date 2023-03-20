@@ -1,8 +1,9 @@
 <script lang="ts">
-	export let fontSize: string = "100px";
+	export let fontSize: string = "80px";
+	export let marginTop: string = "0px";
 </script>
 
-<div style="font-size:{fontSize}">
+<div style="font-size:{fontSize};margin-top:{marginTop}">
 	<slot />
 </div>
 

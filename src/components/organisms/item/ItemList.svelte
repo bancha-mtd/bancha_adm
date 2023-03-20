@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+	import { push } from "svelte-spa-router";
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import SpaceBetween from "../../atoms/layouts/SpaceBetween.svelte";
 	import GreyText from "../../atoms/texts/GreyText.svelte";
@@ -9,6 +11,7 @@
 	import PageSelector from "../../molecules/list/PageSelector.svelte";
 	import Search from "../../molecules/search/Search.svelte";
 	import TransparentSelect from "../../molecules/search/TransparentSelect.svelte";
+	import APIs from "../../utils/APIs";
 
 	let sortStandards: object[] = [
 		{ id: 1, name: "등록일순" },
@@ -33,7 +36,21 @@
 	let maxPage: number = 20;
 	let rangeMin: number = 1;
 
-	let addItem = () => {};
+	let list = [];
+
+	let addItem = () => {
+		push("/item/new");
+	};
+
+	const getItems = () => {
+		APIs.getItem({}).then((res) => {
+			list = res.data.products.content;
+		});
+	};
+
+	onMount(() => {
+		getItems();
+	});
 </script>
 
 <SearchLayout>
@@ -62,7 +79,9 @@
 		<GreyText width="10%">조회수</GreyText>
 		<GreyText width="10%">업로드 시간</GreyText>
 	</ListItemLayout>
-	<ItemListItem />
+	{#each list as item}
+		<ItemListItem {item} />
+	{/each}
 </ListLayout>
 
 <PageSelector {curPage} {maxPage} {rangeMin} />
