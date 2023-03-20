@@ -8,10 +8,14 @@
 	export let pre: string;
 	export let post: string;
 	export let width: string = "150px";
+	export let preWidth: string = "auto";
+	export let postWidth: string = "auto";
 </script>
 
-<SpaceAround gap="4px">
-	{#if pre !== ""}<GreyText fontSize="16px">{pre}</GreyText>{/if}
+<SpaceAround gap="8px">
+	{#if pre !== ""}<GreyText width={preWidth} fontSize="16px">{pre}</GreyText
+		>{/if}
 	<BorderedInput {width} {type} bind:value alignCenter={true} />
-	{#if post !== ""}<GreyText fontSize="16px">{post}</GreyText>{/if}
+	{#if post !== ""}<GreyText width={postWidth} fontSize="16px">{post}</GreyText
+		>{/if}
 </SpaceAround>

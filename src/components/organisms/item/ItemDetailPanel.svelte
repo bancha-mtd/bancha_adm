@@ -10,27 +10,17 @@
 	import LabeledBorderedInput from "../../molecules/detail/LabeledBorderedInput.svelte";
 	import Radio from "../../molecules/detail/Radio.svelte";
 	import CheckBox from "../../molecules/detail/CheckBox.svelte";
+	import FlexCol from "../../atoms/layouts/FlexCol.svelte";
+	import DetailRowLayout from "../../atoms/layouts/DetailRowLayout.svelte";
+	import DetailRowTitle from "../../atoms/texts/DetailRowTitle.svelte";
+	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 
 	export let itemId: string;
-
-	const deleteItem = () => {
-		return;
-	};
-	const addItem = () => {
-		console.log(item);
-		return;
-	};
-	const modifyItem = () => {
-		console.log(item);
-		return;
-	};
-	const preview = () => {
-		return;
-	};
 
 	let managers: string[];
 	let partners: string[];
 	let categories: object[] = [{ id: -1, name: "" }];
+	let discountedPercentage = 0;
 	let item = {
 		id: -1,
 		manager: "",
@@ -50,10 +40,34 @@
 		estimatedTime: "",
 		autoConfirm: "",
 		activeDay: [false, false, false, false, false, false, false],
+		includes: "",
+		excludes: "",
+		price: "",
+		discountedPrice: "",
+		label: "",
 	};
+
+	const deleteItem = () => {
+		return;
+	};
+	const addItem = () => {
+		console.log(item);
+		return;
+	};
+	const modifyItem = () => {
+		console.log(item);
+		return;
+	};
+	const preview = () => {
+		return;
+	};
+	$: discountedPercentage =
+		(100 * (Number(item.price) - Number(item.discountedPrice))) /
+		Number(item.price);
 </script>
 
 <SpaceEnd gap="10px" marginBottom="20px">
+	<div>{itemId}</div>
 	{#if item.manager !== ""}
 		<GreyBackgroundButton height="30px" fontSize="16px" onClick={deleteItem}
 			>삭제</GreyBackgroundButton
@@ -73,7 +87,7 @@
 		fontSize="16px">미리보기</YellowBackgroundButton
 	>
 </SpaceEnd>
-<DetailPanelLayout>
+<DetailPanelLayout height="calc(100vh - 190px)">
 	<DetailRow head={true} title="상품코드">
 		<BorderedInput
 			height="30px"
@@ -130,13 +144,13 @@
 		</SpaceAround>
 	</DetailRow>
 	<DetailRow title="상품명">
-		<BorderedInput width="80%" bind:value={item.title} placeholder="" />
+		<BorderedInput width="80%" bind:value={item.title} />
 	</DetailRow>
 	<DetailRow title="부제목">
-		<BorderedInput width="80%" bind:value={item.subtitle} placeholder="" />
+		<BorderedInput width="80%" bind:value={item.subtitle} />
 	</DetailRow>
 	<DetailRow title="해시태그">
-		<BorderedInput width="80%" bind:value={item.hashtags} placeholder="" />
+		<BorderedInput width="80%" bind:value={item.hashtags} />
 	</DetailRow>
 	<DetailRow title="인원">
 		<SpaceAround gap="30px">
@@ -203,9 +217,55 @@
 			lists={["월", "화", "수", "목", "금", "토", "일"]}
 		/>
 	</DetailRow>
+	<DetailRow title="예외일정">
+		<div />
+	</DetailRow>
+	<DetailRow title="예외일정">
+		<FlexCol gap="10px">
+			<LabeledBorderedInput
+				pre="포함"
+				post=""
+				width="700px"
+				preWidth="70px"
+				bind:value={item.includes}
+			/>
+			<LabeledBorderedInput
+				pre="불포함"
+				post=""
+				width="700px"
+				preWidth="70px"
+				bind:value={item.excludes}
+			/>
+		</FlexCol>
+	</DetailRow>
+	<DetailRowLayout>
+		<div class="half">
+			<DetailRowTitle>가격</DetailRowTitle>
+			<BorderedInput alignCenter={true} type="number" bind:value={item.price} />
+		</div>
+		<div class="half">
+			<DetailRowTitle>할인 후 가격</DetailRowTitle>
+			<BorderedInput
+				alignCenter={true}
+				type="number"
+				bind:value={item.discountedPrice}
+			/>
+			<LightGreyText marginLeft="8px" fontSize="16px"
+				>{discountedPercentage}%</LightGreyText
+			>
+		</div>
+	</DetailRowLayout>
+	<DetailRow title="라벨">
+		<BorderedInput bind:value={item.label} />
+		<LightGreyText fontSize="14px" marginLeft="10px"
+			>미사용 시 빈칸으로 유지</LightGreyText
+		>
+	</DetailRow>
 </DetailPanelLayout>
 
-<div>{itemId}</div>
-
 <style>
+	.half {
+		width: 30%;
+		display: flex;
+	}
 </style>

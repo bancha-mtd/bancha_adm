@@ -15,5 +15,11 @@
 		flex-direction: column;
 		align-items: start;
 		margin-bottom: 20px;
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+		overflow-y: scroll;
+	}
+	section::-webkit-scrollbar {
+		display: none;
 	}
 </style>

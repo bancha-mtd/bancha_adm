@@ -18,5 +18,6 @@
 <style>
 	select {
 		text-align: center;
+		border: 1px solid #ccc;
 	}
 </style>
