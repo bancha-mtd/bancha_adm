@@ -1,10 +1,15 @@
 <script lang="ts">
 	export let selected: object;
-	export let lists;
+	export let lists: any;
 	export let width: string = "150px";
+	export let height: string = "50px";
+	export let fontSize: string = "18px";
 </script>
 
-<select bind:value={selected} style="width:{width}">
+<select
+	bind:value={selected}
+	style="width:{width};height:{height};font-size:{fontSize}"
+>
 	{#each lists as list}
 		<option>{list.name}</option>
 	{/each}
@@ -12,9 +17,6 @@
 
 <style>
 	select {
-		height: 50px;
-		line-height: 50px;
 		text-align: center;
-		font-size: 18px;
 	}
 </style>

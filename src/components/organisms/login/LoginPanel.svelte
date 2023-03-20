@@ -19,10 +19,12 @@
 	let password: string;
 
 	const login = () => {
-		APIs.login(userId, password).then(() => {
-			push("/main");
-		});
-		email.set(userId);
+		// APIs.login(userId, password).then(() => {
+		// 	push("/main");
+		// });
+		// email.set(userId);
+		isLoggedIn.set(true);
+		push("/main");
 	};
 </script>
 

@@ -11,7 +11,6 @@
 
 <style>
 	header {
-		width: calc(100vw - 20px);
 		height: 50px;
 		background-color: #aaaaaa;
 		display: flex;
