@@ -28,6 +28,5 @@
 <style>
 	input {
 		border: 1px solid #ccc;
-		text-align: center;
 	}
 </style>

@@ -2,6 +2,7 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
+	import ExhibitionDetail from "../../organisms/exhibition/ExhibitionDetail.svelte";
 
 	export let params: any;
 </script>
@@ -9,7 +10,6 @@
 <MainLayout>
 	<PageHeader title="기획전" />
 	<PageLayout>
-		<div>수정예정</div>
-		<div>{params.id}</div>
+		<ExhibitionDetail itemId={params.id} />
 	</PageLayout>
 </MainLayout>

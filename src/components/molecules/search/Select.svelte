@@ -11,7 +11,7 @@
 	style="width:{width};height:{height};font-size:{fontSize}"
 >
 	{#each lists as list}
-		<option>{list.name}</option>
+		<option value={list}>{list.name}</option>
 	{/each}
 </select>
 
