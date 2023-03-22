@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let width: string = "auto";
-	export let height: string = "auto";
+	export let height: string = "560px";
 </script>
 
 <section style="width: {width};height: {height}">

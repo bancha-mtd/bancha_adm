@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let name: string;
-	export let value: string;
-	export let lists: any;
+	export let value: any;
+	export let lists: any[];
 	export let width: string = "150px";
 	export let height: string = "50px";
 	export let fontSize: string = "18px";
@@ -14,12 +14,12 @@
 			<input
 				type="radio"
 				{name}
-				value={element}
+				value={element.id}
 				on:change={(e) => {
 					value = e.target.value;
 				}}
 			/>
-			{element}</label
+			{element.name}</label
 		>
 	{/each}
 </div>

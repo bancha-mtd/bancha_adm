@@ -9,6 +9,7 @@
 	import SearchLayout from "../../layouts/SearchLayout.svelte";
 	import ItemListItem from "../../molecules/list/ItemListItem.svelte";
 	import PageSelector from "../../molecules/list/PageSelector.svelte";
+	import Loading from "../../molecules/loading/Loading.svelte";
 	import Search from "../../molecules/search/Search.svelte";
 	import TransparentSelect from "../../molecules/search/TransparentSelect.svelte";
 	import APIs from "../../utils/APIs";
@@ -42,15 +43,23 @@
 		push("/item/new");
 	};
 
+	let loading = true;
 	const getItems = () => {
 		APIs.getItem({}).then((res) => {
+			console.log(res);
 			list = res.data.products.content;
+			maxPage = res.data.products.totalPages;
+			loading = false;
 		});
 	};
 
 	onMount(() => {
 		getItems();
 	});
+
+	const getItemWithPage = () => {
+		APIs.getItem();
+	};
 </script>
 
 <SearchLayout>
@@ -79,9 +88,13 @@
 		<GreyText width="10%">조회수</GreyText>
 		<GreyText width="10%">업로드 시간</GreyText>
 	</ListItemLayout>
-	{#each list as item}
-		<ItemListItem {item} />
-	{/each}
+	{#if loading}
+		<Loading />
+	{:else}
+		{#each list as item}
+			<ItemListItem {item} />
+		{/each}
+	{/if}
 </ListLayout>
 
-<PageSelector {curPage} {maxPage} {rangeMin} />
+<PageSelector bind:curPage {maxPage} bind:rangeMin onClick={getItemWithPage} />

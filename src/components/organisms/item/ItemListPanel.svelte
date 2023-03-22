@@ -15,7 +15,7 @@
 	onMount(() => {
 		APIs.getItemStatistic().then((res) => {
 			value = res.data.statistics;
-			console.log(res);
+			// console.log(res);
 		});
 	});
 </script>

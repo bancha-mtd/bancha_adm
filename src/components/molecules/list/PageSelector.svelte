@@ -5,6 +5,7 @@
 	export let curPage: number;
 	export let maxPage: number;
 	export let rangeMin: number;
+	export let onClick: () => void = () => {};
 </script>
 
 <PageSelectorLayout>
@@ -13,7 +14,6 @@
 			onClick={() => {
 				curPage = rangeMin - 10;
 				rangeMin = curPage;
-				console.log(curPage, rangeMin);
 			}}
 			>〈
 		</PageTextButton>

@@ -15,7 +15,7 @@
 <SpaceAround gap="8px">
 	{#if pre !== ""}<GreyText width={preWidth} fontSize="16px">{pre}</GreyText
 		>{/if}
-	<BorderedInput {width} {type} bind:value alignCenter={true} />
+	<BorderedInput {width} {type} bind:value />
 	{#if post !== ""}<GreyText width={postWidth} fontSize="16px">{post}</GreyText
 		>{/if}
 </SpaceAround>

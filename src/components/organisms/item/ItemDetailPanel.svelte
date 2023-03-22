@@ -38,7 +38,7 @@
 		ageMin: "",
 		ageMax: "",
 		estimatedTime: "",
-		autoConfirm: "",
+		autoConfirm: {},
 		activeDay: [false, false, false, false, false, false, false],
 		includes: "",
 		excludes: "",
@@ -93,16 +93,11 @@
 			height="30px"
 			fontSize="16px"
 			disabled={true}
-			alignCenter={true}
 			value={item.id.toLocaleString()}
 		/>
 	</DetailRow>
 	<DetailRow title="담당자">
-		<BorderedInput
-			list="manager"
-			bind:value={item.manager}
-			alignCenter={true}
-		/>
+		<BorderedInput list="manager" bind:value={item.manager} />
 		<!-- <datalist id="manager">
 			<option value="이나" /><option value="아리" /><option
 				value="메이"
@@ -110,11 +105,7 @@
 		> -->
 	</DetailRow>
 	<DetailRow title="파트너">
-		<BorderedInput
-			list="partner"
-			bind:value={item.partner}
-			alignCenter={true}
-		/>
+		<BorderedInput list="partner" bind:value={item.partner} />
 		<!-- <datalist id="manager">
 			<option value="이나" /><option value="아리" /><option
 				value="메이"
@@ -144,13 +135,13 @@
 		</SpaceAround>
 	</DetailRow>
 	<DetailRow title="상품명">
-		<BorderedInput width="80%" bind:value={item.title} />
+		<BorderedInput alignCenter={false} width="80%" bind:value={item.title} />
 	</DetailRow>
 	<DetailRow title="부제목">
-		<BorderedInput width="80%" bind:value={item.subtitle} />
+		<BorderedInput alignCenter={false} width="80%" bind:value={item.subtitle} />
 	</DetailRow>
 	<DetailRow title="해시태그">
-		<BorderedInput width="80%" bind:value={item.hashtags} />
+		<BorderedInput alignCenter={false} width="80%" bind:value={item.hashtags} />
 	</DetailRow>
 	<DetailRow title="인원">
 		<SpaceAround gap="30px">
@@ -195,7 +186,7 @@
 			/>
 		</SpaceAround>
 	</DetailRow>
-	<DetailRow title="상품명">
+	<DetailRow title="소요시간">
 		<LabeledBorderedInput pre="" post="시간" bind:value={item.estimatedTime} />
 	</DetailRow>
 	<DetailRow title="자동확정여부">
@@ -204,7 +195,10 @@
 			bind:value={item.autoConfirm}
 			height="30px"
 			fontSize="16px"
-			lists={["예약 확정 대기", "예약 자동 확정"]}
+			lists={[
+				{ id: 1, name: "예약 확정 대기" },
+				{ id: 2, name: "예약 자동 확정" },
+			]}
 		/>
 	</DetailRow>
 	<DetailRow title="요일">
@@ -241,15 +235,11 @@
 	<DetailRowLayout>
 		<div class="half">
 			<DetailRowTitle>가격</DetailRowTitle>
-			<BorderedInput alignCenter={true} type="number" bind:value={item.price} />
+			<BorderedInput type="number" bind:value={item.price} />
 		</div>
 		<div class="half">
 			<DetailRowTitle>할인 후 가격</DetailRowTitle>
-			<BorderedInput
-				alignCenter={true}
-				type="number"
-				bind:value={item.discountedPrice}
-			/>
+			<BorderedInput type="number" bind:value={item.discountedPrice} />
 			<LightGreyText marginLeft="8px" fontSize="16px"
 				>{discountedPercentage}%</LightGreyText
 			>

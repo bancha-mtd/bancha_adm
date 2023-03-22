@@ -5,7 +5,7 @@
 	export let width: string = "150px";
 	export let height: string = "30px";
 	export let placeholder: string = "";
-	export let alignCenter: boolean = false;
+	export let alignCenter: boolean = true;
 	export let fontSize: string = "18px";
 	export let type: string = "text";
 
