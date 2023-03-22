@@ -46,7 +46,6 @@
 	let loading = true;
 	const getItems = () => {
 		APIs.getItem({}).then((res) => {
-			console.log(res);
 			list = res.data.products.content;
 			maxPage = res.data.products.totalPages;
 			loading = false;
@@ -57,8 +56,13 @@
 		getItems();
 	});
 
-	const getItemWithPage = () => {
-		APIs.getItem();
+	const getItemWithPage = (page: number) => {
+		loading = true;
+		APIs.getItem({ pageNum: page }).then((res) => {
+			list = res.data.products.content;
+			loading = false;
+		});
+		curPage = page;
 	};
 </script>
 
