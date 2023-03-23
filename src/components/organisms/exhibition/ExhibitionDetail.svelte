@@ -7,11 +7,6 @@
 	import SpaceAround from "../../atoms/layouts/SpaceAround.svelte";
 	import Select from "../../molecules/search/Select.svelte";
 	import LabeledBorderedInput from "../../molecules/detail/LabeledBorderedInput.svelte";
-	import Radio from "../../molecules/detail/Radio.svelte";
-	import CheckBox from "../../molecules/detail/CheckBox.svelte";
-	import FlexCol from "../../atoms/layouts/FlexCol.svelte";
-	import DetailRowLayout from "../../atoms/layouts/DetailRowLayout.svelte";
-	import DetailRowTitle from "../../atoms/texts/DetailRowTitle.svelte";
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
 
