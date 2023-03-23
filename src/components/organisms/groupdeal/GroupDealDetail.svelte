@@ -74,7 +74,7 @@
 	<DetailRow title="체험일자">
 		<BorderedInput
 			fontSize="16px"
-			type="datetime-local"
+			type="datetime"
 			bind:value={item.reservationDate}
 		/>
 	</DetailRow>
