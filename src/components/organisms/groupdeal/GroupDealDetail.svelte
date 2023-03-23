@@ -8,7 +8,6 @@
 	import Select from "../../molecules/search/Select.svelte";
 	import LabeledBorderedInput from "../../molecules/detail/LabeledBorderedInput.svelte";
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
-	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
 
 	export let itemId: string;
 
@@ -18,6 +17,7 @@
 	];
 	let item = {
 		id: -1,
+		title: "",
 		hashtags: "",
 		reservationDate: "",
 		startDate: "",
