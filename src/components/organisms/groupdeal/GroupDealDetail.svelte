@@ -62,7 +62,6 @@
 			height="30px"
 			fontSize="16px"
 			disabled={true}
-			alignCenter={true}
 			value={item.id.toLocaleString()}
 		/>
 	</DetailRow>
@@ -75,7 +74,6 @@
 	<DetailRow title="체험일자">
 		<BorderedInput
 			fontSize="16px"
-			alignCenter={true}
 			type="datetime-local"
 			bind:value={item.reservationDate}
 		/>
@@ -83,7 +81,6 @@
 	<DetailRow title="시작일자">
 		<BorderedInput
 			fontSize="16px"
-			alignCenter={true}
 			type="datetime-local"
 			bind:value={item.startDate}
 		/>
@@ -91,7 +88,6 @@
 	<DetailRow title="종료일자">
 		<BorderedInput
 			fontSize="16px"
-			alignCenter={true}
 			type="datetime-local"
 			bind:value={item.endDate}
 		/>
