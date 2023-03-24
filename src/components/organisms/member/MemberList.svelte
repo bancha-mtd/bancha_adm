@@ -93,6 +93,12 @@
 	let addMember = () => {
 		push("/member/new");
 	};
+
+	const search = () => {
+		getMembers(1);
+		curPage = 1;
+		rangeMin = 1;
+	};
 </script>
 
 <SearchLayout>
@@ -102,7 +108,7 @@
 			bind:selected={selectedSearchStandard}
 			borderRadius={true}
 		/>
-		<Search onEnter={() => getMembers(1)} bind:value={searchQuery} />
+		<Search onEnter={search} bind:value={searchQuery} />
 		<TransparentSelect lists={sortStandards} bind:selected={selectedStandard} />
 		<TransparentSelect lists={sortOrder} bind:selected={selectedOrder} />
 		<TransparentSelect lists={sortGrade} bind:selected={selectedGrade} />
