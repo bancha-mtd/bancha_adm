@@ -7,9 +7,13 @@
 	export let width: string = "350px";
 </script>
 
-<form on:submit|preventDefault={onEnter}>
+<form
+	on:submit={(e) => {
+		e.preventDefault();
+	}}
+>
 	<Input bind:value {width} />
-	<GreyBackgroundButton onClick={onEnter} fontSize="18px"
+	<GreyBackgroundButton type="submit" onClick={onEnter} fontSize="18px"
 		>검색</GreyBackgroundButton
 	>
 </form>

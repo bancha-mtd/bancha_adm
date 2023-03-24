@@ -28,7 +28,6 @@
 				alert("로그인 실패!");
 				userId = "";
 				password = "";
-
 				document.querySelector('[name="email"]').focus();
 			}
 		});
