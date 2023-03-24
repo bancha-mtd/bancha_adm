@@ -4,11 +4,7 @@
 	import SpaceEnd from "../../atoms/layouts/SpaceEnd.svelte";
 	import DetailPanelLayout from "../../layouts/DetailPanelLayout.svelte";
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
-	import SpaceAround from "../../atoms/layouts/SpaceAround.svelte";
-	import Select from "../../molecules/search/Select.svelte";
-	import LabeledBorderedInput from "../../molecules/detail/LabeledBorderedInput.svelte";
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
-	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
 	import Radio from "../../molecules/detail/Radio.svelte";
 
 	export let itemId: string;
