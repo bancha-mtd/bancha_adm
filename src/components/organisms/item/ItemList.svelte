@@ -44,27 +44,17 @@
 	};
 
 	let loading = true;
-	const getItems = () => {
-		APIs.getItem({}).then((res) => {
+
+	onMount(() => {
+		getItems(1);
+	});
+
+	const getItems = (page: number) => {
+		loading = true;
+		APIs.getItem({ pageSize: 10, pageNum: page }).then((res) => {
 			if (res.status === 200) {
 				list = res.data.content;
 				maxPage = res.data.totalPages;
-				loading = false;
-			} else {
-				alert("불러오기 에러!");
-			}
-		});
-	};
-
-	onMount(() => {
-		getItems();
-	});
-
-	const getItemWithPage = (page: number) => {
-		loading = true;
-		APIs.getItem({ pageNum: page }).then((res) => {
-			if (res.status === 200) {
-				list = res.data.content;
 				loading = false;
 			} else {
 				alert("불러오기 에러!");
@@ -109,4 +99,4 @@
 	{/if}
 </ListLayout>
 
-<PageSelector bind:curPage {maxPage} bind:rangeMin onClick={getItemWithPage} />
+<PageSelector bind:curPage {maxPage} bind:rangeMin onClick={getItems} />
