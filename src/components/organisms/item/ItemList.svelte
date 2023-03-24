@@ -47,8 +47,8 @@
 	const getItems = () => {
 		APIs.getItem({}).then((res) => {
 			if (res.status === 200) {
-				list = res.data.products.content;
-				maxPage = res.data.products.totalPages;
+				list = res.data.content;
+				maxPage = res.data.totalPages;
 				loading = false;
 			} else {
 				alert("불러오기 에러!");
@@ -64,7 +64,7 @@
 		loading = true;
 		APIs.getItem({ pageNum: page }).then((res) => {
 			if (res.status === 200) {
-				list = res.data.products.content;
+				list = res.data.content;
 				loading = false;
 			} else {
 				alert("불러오기 에러!");
