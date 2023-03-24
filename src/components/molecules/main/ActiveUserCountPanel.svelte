@@ -1,6 +1,8 @@
 <script lang="ts">
 	import TitledPanelLayout from "../../layouts/TitledPanelLayout.svelte";
 	import DayWeekMonthList from "../../molecules/panel/DayWeekMonthList.svelte";
+
+	export let values: number[] = [0, 0, 0];
 </script>
 
 <TitledPanelLayout
@@ -9,7 +11,7 @@
 	width="calc((100%-40px)/3)"
 	height="240px"
 >
-	<DayWeekMonthList values={[0, 0, 0]} />
+	<DayWeekMonthList {values} />
 </TitledPanelLayout>
 
 <style>

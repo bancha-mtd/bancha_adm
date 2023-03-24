@@ -13,5 +13,6 @@
 		height: 50px;
 		display: flex;
 		align-items: center;
+		list-style: none;
 	}
 </style>
