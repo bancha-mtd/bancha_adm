@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let width: string = "auto";
 	export let height: string = "auto";
 	export let marginBottom: string = "0px";
 	export let marginTop: string = "0px";
@@ -6,7 +7,7 @@
 </script>
 
 <div
-	style="height:{height};margin-bottom:{marginBottom};margin-top:{marginTop};gap:{gap};"
+	style="width:{width};height:{height};margin-bottom:{marginBottom};margin-top:{marginTop};gap:{gap};"
 >
 	<slot />
 </div>
