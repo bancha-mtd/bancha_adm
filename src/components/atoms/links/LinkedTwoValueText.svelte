@@ -16,7 +16,7 @@
 	}}
 	style="font-size:{fontSize};width:{width}"
 >
-	<TwoValueText {val1} {val2} {width} />
+	<TwoValueText {val1} {val2} width="100%" />
 </button>
 
 <style>

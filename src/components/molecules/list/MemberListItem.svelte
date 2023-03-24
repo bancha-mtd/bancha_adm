@@ -4,32 +4,48 @@
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 	import TwoValueText from "./TwoValueText.svelte";
 
-	export let id: string = "코드";
-	export let email: string = "이메일";
-	export let nickname: string = "닉네임";
-	export let grade: string = "등급";
-	export let phone: string = "연락처";
-	export let reviews: string = "후기";
-	export let puchases: string = "구매";
-	export let totalPrice: string = "구매금액";
-	export let active: string = "상태";
-	export let lastLogin: string = "최종접속일";
-	export let registerDate: string = "가입일";
+	interface Member {
+		id: string;
+		email: string;
+		nickName: string;
+		grade: string;
+		cellPhone: string;
+		reviewCnt: string;
+		buyCnt: string;
+		paidSum: string;
+		useYn: string;
+		lastLogin: string;
+		createDate: string;
+	}
+
+	export let item: Member = {
+		id: "코드",
+		email: "이메일",
+		nickName: "닉네임",
+		grade: "등급",
+		cellPhone: "연락처",
+		reviewCnt: "후기",
+		buyCnt: "구매",
+		paidSum: "구매금액",
+		useYn: "상태",
+		lastLogin: "최종접속일",
+		createDate: "가입일",
+	};
 </script>
 
 <ListItemLayout>
-	<Text width="10%">{id}</Text>
+	<Text width="10%">{item.id}</Text>
 	<LinkedTwoValueText
-		to="/member/{id}"
+		to="/member/{item.id}"
 		width="20%"
-		val1={email}
-		val2={nickname}
+		val1={item.email}
+		val2={item.nickName}
 	/>
-	<Text width="10%">{grade}</Text>
-	<Text width="10%">{phone}</Text>
-	<Text width="10%">{reviews}</Text>
-	<Text width="10%">{puchases}</Text>
-	<Text width="10%">{totalPrice}</Text>
-	<Text width="10%">{active}</Text>
-	<TwoValueText width="10%" val1={lastLogin} val2={registerDate} />
+	<Text width="8%">{item.grade}</Text>
+	<Text width="10%">{item.cellPhone}</Text>
+	<Text width="10%">{item.reviewCnt}</Text>
+	<Text width="10%">{item.buyCnt}</Text>
+	<Text width="10%">{item.paidSum}</Text>
+	<Text width="8%">{item.useYn}</Text>
+	<TwoValueText width="14%" val1={item.lastLogin} val2={item.createDate} />
 </ListItemLayout>

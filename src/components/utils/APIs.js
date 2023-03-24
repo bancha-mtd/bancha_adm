@@ -104,6 +104,24 @@ const Requets = {
 			});
 		return response;
 	},
+	getMemberStatistic: async () => {
+		const response = await instance
+			.get("/admin/member/statistics")
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getMember: async (obj) => {
+		const response = await instance
+			.post("/admin/member/management", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getPreScreen: async () => {
 		const response = await instance
 			.get("/admin/pre-screen/edit-form")
