@@ -38,7 +38,7 @@ const Requets = {
 				password: password,
 			})
 			.then((res) => {
-				if (res.status === 200) {
+				if (res.data.message === "토큰 생성 성공") {
 					let tokenInfo = parseJwt(res.data.accessToken);
 
 					isLoggedIn.set(true);
@@ -53,7 +53,7 @@ const Requets = {
 						"Authorization"
 					] = `${res.data.grantType} ${res.data.accessToken}`;
 				}
-				return res;
+				return [res.status, res.data];
 			})
 			.catch((e) => {
 				console.log(e);
