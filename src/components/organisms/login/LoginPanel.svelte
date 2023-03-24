@@ -19,11 +19,17 @@
 	let password: string;
 
 	const login = () => {
-		APIs.login(userId, password).then(() => {
-			push("/main");
+		APIs.login(userId, password).then((res) => {
+			if (res[0] === 200) {
+				email.set(userId);
+				isLoggedIn.set(true);
+				push("/main");
+			} else {
+				alert("로그인 실패!");
+				userId = "";
+				password = "";
+			}
 		});
-		email.set(userId);
-		isLoggedIn.set(true);
 		// push("/main");
 	};
 </script>
