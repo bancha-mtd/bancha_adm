@@ -20,7 +20,7 @@
 
 	const login = () => {
 		APIs.login(userId, password).then((res) => {
-			if (res[0] === 200) {
+			if (res.data.message === "토큰 생성 성공") {
 				email.set(userId);
 				isLoggedIn.set(true);
 				push("/main");
@@ -28,6 +28,8 @@
 				alert("로그인 실패!");
 				userId = "";
 				password = "";
+
+				document.querySelector('[name="email"]').focus();
 			}
 		});
 		// push("/main");

@@ -46,9 +46,13 @@
 	let loading = true;
 	const getItems = () => {
 		APIs.getItem({}).then((res) => {
-			list = res.data.products.content;
-			maxPage = res.data.products.totalPages;
-			loading = false;
+			if (res.status === 200) {
+				list = res.data.products.content;
+				maxPage = res.data.products.totalPages;
+				loading = false;
+			} else {
+				alert("불러오기 에러!");
+			}
 		});
 	};
 
@@ -59,8 +63,12 @@
 	const getItemWithPage = (page: number) => {
 		loading = true;
 		APIs.getItem({ pageNum: page }).then((res) => {
-			list = res.data.products.content;
-			loading = false;
+			if (res.status === 200) {
+				list = res.data.products.content;
+				loading = false;
+			} else {
+				alert("불러오기 에러!");
+			}
 		});
 		curPage = page;
 	};

@@ -53,11 +53,11 @@ const Requets = {
 						"Authorization"
 					] = `${res.data.grantType} ${res.data.accessToken}`;
 				}
-				return [res.status, res.data];
+				return res;
 			})
 			.catch((e) => {
 				console.log(e);
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
@@ -71,15 +71,27 @@ const Requets = {
 			})
 			.catch((e) => {
 				console.log(e);
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
+	},
+	getMainDashBoard: async () => {
+		const response = await instance
+			.get("/admin/dash-board")
+			.then((res) => {
+				return res;
+			})
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
 	},
 	getItemStatistic: async () => {
 		const response = await instance
 			.get("/admin/product/statistics")
 			.catch((e) => {
 				console.log(e);
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
@@ -88,7 +100,7 @@ const Requets = {
 			.post("/admin/product/management", obj)
 			.catch((e) => {
 				console.log(e);
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
@@ -97,7 +109,7 @@ const Requets = {
 			.get("/admin/pre-screen/edit-form")
 			.catch((e) => {
 				console.log(e);
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
@@ -106,10 +118,10 @@ const Requets = {
 			.post("/admin/pre-screen/add", form)
 			.then((res) => {
 				console.log(res);
-				return [res.status, res.data];
+				return res;
 			})
 			.catch((e) => {
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
@@ -118,10 +130,10 @@ const Requets = {
 			.delete(`/admin/pre-screen/${id}`)
 			.then((res) => {
 				console.log(res);
-				return [res.status, res.data];
+				return res;
 			})
 			.catch((e) => {
-				return [e.response.status, e.response.data];
+				return e.response;
 			});
 		return response;
 	},
