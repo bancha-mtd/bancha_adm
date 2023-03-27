@@ -3,19 +3,16 @@
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import BoldText from "../../atoms/texts/BoldText.svelte";
 	import DetailPanelLayout from "../../layouts/DetailPanelLayout.svelte";
-	import PanelLayout from "../../layouts/PanelLayout.svelte";
 	import SearchLayout from "../../layouts/SearchLayout.svelte";
 	import DetailRow from "../../molecules/detail/DetailRow.svelte";
 	import Select from "../../molecules/search/Select.svelte";
 
-	export let itemId;
 	let managerGrade = [
 		{ id: 1, name: "최고 관리자", value: 1 },
 		{ id: 2, name: "중간 관리자", value: 2 },
 		{ id: 3, name: "일반 관리자", value: 3 },
 	];
 	let item = {
-		id: itemId,
 		email: "",
 		password: "",
 		nickname: "",
@@ -38,12 +35,7 @@
 </SearchLayout>
 <DetailPanelLayout>
 	<DetailRow title="회원번호" head={true}>
-		<BorderedInput
-			height="30px"
-			fontSize="16px"
-			disabled={true}
-			value={item.id.toLocaleString()}
-		/>
+		<BorderedInput height="30px" fontSize="16px" disabled={true} value={"-1"} />
 	</DetailRow>
 	<DetailRow title="이메일">
 		<BorderedInput type="email" bind:value={item.email} width="300px" />
