@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import BoldText from "../../atoms/texts/BoldText.svelte";
-	import MemberDetailLayout from "../../layouts/MemberDetailLayout.svelte";
+	import DesignedDetailLayout from "../../layouts/DesignedDetailLayout.svelte";
 	import GreyBgTitledRow from "../../molecules/detail/GreyBgTitledRow.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import Flex from "../../atoms/layouts/Flex.svelte";
@@ -31,7 +31,7 @@
 		fontSize="16px">수정</GreyBackgroundButton
 	>
 </SpaceBetween>
-<MemberDetailLayout>
+<DesignedDetailLayout>
 	<Flex>
 		<GreyBgTitledRow title="생년월일" width="50%">
 			<Text fontSize="16px">{item.birth}</Text>
@@ -48,4 +48,4 @@
 			<Text fontSize="16px">{item.mbti}</Text>
 		</GreyBgTitledRow>
 	</Flex>
-</MemberDetailLayout>
+</DesignedDetailLayout>

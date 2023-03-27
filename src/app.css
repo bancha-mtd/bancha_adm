@@ -65,6 +65,10 @@ div, section {
   }
 }
 
+li {
+  animation: init 1s;
+}
+
 section {
   animation: init 1s;
 }

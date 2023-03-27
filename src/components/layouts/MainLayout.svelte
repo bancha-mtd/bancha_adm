@@ -18,5 +18,11 @@
 	main {
 		width: calc(100vw - 200px);
 		background-color: #ddd;
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+		overflow-y: scroll;
+	}
+	main::-webkit-scrollbar {
+		display: none;
 	}
 </style>

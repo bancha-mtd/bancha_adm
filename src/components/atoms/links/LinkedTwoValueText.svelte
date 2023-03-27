@@ -12,7 +12,6 @@
 <button
 	on:click={() => {
 		push(to);
-		console.log("SIUUUUUUU");
 	}}
 	style="font-size:{fontSize};width:{width}"
 >

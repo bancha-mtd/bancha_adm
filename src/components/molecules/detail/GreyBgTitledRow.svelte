@@ -3,10 +3,11 @@
 
 	export let title: string;
 	export let width: string = "calc(100%/3)";
+	export let height: string = "100px";
 </script>
 
-<div class="wrapper" style="width:{width}">
-	<div class="title">
+<div class="wrapper" style="width:{width};height:{height}">
+	<div class="title" style="height:{height};line-height:{height}">
 		<WhiteText fontSize="16px">{title}</WhiteText>
 	</div>
 	<slot />
@@ -14,7 +15,6 @@
 
 <style>
 	.wrapper {
-		height: 100px;
 		display: flex;
 		gap: 30px;
 		align-items: center;
@@ -22,8 +22,6 @@
 	.title {
 		background-color: #aaa;
 		width: 130px;
-		height: 100px;
-		line-height: 100px;
 		text-align: center;
 	}
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import BoldText from "../../atoms/texts/BoldText.svelte";
-	import MemberDetailLayout from "../../layouts/MemberDetailLayout.svelte";
+	import DesignedDetailLayout from "../../layouts/DesignedDetailLayout.svelte";
 	import GreyBgTitledRow from "../../molecules/detail/GreyBgTitledRow.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import Flex from "../../atoms/layouts/Flex.svelte";
@@ -14,9 +14,9 @@
 	export let itemId: string;
 
 	let memberGrade = [
-		{ id: 1, name: "VIP" },
-		{ id: 2, name: "반차 절친" },
-		{ id: 3, name: "반차 친구" },
+		{ id: 1, name: "VIP", value: 1 },
+		{ id: 2, name: "반차 절친", value: 2 },
+		{ id: 3, name: "반차 친구", value: 3 },
 	];
 	let item = {
 		id: itemId,
@@ -29,7 +29,7 @@
 		nickname: "",
 		phone: "",
 		authPhone: true,
-		garde: memberGrade[0],
+		grade: memberGrade[0],
 		address: "",
 		birth: "",
 		reviews: 0,
@@ -64,7 +64,7 @@
 		fontSize="16px">수정</GreyBackgroundButton
 	>
 </SpaceBetween>
-<MemberDetailLayout>
+<DesignedDetailLayout>
 	<Flex>
 		<GreyBgTitledRow title="회원번호">
 			<Text fontSize="16px">{itemId}</Text>
@@ -193,7 +193,7 @@
 		<GreyBgTitledRow title="등급">
 			<Select
 				lists={memberGrade}
-				selected={item.grade}
+				bind:selected={item.grade}
 				height="30px"
 				fontSize="16px"
 			/>
@@ -227,7 +227,7 @@
 			<Text fontSize="16px">{item.point}P</Text>
 		</GreyBgTitledRow>
 	</Flex>
-</MemberDetailLayout>
+</DesignedDetailLayout>
 
 {#each children as child, i}
 	<ChildDetail item={child} idx={i + 1} />

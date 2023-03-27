@@ -8,6 +8,7 @@
 	export let alignCenter: boolean = true;
 	export let fontSize: string = "18px";
 	export let type: string = "text";
+	export let click: () => void = () => {};
 
 	function typeAction(node) {
 		node.type = type;
@@ -21,6 +22,7 @@
 	{list}
 	use:typeAction
 	bind:value
+	on:click={click}
 	{placeholder}
 	{disabled}
 />
