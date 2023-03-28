@@ -2,9 +2,12 @@
 	export let marginBottom: string = "0px";
 	export let marginTop: string = "0px";
 	export let gap: string = "auto";
+	export let width: string = "auto";
 </script>
 
-<div style="margin-bottom:{marginBottom};margin-top:{marginTop};gap:{gap};">
+<div
+	style="width:{width};margin-bottom:{marginBottom};margin-top:{marginTop};gap:{gap};"
+>
 	<slot />
 </div>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { push } from "svelte-spa-router";
+	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import SpaceBetween from "../../atoms/layouts/SpaceBetween.svelte";
 	import GreyText from "../../atoms/texts/GreyText.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
@@ -28,6 +30,14 @@
 		<Search onEnter={() => console.log(searchQuery)} value={searchQuery} />
 		<TransparentSelect lists={sortStatus} selected={selectedStatus} />
 	</SpaceBetween>
+	<GreyBackgroundButton
+		onClick={() => {
+			push("/message/send");
+		}}
+		width="100px"
+		height="30px"
+		fontSize="16px">메시지 발송</GreyBackgroundButton
+	>
 </SearchLayout>
 
 <ListLayout>

@@ -5,10 +5,11 @@
 	export let gap: string = "auto";
 	export let alignItems: string = "center";
 	export let width: string = "auto";
+	export let height: string = "auto";
 </script>
 
 <div
-	style="width:{width};margin-bottom:{marginBottom};margin-top:{marginTop};margin-right:{marginRight};gap:{gap};align-items:{alignItems}"
+	style="width:{width};height:{height};margin-bottom:{marginBottom};margin-top:{marginTop};margin-right:{marginRight};gap:{gap};align-items:{alignItems}"
 >
 	<slot />
 </div>
