@@ -78,7 +78,7 @@
 		height="30px"
 		fontSize="16px"
 		onClick={item.manager !== "" ? modifyItem : addItem}
-		>{#if item.manager !== ""}수정{:else}등록{/if}</GreyBackgroundButton
+		>{item.manager !== "" ? "수정" : "등록"}</GreyBackgroundButton
 	>
 	<YellowBackgroundButton
 		onClick={preview}
