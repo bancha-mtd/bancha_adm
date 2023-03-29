@@ -16,7 +16,7 @@
 				{name}
 				value={element.id}
 				on:change={(e) => {
-					value = e.target.value;
+					value = e.currentTarget.value;
 				}}
 			/>
 			{element.name}</label
