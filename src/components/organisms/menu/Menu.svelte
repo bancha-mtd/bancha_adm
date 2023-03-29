@@ -41,3 +41,9 @@
 		startIdx={21}
 	/>
 </div>
+
+<style>
+	div {
+		overflow: hidden;
+	}
+</style>
