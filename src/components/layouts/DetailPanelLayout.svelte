@@ -1,9 +1,14 @@
 <script lang="ts">
 	export let width: string = "auto";
 	export let height: string = "auto";
+	export let padding: boolean = false;
 </script>
 
-<section style="width: {width};height: {height}">
+<section
+	style="padding:{padding
+		? '20px 0 20px 0'
+		: 'none'};width:{width};height:{height}"
+>
 	<slot />
 </section>
 
