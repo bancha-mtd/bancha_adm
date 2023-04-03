@@ -2,6 +2,7 @@
 	import MainLayout from "../../layouts/MainLayout.svelte";
 	import PageLayout from "../../layouts/PageLayout.svelte";
 	import PageHeader from "../../molecules/header/PageHeader.svelte";
+	import PushAlarmDetail from "../../organisms/push/PushAlarmDetail.svelte";
 
 	export let params: any;
 </script>
@@ -10,6 +11,6 @@
 	<PageHeader title="푸쉬알림" />
 	<PageLayout>
 		<div>수정예정</div>
-		<div>{params.id}</div>
+		<PushAlarmDetail itemId={params.id} />
 	</PageLayout>
 </MainLayout>
