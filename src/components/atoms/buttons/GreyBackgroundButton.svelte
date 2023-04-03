@@ -9,13 +9,16 @@
 <button
 	type={type ? "submit" : "button"}
 	on:click={onClick}
-	style="width:{width};height:{height};line-height:{height};font-size:{fontSize}"
+	style="width:{width};height:{height};font-size:{fontSize}"
 >
 	<slot />
 </button>
 
 <style>
 	button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		background-color: #aaa;
 		color: white;
 		border-radius: 10px;
