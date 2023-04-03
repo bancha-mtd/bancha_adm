@@ -38,7 +38,7 @@
 		title="통계"
 		menus={$menus[5]}
 		routers={$routers[5]}
-		startIdx={21}
+		startIdx={22}
 	/>
 </div>
 

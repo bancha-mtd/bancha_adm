@@ -6,6 +6,7 @@ export let menus:Writable<string[][]> = writable([
   ["일반", "파트너", "관리자", "포인트 내역"],
   ["문자메시지", "푸쉬알림"],
   [
+    "공지사항/FAQ",
     "이벤트",
     "배너",
     "프리스크린",
@@ -23,6 +24,7 @@ export let routers:Writable<string[][]> = writable([
   ["/member", "/partner", "/manager", "/point"],
   ["/message", "/push"],
   [
+    "/notice",
     "/event",
     "/banner",
     "/pre",
