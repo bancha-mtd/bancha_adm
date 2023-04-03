@@ -3,13 +3,13 @@
 	export let width: string = "70px";
 	export let height: string = "50px";
 	export let fontSize: string = "20px";
-	export let type: string = "button";
+	export let type: boolean = false;
 </script>
 
 <button
-	{type}
+	type={type ? "submit" : "button"}
 	on:click={onClick}
-	style="width:{width};height:{height};font-size:{fontSize}"
+	style="width:{width};height:{height};line-height:{height};font-size:{fontSize}"
 >
 	<slot />
 </button>

@@ -51,8 +51,7 @@
 				placeholder={"비밀번호"}
 			/>
 		</div>
-		<GreyButton type={"submit"} onClick={login} width="400px">로그인</GreyButton
-		>
+		<GreyButton type={true} onClick={login} width="400px">로그인</GreyButton>
 	</form>
 </main>
 

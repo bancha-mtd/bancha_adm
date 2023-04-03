@@ -13,7 +13,7 @@
 	}}
 >
 	<Input bind:value {width} />
-	<GreyBackgroundButton type="submit" onClick={onEnter} fontSize="18px"
+	<GreyBackgroundButton type={true} onClick={onEnter} fontSize="18px"
 		>검색</GreyBackgroundButton
 	>
 </form>
