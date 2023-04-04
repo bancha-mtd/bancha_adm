@@ -79,7 +79,6 @@
 
 		APIs.getPartner(option).then((res) => {
 			if (res.status === 200) {
-				console.log(res);
 				list = res.data.content;
 				maxPage = res.data.totalPages;
 				loading = false;
