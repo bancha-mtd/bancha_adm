@@ -34,9 +34,9 @@
 	];
 	let sortGrade: SelectType[] = [
 		{ id: 1, name: "등급 전체", value: -1 },
-		{ id: 2, name: "VIP", value: 1 },
-		{ id: 3, name: "반차 절친", value: 2 },
-		{ id: 4, name: "반차 친구", value: 3 },
+		{ id: 2, name: "우수", value: 1 },
+		{ id: 3, name: "보통", value: 2 },
+		{ id: 4, name: "관리 요망", value: 3 },
 	];
 	let searchQuery: string = "";
 	let selectedSearchStandard: SelectType = searchStandards[0];

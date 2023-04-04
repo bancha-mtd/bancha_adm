@@ -29,7 +29,7 @@
 		state: true,
 	};
 
-	let grade = ["VIP", "반차 절친", "반차 친구"];
+	let grade = ["우수", "보통", "관리 요망"];
 </script>
 
 <ListItemLayout>
