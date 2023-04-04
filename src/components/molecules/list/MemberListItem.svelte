@@ -8,12 +8,12 @@
 		id: string;
 		email: string;
 		nickName: string;
-		grade: string;
+		grade: number;
 		cellPhone: string;
-		reviewCnt: string;
-		buyCnt: string;
-		paidSum: string;
-		useYn: string;
+		reviewCnt: number;
+		buyCnt: number;
+		paidSum: number;
+		useYn: boolean;
 		lastLogin: string;
 		createDate: string;
 	}
@@ -22,15 +22,17 @@
 		id: "코드",
 		email: "이메일",
 		nickName: "닉네임",
-		grade: "등급",
+		grade: -1,
 		cellPhone: "연락처",
-		reviewCnt: "후기",
-		buyCnt: "구매",
-		paidSum: "구매금액",
-		useYn: "상태",
+		reviewCnt: 0,
+		buyCnt: 0,
+		paidSum: 0,
+		useYn: true,
 		lastLogin: "최종접속일",
 		createDate: "가입일",
 	};
+
+	let grade = ["VIP", "반차 절친", "반차 친구"];
 </script>
 
 <ListItemLayout>
@@ -41,11 +43,17 @@
 		val1={item.email}
 		val2={item.nickName}
 	/>
-	<Text width="8%">{item.grade}</Text>
+	<Text width="8%">{grade[item.grade]}</Text>
 	<Text width="10%">{item.cellPhone}</Text>
-	<Text width="10%">{item.reviewCnt}</Text>
-	<Text width="10%">{item.buyCnt}</Text>
-	<Text width="10%">{item.paidSum}</Text>
-	<Text width="8%">{item.useYn}</Text>
+	<Text width="10%"
+		>{item.reviewCnt === null ? "0" : item.reviewCnt.toLocaleString()}</Text
+	>
+	<Text width="10%"
+		>{item.buyCnt === null ? "0" : item.buyCnt.toLocaleString()}</Text
+	>
+	<Text width="10%"
+		>{item.paidSum === null ? "0" : item.paidSum.toLocaleString()}</Text
+	>
+	<Text width="8%">{item.useYn ? "정상" : "오류"}</Text>
 	<TwoValueText width="14%" val1={item.lastLogin} val2={item.createDate} />
 </ListItemLayout>
