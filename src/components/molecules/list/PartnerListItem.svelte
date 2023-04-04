@@ -3,31 +3,48 @@
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 
-	export let id: string = "코드";
-	export let email: string = "이메일";
-	export let nickname: string = "닉네임";
-	export let grade: string = "등급";
-	export let ceo: string = "대표자";
-	export let phone: string = "연락처";
-	export let reviews: string = "후기";
-	export let sales: string = "판매";
-	export let items: string = "상품";
-	export let active: string = "상태";
+	interface Partner {
+		id: string;
+		userId: string;
+		nickName: string;
+		grade: number;
+		ceoName: string;
+		phoneNumber: string;
+		reviewCnt: number;
+		saleCnt: number;
+		productCnt: number;
+		state: boolean;
+	}
+
+	export let item: Partner = {
+		id: "코드",
+		userId: "이메일",
+		nickName: "닉네임",
+		grade: -1,
+		ceoName: "대표자",
+		phoneNumber: "연락처",
+		reviewCnt: 0,
+		saleCnt: 0,
+		productCnt: 0,
+		state: true,
+	};
+
+	let grade = ["VIP", "반차 절친", "반차 친구"];
 </script>
 
 <ListItemLayout>
-	<Text width="10%">{id}</Text>
+	<Text width="10%">{item.id}</Text>
 	<LinkedTwoValueText
-		to="/partner/{id}"
+		to="/partner/{item.id}"
 		width="20%"
-		val1={email}
-		val2={nickname}
+		val1={item.userId}
+		val2={item.nickName}
 	/>
-	<Text width="10%">{grade}</Text>
-	<Text width="10%">{ceo}</Text>
-	<Text width="10%">{phone}</Text>
-	<Text width="10%">{reviews}</Text>
-	<Text width="10%">{sales}</Text>
-	<Text width="10%">{items}</Text>
-	<Text width="10%">{active}</Text>
+	<Text width="10%">{grade[item.grade]}</Text>
+	<Text width="10%">{item.ceoName}</Text>
+	<Text width="10%">{item.phoneNumber}</Text>
+	<Text width="10%">{item.reviewCnt.toLocaleString()}</Text>
+	<Text width="10%">{item.saleCnt.toLocaleString()}</Text>
+	<Text width="10%">{item.productCnt.toLocaleString()}</Text>
+	<Text width="10%">{item.state ? "정상" : "오류"}</Text>
 </ListItemLayout>

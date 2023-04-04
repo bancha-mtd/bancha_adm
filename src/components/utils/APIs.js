@@ -122,6 +122,24 @@ const Requets = {
 			});
 		return response;
 	},
+	getPartnerStatistic: async () => {
+		const response = await instance
+			.get("/admin/partner/statistics")
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getPartner: async (obj) => {
+		const response = await instance
+			.post("/admin/partner/management", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getPreScreen: async () => {
 		const response = await instance
 			.get("/admin/pre-screen/edit-form")
