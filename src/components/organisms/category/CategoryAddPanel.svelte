@@ -28,7 +28,7 @@
 		fontSize="16px">추가</GreyBackgroundButton
 	>
 </SearchLayout>
-<DetailPanelLayout>
+<DetailPanelLayout marginBottom={true}>
 	<DetailRow head={true} title="상품코드">
 		<BorderedInput
 			height="30px"

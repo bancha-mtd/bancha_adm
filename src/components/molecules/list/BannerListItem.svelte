@@ -2,15 +2,7 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
-
-	interface BannerItem {
-		id: string;
-		title: string;
-		priority: string;
-		startDate: string;
-		endDate: string;
-		clicks: string;
-	}
+	import type { BannerItem } from "../../utils/Types";
 
 	export let item: BannerItem = {
 		id: "코드",

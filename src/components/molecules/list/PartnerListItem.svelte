@@ -2,22 +2,10 @@
 	import LinkedTwoValueText from "../../atoms/links/LinkedTwoValueText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { PartnerItem } from "../../utils/Types";
 
-	interface Partner {
-		id: string;
-		userId: string;
-		nickName: string;
-		grade: number;
-		ceoName: string;
-		phoneNumber: string;
-		reviewCnt: number;
-		saleCnt: number;
-		productCnt: number;
-		state: boolean;
-	}
-
-	export let item: Partner = {
-		id: "코드",
+	export let item: PartnerItem = {
+		id: -1,
 		userId: "이메일",
 		nickName: "닉네임",
 		grade: -1,

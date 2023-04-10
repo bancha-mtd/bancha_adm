@@ -1,8 +1,9 @@
 <script lang="ts">
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { RefundItem } from "../../utils/Types";
 
-	export let item: object = { id: "번호", title: "환불규정" };
+	export let item: RefundItem = { id: -1, title: "환불규정" };
 </script>
 
 <ListItemLayout>

@@ -2,18 +2,21 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { EventItem } from "../../utils/Types";
 
-	export let id: string = "코드";
-	export let title: string = "제목";
-	export let startDate: string = "시작일자";
-	export let endDate: string = "종료일자";
-	export let views: string = "조회수";
+	export let item: EventItem = {
+		id: -1,
+		title: "제목",
+		startDate: "시작",
+		endDate: "끝",
+		views: 0,
+	};
 </script>
 
 <ListItemLayout>
-	<Text width="15%">{id}</Text>
-	<LinkedText to="/event/{id}" width="40%">{title}</LinkedText>
-	<Text width="15%">{startDate}</Text>
-	<Text width="15%">{endDate}</Text>
-	<Text width="15%">{views}</Text>
+	<Text width="15%">{item.id}</Text>
+	<LinkedText to="/event/{item.id}" width="40%">{item.title}</LinkedText>
+	<Text width="15%">{item.startDate}</Text>
+	<Text width="15%">{item.endDate}</Text>
+	<Text width="15%">{item.views}</Text>
 </ListItemLayout>

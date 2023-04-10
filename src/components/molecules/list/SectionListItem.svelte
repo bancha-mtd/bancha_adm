@@ -2,14 +2,7 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
-
-	interface SectionItem {
-		id: number;
-		title: string;
-		priority: number;
-		productCnt: number;
-		useYn: boolean;
-	}
+	import type { SectionItem } from "../../utils/Types";
 
 	export let item: SectionItem = {
 		id: 0,

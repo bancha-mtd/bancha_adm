@@ -2,17 +2,20 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { MessageItem } from "../../utils/Types";
 
-	export let id: string = "코드";
-	export let title: string = "제목";
-	export let content: string = "내용";
-	export let sendDate: string = "발송일시";
-	export let status: string = "상태";
+	export let item: MessageItem = {
+		id: -1,
+		title: "제목",
+		content: "내용",
+		sendDate: "전송일",
+		status: true,
+	};
 </script>
 
 <ListItemLayout>
-	<LinkedText to="/message/{id}" width="25%">{title}</LinkedText>
-	<LinkedText to="/message/{id}" width="35%">{content}</LinkedText>
-	<Text width="20%">{sendDate}</Text>
-	<Text width="20%">{status}</Text>
+	<LinkedText to="/message/{item.id}" width="25%">{item.title}</LinkedText>
+	<LinkedText to="/message/{item.id}" width="35%">{item.content}</LinkedText>
+	<Text width="20%">{item.sendDate}</Text>
+	<Text width="20%">{item.status ? "성공" : "실패"}</Text>
 </ListItemLayout>

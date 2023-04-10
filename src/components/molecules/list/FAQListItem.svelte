@@ -2,16 +2,10 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
-
-	interface FAQItem {
-		id: string;
-		title: string;
-		createtime: string;
-		views: string;
-	}
+	import type { FAQItem } from "../../utils/Types";
 
 	export let item: FAQItem = {
-		id: "코드",
+		id: -1,
 		title: "제목",
 		createtime: "업로드 일자",
 		views: "0",

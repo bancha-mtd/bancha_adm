@@ -2,20 +2,23 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { GroupDealItem } from "../../utils/Types";
 
-	export let id: string = "코드";
-	export let title: string = "상품명";
-	export let discountedPrice: string = "할인금액";
-	export let partner: string = "파트너";
-	export let dateEnd: string = "마감일자";
-	export let capacity: string = "모집인원";
+	export let item: GroupDealItem = {
+		id: -1,
+		title: "제목",
+		discountedPrice: 0,
+		partner: "파트너",
+		endDate: "종료",
+		capacity: 0,
+	};
 </script>
 
 <ListItemLayout>
-	<Text width="15%">{id}</Text>
-	<LinkedText to="/groupdeal/{id}" width="25%">{title}</LinkedText>
-	<Text width="15%">{discountedPrice}</Text>
-	<Text width="15%">{partner}</Text>
-	<Text width="15%">{dateEnd}</Text>
-	<Text width="15%">{capacity}</Text>
+	<Text width="15%">{item.id}</Text>
+	<LinkedText to="/groupdeal/{item.id}" width="25%">{item.title}</LinkedText>
+	<Text width="15%">{item.discountedPrice}</Text>
+	<Text width="15%">{item.partner}</Text>
+	<Text width="15%">{item.endDate}</Text>
+	<Text width="15%">{item.capacity}</Text>
 </ListItemLayout>

@@ -3,29 +3,19 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
-
-	interface Item {
-		id: string;
-		productName: string;
-		price: string;
-		partnerName: string;
-		managerName: string;
-		saleCounts: string;
-		views: string;
-		createTime: string;
-	}
+	import type { Item } from "../../utils/Types";
 
 	export let item: Item = {
-		id: "코드",
+		id: -1,
 		productName: "상품명",
-		price: "금액",
+		price: 0,
 		partnerName: "파트너",
 		managerName: "담당자",
-		saleCounts: "판매량",
-		views: "조회수",
+		saleCounts: 0,
+		views: 0,
 		createTime: "업로드 시간",
 	};
-	const hide: (id: string) => void = () => {};
+	const hide: (id: number) => void = () => {};
 </script>
 
 <ListItemLayout>

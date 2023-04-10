@@ -2,24 +2,27 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { ExhibitionItem } from "../../utils/Types";
 
-	export let id: string = "코드";
-	export let title: string = "기획전명";
-	export let partners: string = "참여 공급자";
-	export let items: string = "상품";
-	export let startDate: string = "시작일자";
-	export let endDate: string = "종료일자";
-	export let views: string = "조회수";
-	export let sales: string = "판매량";
+	export let item: ExhibitionItem = {
+		id: -1,
+		title: "제목",
+		partners: 0,
+		items: 0,
+		startDate: "시작",
+		endDate: "끝",
+		views: 0,
+		sales: 0,
+	};
 </script>
 
 <ListItemLayout>
-	<Text width="10%">{id}</Text>
-	<LinkedText to="/exhibition/{id}" width="30%">{title}</LinkedText>
-	<Text width="10%">{partners}</Text>
-	<Text width="10%">{items}</Text>
-	<Text width="10%">{startDate}</Text>
-	<Text width="10%">{endDate}</Text>
-	<Text width="10%">{views}</Text>
-	<Text width="10%">{sales}</Text>
+	<Text width="10%">{item.id.toLocaleString()}</Text>
+	<LinkedText to="/exhibition/{item.id}" width="30%">{item.title}</LinkedText>
+	<Text width="10%">{item.partners.toLocaleString()}</Text>
+	<Text width="10%">{item.items.toLocaleString()}</Text>
+	<Text width="10%">{item.startDate}</Text>
+	<Text width="10%">{item.endDate}</Text>
+	<Text width="10%">{item.views.toLocaleString()}</Text>
+	<Text width="10%">{item.sales.toLocaleString()}</Text>
 </ListItemLayout>

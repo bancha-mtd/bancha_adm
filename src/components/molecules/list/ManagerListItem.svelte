@@ -3,37 +3,40 @@
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { ManagerItem, SelectType } from "../../utils/Types";
 	import ListItemSelector from "./ListItemSelector.svelte";
 
-	export let id: string = "코드";
-	export let email: string = "이메일";
-	export let grade: string = "권한";
-	export let nickname: string = "닉네임";
-	export let group: string = "소속";
-	export let active: string = "상태";
+	export let item: ManagerItem = {
+		id: -1,
+		email: "이메일",
+		grade: 0,
+		nickname: "닉네임",
+		group: "소속",
+		active: true,
+	};
 
-	let gradeList: object[] = [
-		{ id: 1, name: "최고관리자" },
-		{ id: 2, name: "중간관리자" },
-		{ id: 3, name: "일반관리자" },
+	let gradeList: SelectType[] = [
+		{ id: 1, name: "최고관리자", value: 1 },
+		{ id: 2, name: "중간관리자", value: 2 },
+		{ id: 3, name: "일반관리자", value: 3 },
 	];
-	let selected: object = gradeList[Number(grade) - 1];
+	let selected: SelectType = gradeList[item.grade];
 
 	export let modify: () => void = () => {
-		console.log(id, email, nickname, group, active);
+		console.log(item);
 	};
 	export let del: () => void = () => {
-		console.log(id, email, nickname, group, active);
+		console.log(item);
 	};
 </script>
 
 <ListItemLayout>
-	<Text width="12%">{id}</Text>
-	<Text width="25%">{email}</Text>
+	<Text width="12%">{item.id}</Text>
+	<Text width="25%">{item.email}</Text>
 	<ListItemSelector bind:selected lists={gradeList} width="12%" />
-	<Text width="12%">{nickname}</Text>
-	<BorderedInput bind:value={group} width="15%" />
-	<Text width="12%">{active}</Text>
+	<Text width="12%">{item.nickname}</Text>
+	<BorderedInput bind:value={item.group} width="15%" />
+	<Text width="12%">{item.active}</Text>
 	<div>
 		<GreyBackgroundButton height="30px" fontSize="16px" onClick={modify}
 			>수정</GreyBackgroundButton

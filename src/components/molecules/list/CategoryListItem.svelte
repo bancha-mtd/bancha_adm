@@ -4,15 +4,7 @@
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
-
-	interface CategoryItem {
-		id: string;
-		title: string;
-		items: string;
-		active: string;
-		priority: string;
-		icon: string;
-	}
+	import type { CategoryItem } from "../../utils/Types";
 
 	export let item: CategoryItem = {
 		id: "코드",

@@ -3,42 +3,36 @@
 	import LinkedTwoValueText from "../../atoms/links/LinkedTwoValueText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { PointItem } from "../../utils/Types";
 
-	export let id: string = "코드";
-	export let email: string = "이메일";
-	export let nickname: string = "닉네임";
-	export let content: string = "포인트 내용";
-	export let point: string = "포인트";
-	export let givenDate: string = "지급일";
-	export let expireDate: string = "만료일";
-	export let remain: string = "잔여 포인트";
+	export let item: PointItem = {
+		id: -1,
+		email: "메일",
+		nickname: "닉네임",
+		content: "이유",
+		point: 0,
+		givenDate: "지급일",
+		expireDate: "소멸일",
+		remain: 0,
+	};
 
 	export let retrieve: () => void = () => {
-		console.log(
-			id,
-			email,
-			nickname,
-			content,
-			point,
-			givenDate,
-			expireDate,
-			remain
-		);
+		console.log(item);
 	};
 </script>
 
 <ListItemLayout>
 	<LinkedTwoValueText
-		to="/partner/{id}"
+		to="/partner/{item.id}"
 		width="20%"
-		val1={email}
-		val2={nickname}
+		val1={item.email}
+		val2={item.nickname}
 	/>
-	<Text width="25%">{content}</Text>
-	<Text width="12%">{point}</Text>
-	<Text width="12%">{givenDate}</Text>
-	<Text width="12%">{expireDate}</Text>
-	<Text width="12%">{remain}</Text>
+	<Text width="25%">{item.content}</Text>
+	<Text width="12%">{item.point}</Text>
+	<Text width="12%">{item.givenDate}</Text>
+	<Text width="12%">{item.expireDate}</Text>
+	<Text width="12%">{item.remain}</Text>
 	<GreyBackgroundButton height="30px" fontSize="16px" onClick={retrieve}
 		>회수</GreyBackgroundButton
 	>

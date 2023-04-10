@@ -2,24 +2,11 @@
 	import LinkedTwoValueText from "../../atoms/links/LinkedTwoValueText.svelte";
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
+	import type { MemberItem } from "../../utils/Types";
 	import TwoValueText from "./TwoValueText.svelte";
 
-	interface Member {
-		id: string;
-		email: string;
-		nickName: string;
-		grade: number;
-		cellPhone: string;
-		reviewCnt: number;
-		buyCnt: number;
-		paidSum: number;
-		useYn: boolean;
-		lastLogin: string;
-		createDate: string;
-	}
-
-	export let item: Member = {
-		id: "코드",
+	export let item: MemberItem = {
+		id: -1,
 		email: "이메일",
 		nickName: "닉네임",
 		grade: -1,
@@ -36,7 +23,7 @@
 </script>
 
 <ListItemLayout>
-	<Text width="10%">{item.id}</Text>
+	<Text width="10%">{item.id.toLocaleString()}</Text>
 	<LinkedTwoValueText
 		to="/member/{item.id}"
 		width="20%"
