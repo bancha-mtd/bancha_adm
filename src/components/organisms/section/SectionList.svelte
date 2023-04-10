@@ -72,7 +72,7 @@
 
 <SearchLayout>
 	<SpaceBetween gap="20px" alignItems="end">
-		<Search onEnter={search} value={searchQuery} />
+		<Search onEnter={search} bind:value={searchQuery} />
 		<TransparentSelect lists={sortIsActive} selected={selectedIsActive} />
 	</SpaceBetween>
 	<GreyBackgroundButton
