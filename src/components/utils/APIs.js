@@ -97,7 +97,41 @@ const Requets = {
 	},
 	getItem: async (obj) => {
 		const response = await instance
-			.post("/admin/product/management", obj)
+			.post("/admin/product/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getSection: async (obj) => {
+		const response = await instance
+			.post("/admin/section/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getSectionDetail: async (id) => {
+		const response = await instance.get(`/admin/section/${id}`).catch((e) => {
+			console.log(e);
+			return e.response;
+		});
+		return response;
+	},
+	addSection: async (obj) => {
+		const response = await instance
+			.post("/admin/section/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editSection: async (obj) => {
+		const response = await instance
+			.post("/admin/section/edit", obj)
 			.catch((e) => {
 				console.log(e);
 				return e.response;
@@ -115,7 +149,7 @@ const Requets = {
 	},
 	getMember: async (obj) => {
 		const response = await instance
-			.post("/admin/member/management", obj)
+			.post("/admin/member/list", obj)
 			.catch((e) => {
 				console.log(e);
 				return e.response;

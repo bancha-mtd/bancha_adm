@@ -6,40 +6,93 @@
 	import BorderedInput from "../../atoms/inputs/BorderedInput.svelte";
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 	import Radio from "../../molecules/detail/Radio.svelte";
+	import { onMount } from "svelte";
+	import APIs from "../../utils/APIs";
+	import ItemSearch from "../common/ItemSearch.svelte";
+	import { push } from "svelte-spa-router";
 
-	export let itemId: string;
-
-	let points: object[] = [
-		{ id: 1, name: "적립율" },
-		{ id: 2, name: "적립금" },
-	];
+	export let itemId: any;
+	let loading = false;
 	let item = {
 		id: -1,
 		title: "",
 		priority: "",
 		layout: "",
-		active: {},
-		bg: "",
+		useYn: {},
+		backgroundColor: "",
+		products: [],
+	};
+	let productIds: number[] = [];
+
+	onMount(() => {
+		if (itemId !== "new") {
+			getSection();
+		}
+	});
+
+	const getSection = () => {
+		loading = true;
+
+		APIs.getSectionDetail(itemId).then((res) => {
+			if (res.status === 200) {
+				item = res.data;
+				for (let i = 0; i < item.products.length; i++) {
+					productIds.push(item.products[i].id);
+				}
+				item.useYn = item.useYn ? 1 : 0;
+				loading = false;
+			} else {
+				alert("불러오기 에러!");
+			}
+		});
 	};
 
 	const deleteItem = () => {
+		item.useYn = false;
+		item.products = [];
+		APIs.editSection(item).then((res) => {
+			if (res.status === 200) {
+				alert("사용 안 함 처리 되었습니다.");
+				push("/section");
+			}
+		});
 		return;
 	};
 	const addItem = () => {
-		console.log(item);
+		item.products = productIds;
+		item.useYn = item.useYn === 1 ? true : false;
+		APIs.addSection(item).then((res) => {
+			if (res.status === 200) {
+				alert("등록 되었습니다.");
+				push("/section");
+			} else {
+				alert("문제가 발생했습니다.");
+			}
+		});
 		return;
 	};
 	const modifyItem = () => {
+		item.products = productIds;
+		item.useYn = item.useYn === 1 ? true : false;
 		console.log(item);
+		APIs.editSection(item).then((res) => {
+			if (res.status === 200) {
+				alert("수정되었습니다.");
+			} else {
+				alert("문제가 발생했습니다.");
+			}
+		});
 		return;
 	};
 </script>
 
 <SpaceEnd gap="10px" marginBottom="20px">
-	<div>{itemId}</div>
-	{#if item.id !== -1}
-		<GreyBackgroundButton height="30px" fontSize="16px" onClick={deleteItem}
-			>삭제</GreyBackgroundButton
+	{#if itemId !== "new"}
+		<GreyBackgroundButton
+			width="50px"
+			height="30px"
+			fontSize="16px"
+			onClick={deleteItem}>삭제</GreyBackgroundButton
 		>
 	{/if}
 	<GreyBackgroundButton
@@ -63,16 +116,21 @@
 		<BorderedInput fontSize="16px" type="number" bind:value={item.priority} />
 	</DetailRow>
 	<DetailRow title="제목">
-		<BorderedInput fontSize="16px" width="80%" bind:value={item.title} />
+		<BorderedInput
+			alignCenter={false}
+			fontSize="16px"
+			width="80%"
+			bind:value={item.title}
+		/>
 	</DetailRow>
 	<DetailRow title="레이아웃">
 		<BorderedInput fontSize="16px" type="number" bind:value={item.layout} />
-		<LightGreyText fontSize="14px" marginLeft="10px">1~5</LightGreyText>
+		<LightGreyText fontSize="14px" marginLeft="10px">1 ~ 5</LightGreyText>
 	</DetailRow>
-	<DetailRow title="라벨">
+	<DetailRow title="노출">
 		<Radio
-			name="active"
-			bind:value={item.active}
+			name="useYn"
+			bind:value={item.useYn}
 			height="30px"
 			width="80px"
 			fontSize="16px"
@@ -83,9 +141,15 @@
 		/>
 	</DetailRow>
 	<DetailRow title="배경색">
-		<BorderedInput fontSize="16px" type="color" bind:value={item.bg} />
+		<BorderedInput
+			fontSize="16px"
+			type="color"
+			bind:value={item.backgroundColor}
+		/>
 	</DetailRow>
 	<DetailRow title="상품">
-		<div />
+		{#if !loading}
+			<ItemSearch bind:products={item.products} bind:productIds />
+		{/if}
 	</DetailRow>
 </DetailPanelLayout>

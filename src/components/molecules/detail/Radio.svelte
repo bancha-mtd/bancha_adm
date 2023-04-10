@@ -12,6 +12,7 @@
 	{#each lists as element}
 		<label style="width:{width};height:{height};font-size:{fontSize};">
 			<input
+				checked={element.id === value}
 				type="radio"
 				{name}
 				value={element.id}

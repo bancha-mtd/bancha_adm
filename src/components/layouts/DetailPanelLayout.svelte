@@ -2,12 +2,15 @@
 	export let width: string = "auto";
 	export let height: string = "auto";
 	export let padding: boolean = false;
+	export let marginBottom: boolean = false;
 </script>
 
 <section
 	style="padding:{padding
 		? '20px 0 20px 0'
-		: 'none'};width:{width};height:{height}"
+		: 'none'};width:{width};height:{height};margin-bottom:{marginBottom
+		? '20px'
+		: '0'}"
 >
 	<slot />
 </section>
@@ -19,7 +22,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: start;
-		margin-bottom: 20px;
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 		overflow-y: scroll;

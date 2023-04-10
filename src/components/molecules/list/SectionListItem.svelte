@@ -3,17 +3,27 @@
 	import Text from "../../atoms/texts/Text.svelte";
 	import ListItemLayout from "../../layouts/ListItemLayout.svelte";
 
-	export let id: string = "코드";
-	export let title: string = "섹션명";
-	export let priority: string = "노출 순위";
-	export let items: string = "상품수";
-	export let active: string = "노출";
+	interface SectionItem {
+		id: number;
+		title: string;
+		priority: number;
+		productCnt: number;
+		useYn: boolean;
+	}
+
+	export let item: SectionItem = {
+		id: 0,
+		title: "제목",
+		priority: 0,
+		productCnt: 0,
+		useYn: true,
+	};
 </script>
 
 <ListItemLayout>
-	<Text width="20%">{id}</Text>
-	<LinkedText to="/section/{id}" width="25%">{title}</LinkedText>
-	<Text width="20%">{priority}</Text>
-	<Text width="20%">{items}</Text>
-	<Text width="15%">{active}</Text>
+	<Text width="20%">{item.id.toLocaleString()}</Text>
+	<LinkedText to="/section/{item.id}" width="25%">{item.title}</LinkedText>
+	<Text width="20%">{item.priority.toLocaleString()}</Text>
+	<Text width="20%">{item.productCnt.toLocaleString()}</Text>
+	<Text width="15%">{item.useYn ? "사용 중" : "사용 안함"}</Text>
 </ListItemLayout>
