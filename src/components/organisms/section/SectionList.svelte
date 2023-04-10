@@ -63,7 +63,7 @@
 		rangeMin = 1;
 	};
 
-	let addExhibition = () => {
+	let addSection = () => {
 		push("/section/new");
 	};
 </script>
@@ -76,7 +76,7 @@
 		<TransparentSelect lists={sortIsActive} selected={selectedIsActive} />
 	</SpaceBetween>
 	<GreyBackgroundButton
-		onClick={addExhibition}
+		onClick={addSection}
 		width="120px"
 		height="30px"
 		fontSize="16px">+ 섹션 추가</GreyBackgroundButton
