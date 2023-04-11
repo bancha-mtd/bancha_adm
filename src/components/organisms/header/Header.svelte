@@ -1,12 +1,32 @@
 <script lang="ts">
+	import { push } from "svelte-spa-router";
 	import WhiteText from "../../atoms/texts/WhiteText.svelte";
 	import HeaderLogo from "../../molecules/header/HeaderLogo.svelte";
-	import { nickname } from "../../stores/UserInfoStore";
+	import {
+		nickname,
+		isLoggedIn,
+		accessToken,
+		email,
+		managerId,
+		refreshToken,
+	} from "../../stores/UserInfoStore";
+
+	const logout = () => {
+		isLoggedIn.set(false);
+		nickname.set("");
+		email.set("");
+		managerId.set(-1);
+		accessToken.set("");
+		refreshToken.set("");
+		push("/");
+	};
 </script>
 
 <header>
 	<HeaderLogo />
-	<WhiteText fontSize="20px">{$nickname}</WhiteText>
+	<button on:click={logout}>
+		<WhiteText fontSize="20px">{$nickname}</WhiteText>
+	</button>
 </header>
 
 <style>
