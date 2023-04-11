@@ -18,12 +18,12 @@ export interface Item {
 export interface ExhibitionItem {
 	id: number;
 	title: string;
-	partners: number;
-	items: number;
-	startDate: string;
+	partnerCnt: number;
+	productCnt: number;
+	fromDate: string;
 	endDate: string;
 	views: number;
-	sales: number;
+	saleCnt: number;
 }
 
 export interface GroupDealItem {
@@ -37,11 +37,11 @@ export interface GroupDealItem {
 
 export interface CategoryItem {
 	id: number;
-	title: string;
-	items: string;
-	active: boolean;
-	priority: string;
-	icon: string;
+	name: string;
+	productCount: string;
+	useYn: boolean;
+	recommendNum: string;
+	thumbnailImageUrl: string;
 }
 
 export interface SectionItem {

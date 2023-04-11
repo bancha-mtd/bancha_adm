@@ -7,11 +7,21 @@
 	import LoginLogo from "../../molecules/login/LoginLogo.svelte";
 	import APIs from "../../utils/APIs";
 
-	import { isLoggedIn, email } from "../../stores/UserInfoStore";
+	import { isLoggedIn, email, refreshToken } from "../../stores/UserInfoStore";
 
 	onMount(() => {
 		if ($isLoggedIn) {
 			push("/main");
+		} else {
+			let temp = localStorage.getItem("refreshToken");
+			if (temp !== null) {
+				refreshToken.set(temp);
+				APIs.refresh().then((res) => {
+					if (res.status === 200) {
+						push("/main");
+					}
+				});
+			}
 		}
 	});
 
