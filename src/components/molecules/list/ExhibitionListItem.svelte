@@ -7,22 +7,22 @@
 	export let item: ExhibitionItem = {
 		id: -1,
 		title: "제목",
-		partners: 0,
-		items: 0,
-		startDate: "시작",
+		partnerCnt: 0,
+		productCnt: 0,
+		fromDate: "시작",
 		endDate: "끝",
 		views: 0,
-		sales: 0,
+		saleCnt: 0,
 	};
 </script>
 
 <ListItemLayout>
 	<Text width="10%">{item.id.toLocaleString()}</Text>
 	<LinkedText to="/exhibition/{item.id}" width="30%">{item.title}</LinkedText>
-	<Text width="10%">{item.partners.toLocaleString()}</Text>
-	<Text width="10%">{item.items.toLocaleString()}</Text>
-	<Text width="10%">{item.startDate}</Text>
+	<Text width="10%">{item.partnerCnt.toLocaleString()}</Text>
+	<Text width="10%">{item.productCnt.toLocaleString()}</Text>
+	<Text width="10%">{item.fromDate}</Text>
 	<Text width="10%">{item.endDate}</Text>
 	<Text width="10%">{item.views.toLocaleString()}</Text>
-	<Text width="10%">{item.sales.toLocaleString()}</Text>
+	<Text width="10%">{item.saleCnt.toLocaleString()}</Text>
 </ListItemLayout>

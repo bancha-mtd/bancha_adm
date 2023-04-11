@@ -2,8 +2,8 @@
 	import CategoryAddPanel from "./CategoryAddPanel.svelte";
 	import CategoryList from "./CategoryList.svelte";
 
-	// let selectedItem =
+	let needUpdate = false;
 </script>
 
-<CategoryAddPanel />
-<CategoryList />
+<CategoryAddPanel bind:needUpdate />
+<CategoryList bind:needUpdate />

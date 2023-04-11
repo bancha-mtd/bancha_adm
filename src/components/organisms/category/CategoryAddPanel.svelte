@@ -6,21 +6,50 @@
 	import SearchLayout from "../../layouts/SearchLayout.svelte";
 	import DetailRow from "../../molecules/detail/DetailRow.svelte";
 	import Radio from "../../molecules/detail/Radio.svelte";
+	import APIs from "../../utils/APIs";
+	import type { SelectType } from "../../utils/Types";
+	import DropZone from "../prescreen/DropZone.svelte";
 
-	const addCategory: () => void = () => {};
+	export let needUpdate;
 
-	let item = {
-		id: -1,
-		title: "",
-		active: {},
-		priority: "",
-		icon: "",
+	const isActive: SelectType[] = [
+		{ id: 1, name: "Y", value: true },
+		{ id: 2, name: "N", value: false },
+	];
+	let title: string;
+	let recommendNum: number = 0;
+	let selectedIsActive: SelectType = isActive[0];
+	let file: Blob;
+
+	const addCategory: () => void = () => {
+		if (file === undefined) {
+			alert("아이콘을 등록해주세요!");
+			return;
+		}
+		let option = {
+			name: title,
+			recommendNum: recommendNum,
+			useYn: selectedIsActive.value,
+		};
+		let frm = new FormData();
+		console.log(file);
+		frm.append("files", file, file.name);
+		frm.append(
+			"requestDTO",
+			new Blob([JSON.stringify(option)], { type: "application/json" })
+		);
+		APIs.addCategory(frm).then((res) => {
+			if (res.status === 200) {
+				console.log(res);
+				alert("등록 완료");
+				needUpdate = true;
+			}
+		});
 	};
 </script>
 
 <SearchLayout>
 	<BoldText fontSize="18px">카테고리 추가</BoldText>
-
 	<GreyBackgroundButton
 		onClick={addCategory}
 		width="60px"
@@ -29,39 +58,23 @@
 	>
 </SearchLayout>
 <DetailPanelLayout marginBottom={true}>
-	<DetailRow head={true} title="상품코드">
-		<BorderedInput
-			height="30px"
-			fontSize="16px"
-			disabled={true}
-			value={item.id.toLocaleString()}
-		/>
-	</DetailRow>
-	<DetailRow title="상품명">
-		<BorderedInput alignCenter={false} width="80%" bind:value={item.title} />
+	<DetailRow title="카테고리명">
+		<BorderedInput alignCenter={false} width="80%" bind:value={title} />
 	</DetailRow>
 	<DetailRow title="노출">
 		<Radio
 			name="active"
-			bind:value={item.active}
+			bind:value={selectedIsActive}
 			height="30px"
 			width="80px"
 			fontSize="16px"
-			lists={[
-				{ id: 1, name: "예" },
-				{ id: 0, name: "아니오" },
-			]}
+			lists={isActive}
 		/>
 	</DetailRow>
 	<DetailRow title="노출 순위">
-		<BorderedInput type="number" bind:value={item.priority} />
+		<BorderedInput type="number" bind:value={recommendNum} />
 	</DetailRow>
 	<DetailRow title="아이콘">
-		<BorderedInput
-			fontSize="16px"
-			width="500px"
-			type="file"
-			bind:value={item.icon}
-		/>
+		<DropZone bind:file width="90px" height="90px" />
 	</DetailRow>
 </DetailPanelLayout>

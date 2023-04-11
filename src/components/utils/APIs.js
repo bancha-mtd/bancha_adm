@@ -25,12 +25,49 @@ const parseJwt = (token) => {
 	return JSON.parse(jsonPayload);
 };
 
+const REFRESH_URL = "http://3.38.18.168/refresh";
+
 const instance = axios.create({
 	baseURL: "http://3.38.18.168",
 	timeout: 3000,
 });
 
-const Requets = {
+instance.interceptors.request.use(
+	function (config) {
+		return config;
+	},
+	async function (error) {
+		const {
+			config,
+			response: { status },
+		} = error;
+
+		console.log(config);
+		if (config.url === REFRESH_URL || status !== 403 || config.sent) {
+			return Promise.reject(error);
+		}
+
+		let refresh = false;
+		await instance
+			.post("/refresh", { refreshToken: localStorage.getItem("refreshToken") })
+			.then((res) => {
+				if (res.status === 200) {
+					refresh = true;
+					accessToken.set(res.data.accessToken);
+					config.sent = true;
+				} else {
+					refresh = false;
+				}
+			});
+		if (refresh) {
+			return axios(config);
+		} else {
+			return Promise.reject(error);
+		}
+	}
+);
+
+const Requests = {
 	login: async (email, password) => {
 		const response = await instance
 			.post("/admin/login", {
@@ -48,6 +85,8 @@ const Requets = {
 					type.set(tokenInfo.authType);
 					nickname.set(tokenInfo.managerName);
 					managerId.set(tokenInfo.id);
+
+					localStorage.setItem("refreshToken", res.data.refreshToken);
 
 					instance.defaults.headers.common[
 						"Authorization"
@@ -73,6 +112,7 @@ const Requets = {
 				console.log(e);
 				return e.response;
 			});
+		return response;
 	},
 	getMainDashBoard: async () => {
 		const response = await instance
@@ -98,6 +138,51 @@ const Requets = {
 	getItem: async (obj) => {
 		const response = await instance
 			.post("/admin/product/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getExhibition: async (obj) => {
+		const response = await instance
+			.post("/admin/product/plan/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	getCategory: async (obj) => {
+		const response = await instance
+			.post("/admin/category/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	addCategory: async (obj) => {
+		const response = await instance
+			.post("/admin/category/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editCategory: async (obj) => {
+		const response = await instance
+			.post("/admin/category/edit", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editCategoryImg: async (obj, id) => {
+		const response = await instance
+			.post(`/admin/category/edit-thumbnail/${id}`, obj)
 			.catch((e) => {
 				console.log(e);
 				return e.response;
@@ -167,7 +252,7 @@ const Requets = {
 	},
 	getPartner: async (obj) => {
 		const response = await instance
-			.post("/admin/partner/management", obj)
+			.post("/admin/partner/list", obj)
 			.catch((e) => {
 				console.log(e);
 				return e.response;
@@ -175,12 +260,10 @@ const Requets = {
 		return response;
 	},
 	getPreScreen: async () => {
-		const response = await instance
-			.get("/admin/pre-screen/edit-form")
-			.catch((e) => {
-				console.log(e);
-				return e.response;
-			});
+		const response = await instance.get("/admin/pre-screen/list").catch((e) => {
+			console.log(e);
+			return e.response;
+		});
 		return response;
 	},
 	addPreScreen: async (form) => {
@@ -209,4 +292,4 @@ const Requets = {
 	},
 };
 
-export default Requets;
+export default Requests;

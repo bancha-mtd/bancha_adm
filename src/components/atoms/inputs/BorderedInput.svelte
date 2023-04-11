@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let list: string = "";
-	export let value: string;
+	export let value: any;
 	export let disabled: boolean = false;
 	export let width: string = "150px";
 	export let height: string = "30px";

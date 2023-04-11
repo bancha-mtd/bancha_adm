@@ -1,6 +1,8 @@
 <script lang="ts">
-	export let selected: object;
-	export let lists: any;
+	import type { SelectType } from "../../utils/Types";
+
+	export let selected: SelectType;
+	export let lists: SelectType[];
 	export let width: string = "150px";
 	export let height: string = "50px";
 	export let fontSize: string = "18px";
