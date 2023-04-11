@@ -70,7 +70,7 @@ instance.interceptors.request.use(
 const Requests = {
 	login: async (email, password) => {
 		const response = await instance
-			.post("/admin/login", {
+			.post("/admin/manager/login", {
 				userId: email,
 				password: password,
 			})
