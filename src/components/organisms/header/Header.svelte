@@ -18,6 +18,7 @@
 		managerId.set(-1);
 		accessToken.set("");
 		refreshToken.set("");
+		localStorage.clear();
 		push("/");
 	};
 </script>

@@ -32,38 +32,38 @@ const instance = axios.create({
 	timeout: 3000,
 });
 
+let refreshed = false;
 instance.interceptors.request.use(
 	function (config) {
 		return config;
 	},
 	async function (error) {
-		const {
-			config,
-			response: { status },
-		} = error;
+		const { response: errorResponse } = error;
+		const conf = error.config;
 
-		console.log(config);
-		if (config.url === REFRESH_URL || status !== 403 || config.sent) {
-			return Promise.reject(error);
+		if (conf.url !== REFRESH_URL && errorResponse.status === 403) {
+			let rToken = localStorage.getItem("refreshToken");
+			console.log(rToken);
+			if (rToken) {
+				await instance
+					.post("/refresh", { refreshToken: rToken })
+					.then((res) => {
+						console.log(res);
+						refreshed = true;
+						accessToken.set(res.data.accessToken);
+						instance.defaults.headers.common[
+							"Authorization"
+						] = `Bearer ${res.data.accessToken}`;
+						axios(conf);
+					})
+					.catch((err) => {
+						console.log(err);
+						console.log(rToken);
+					});
+			}
 		}
 
-		let refresh = false;
-		await instance
-			.post("/refresh", { refreshToken: localStorage.getItem("refreshToken") })
-			.then((res) => {
-				if (res.status === 200) {
-					refresh = true;
-					accessToken.set(res.data.accessToken);
-					config.sent = true;
-				} else {
-					refresh = false;
-				}
-			});
-		if (refresh) {
-			return axios(config);
-		} else {
-			return Promise.reject(error);
-		}
+		return Promise.reject(error);
 	}
 );
 
@@ -100,13 +100,25 @@ const Requests = {
 			});
 		return response;
 	},
-	refresh: async () => {
+	refresh: async (token) => {
 		const response = await instance
-			.post("/refresh", { refreshToken: refreshToken })
+			.post("/refresh", { refreshToken: token })
 			.then((res) => {
 				if (res.status === 200) {
+					let tokenInfo = parseJwt(res.data.accessToken);
+
+					isLoggedIn.set(true);
+					grantType.set("Bearer");
 					accessToken.set(res.data.accessToken);
+					refreshToken.set(token);
+					type.set(tokenInfo.authType);
+					nickname.set(tokenInfo.managerName);
+					managerId.set(tokenInfo.id);
+					instance.defaults.headers.common[
+						"Authorization"
+					] = `${res.data.grantType} ${res.data.accessToken}`;
 				}
+				return res;
 			})
 			.catch((e) => {
 				console.log(e);

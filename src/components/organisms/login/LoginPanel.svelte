@@ -14,9 +14,8 @@
 			push("/main");
 		} else {
 			let temp = localStorage.getItem("refreshToken");
-			if (temp !== null) {
-				refreshToken.set(temp);
-				APIs.refresh().then((res) => {
+			if (temp) {
+				APIs.refresh(temp).then((res) => {
 					if (res.status === 200) {
 						push("/main");
 					}
