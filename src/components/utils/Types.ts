@@ -22,7 +22,7 @@ export interface ExhibitionItem {
 	productCnt: number;
 	fromDate: string;
 	endDate: string;
-	views: number;
+	viewCnt: number;
 	saleCnt: number;
 }
 

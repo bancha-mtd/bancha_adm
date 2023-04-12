@@ -302,6 +302,15 @@ const Requests = {
 			});
 		return response;
 	},
+	getBanner: async (obj) => {
+		const response = await instance
+			.post("/admin/banner/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 };
 
 export default Requests;

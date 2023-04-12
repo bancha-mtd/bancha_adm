@@ -46,6 +46,7 @@
 
 		APIs.getExhibition(option).then((res) => {
 			if (res.status === 200) {
+				console.log(res.data.content);
 				list = res.data.content;
 				maxPage = res.data.totalPages;
 				loading = false;
@@ -82,15 +83,15 @@
 </SearchLayout>
 
 <ListLayout>
-	<ListItemLayout head={true}>
-		<GreyText width="10%">코드</GreyText>
+	<ListItemLayout gap="2%" head={true}>
+		<GreyText width="6.8%">코드</GreyText>
 		<GreyText width="30%">기획전명</GreyText>
-		<GreyText width="10%">참여 공급자</GreyText>
-		<GreyText width="10%">상품</GreyText>
+		<GreyText width="6.8%">참여 공급자</GreyText>
+		<GreyText width="6.8%">상품</GreyText>
 		<GreyText width="10%">시작일자</GreyText>
 		<GreyText width="10%">종료일자</GreyText>
-		<GreyText width="10%">조회수</GreyText>
-		<GreyText width="10%">판매량</GreyText>
+		<GreyText width="6.8%">조회수</GreyText>
+		<GreyText width="6.8%">판매량</GreyText>
 	</ListItemLayout>
 	{#if loading}
 		<Loading />
