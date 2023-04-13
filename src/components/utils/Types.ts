@@ -156,7 +156,7 @@ export interface BannerItem {
 	priority: string;
 	dateBegin: string;
 	dateEnd: string;
-	clicks: string;
+	viewCnt: string;
 }
 
 export interface RefundItem {

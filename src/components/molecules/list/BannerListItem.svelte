@@ -10,7 +10,7 @@
 		priority: "순위",
 		dateBegin: "시작일자",
 		dateEnd: "종료일자",
-		clicks: "클릭수",
+		viewCnt: "클릭수",
 	};
 </script>
 
@@ -20,5 +20,5 @@
 	<Text width="12%">{item.priority}</Text>
 	<Text width="12%">{item.dateBegin}</Text>
 	<Text width="12%">{item.dateEnd}</Text>
-	<Text width="12%">{item.clicks}</Text>
+	<Text width="12%">{item.viewCnt}</Text>
 </ListItemLayout>
