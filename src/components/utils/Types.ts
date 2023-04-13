@@ -154,8 +154,8 @@ export interface BannerItem {
 	id: number;
 	title: string;
 	priority: string;
-	startDate: string;
-	endDate: string;
+	dateBegin: string;
+	dateEnd: string;
 	clicks: string;
 }
 

@@ -311,6 +311,24 @@ const Requests = {
 			});
 		return response;
 	},
+	addBanner: async (obj) => {
+		const response = await instance
+			.post("/admin/banner/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editBanner: async (obj) => {
+		const response = await instance
+			.post("/admin/banner/edit", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 };
 
 export default Requests;
