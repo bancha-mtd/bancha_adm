@@ -10,6 +10,7 @@
 	import APIs from "../../utils/APIs";
 	import ItemSearch from "../common/ItemSearch.svelte";
 	import { push } from "svelte-spa-router";
+	import type { SelectType } from "../../utils/Types";
 
 	export let itemId: any;
 	let loading = false;
@@ -18,11 +19,16 @@
 		title: "",
 		priority: "",
 		layout: "",
-		useYn: {},
+		useYn: true,
 		backgroundColor: "",
 		products: [],
 	};
 	let productIds: number[] = [];
+	let useYns: SelectType[] = [
+		{ id: 1, name: "예", value: true },
+		{ id: 1, name: "아니요", value: false },
+	];
+	let useYn: SelectType = useYns[0];
 
 	onMount(() => {
 		if (itemId !== "new") {
@@ -39,7 +45,7 @@
 				for (let i = 0; i < item.products.length; i++) {
 					productIds.push(item.products[i].id);
 				}
-				item.useYn = item.useYn ? 1 : 0;
+				useYn = res.data.useYn ? useYns[0] : useYns[1];
 				loading = false;
 			} else {
 				alert("불러오기 에러!");
@@ -60,7 +66,7 @@
 	};
 	const addItem = () => {
 		item.products = productIds;
-		item.useYn = item.useYn === 1 ? true : false;
+		item.useYn = useYn.value;
 		APIs.addSection(item).then((res) => {
 			if (res.status === 200) {
 				alert("등록 되었습니다.");
@@ -73,7 +79,7 @@
 	};
 	const modifyItem = () => {
 		item.products = productIds;
-		item.useYn = item.useYn === 1 ? true : false;
+		item.useYn = useYn.value;
 		console.log(item);
 		APIs.editSection(item).then((res) => {
 			if (res.status === 200) {
@@ -130,14 +136,11 @@
 	<DetailRow title="노출">
 		<Radio
 			name="useYn"
-			bind:value={item.useYn}
+			bind:value={useYn}
 			height="30px"
 			width="80px"
 			fontSize="16px"
-			lists={[
-				{ id: 1, name: "예" },
-				{ id: 0, name: "아니오" },
-			]}
+			lists={useYns}
 		/>
 	</DetailRow>
 	<DetailRow title="배경색">

@@ -12,10 +12,10 @@
 	{#each lists as element}
 		<label style="width:{width};height:{height};font-size:{fontSize};">
 			<input
-				checked={element.id === value}
+				checked={element === value}
 				type="radio"
 				{name}
-				value={element.id}
+				value={element}
 				on:change={(e) => {
 					value = e.currentTarget.value;
 				}}
