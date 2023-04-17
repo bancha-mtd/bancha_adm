@@ -55,7 +55,6 @@
 
 		APIs.getBanner(option).then((res) => {
 			if (res.status === 200) {
-				console.log(res.data.content);
 				list = res.data.content;
 				maxPage = res.data.totalPages;
 				loading = false;

@@ -18,7 +18,7 @@
 	<Text width="12%">{item.id}</Text>
 	<LinkedText to="/banner/{item.id}" width="40%">{item.title}</LinkedText>
 	<Text width="12%">{item.priority}</Text>
-	<Text width="12%">{item.dateBegin}</Text>
-	<Text width="12%">{item.dateEnd}</Text>
+	<Text width="12%">{item.dateBegin.replace("T", " ")}</Text>
+	<Text width="12%">{item.dateEnd.replace("T", " ")}</Text>
 	<Text width="12%">{item.viewCnt}</Text>
 </ListItemLayout>

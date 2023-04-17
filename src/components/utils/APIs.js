@@ -116,7 +116,7 @@ const Requests = {
 					managerId.set(tokenInfo.id);
 					instance.defaults.headers.common[
 						"Authorization"
-					] = `${res.data.grantType} ${res.data.accessToken}`;
+					] = `Bearer ${res.data.accessToken}`;
 				}
 				return res;
 			})
@@ -271,6 +271,42 @@ const Requests = {
 			});
 		return response;
 	},
+	getManager: async (obj) => {
+		const response = await instance
+			.post("/admin/manager/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	addManager: async (obj) => {
+		const response = await instance
+			.post("/admin/manager/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editManager: async (id, type) => {
+		const response = await instance
+			.get(`/admin/manager/authority/edit?id=${id}&authorityType=${type}`)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	deleteManager: async (id) => {
+		const response = await instance
+			.delete(`/admin/manager/delete/${id}`)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getPreScreen: async () => {
 		const response = await instance.get("/admin/pre-screen/list").catch((e) => {
 			console.log(e);
@@ -309,6 +345,13 @@ const Requests = {
 				console.log(e);
 				return e.response;
 			});
+		return response;
+	},
+	getBannerDetail: async (id) => {
+		const response = await instance.get(`/admin/banner/${id}`).catch((e) => {
+			console.log(e);
+			return e.response;
+		});
 		return response;
 	},
 	addBanner: async (obj) => {
