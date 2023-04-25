@@ -102,11 +102,11 @@ export interface PartnerItem {
 
 export interface ManagerItem {
 	id: number;
-	email: string;
-	grade: number;
+	userId: string;
+	authType: number;
 	nickname: string;
-	group: string;
-	active: boolean;
+	department: string;
+	useYn: boolean;
 }
 
 export interface PointItem {

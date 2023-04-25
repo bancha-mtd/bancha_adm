@@ -23,7 +23,7 @@
 			<PageTextButton onClick={() => onClick(page)} fontWeight={true}
 				>{page}</PageTextButton
 			>
-		{:else if page < maxPage}
+		{:else if page <= maxPage}
 			<PageTextButton onClick={() => onClick(page)}>{page}</PageTextButton>
 		{/if}
 	{/each}

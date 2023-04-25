@@ -289,9 +289,9 @@ const Requests = {
 			});
 		return response;
 	},
-	editManager: async (id, type) => {
+	editManager: async (id, type, dep) => {
 		const response = await instance
-			.get(`/admin/manager/authority/edit?id=${id}&authorityType=${type}`)
+			.post(`/admin/manager/edit/${id}?authorityType=${type}&department=${dep}`)
 			.catch((e) => {
 				console.log(e);
 				return e.response;
