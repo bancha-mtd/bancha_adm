@@ -20,8 +20,8 @@
 	}
 
 	let sortIsActive: SelectType[] = [
-		{ id: 1, name: "전체", value: true },
-		{ id: 2, name: "사용 중", value: false },
+		{ id: 1, name: "전체", value: -1 },
+		{ id: 2, name: "사용 중", value: true },
 	];
 	let searchQuery: string = "";
 	let selectedIsActive: SelectType = sortIsActive[0];
@@ -48,10 +48,9 @@
 		if (selectedIsActive.value !== -1) {
 			option["useYn"] = selectedIsActive.value;
 		}
-
+		console.log(option);
 		APIs.getCategory(option).then((res) => {
 			if (res.status === 200) {
-				console.log(res);
 				list = res.data.content;
 				maxPage = res.data.totalPages;
 				loading = false;

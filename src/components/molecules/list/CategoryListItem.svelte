@@ -40,6 +40,7 @@
 			useYn: selectedIsActive.value,
 		};
 		APIs.editCategory(option).then((res) => {
+			console.log(res);
 			if (res.status === 200) {
 				if (file) {
 					let frm = new FormData();
