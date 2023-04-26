@@ -372,6 +372,34 @@ const Requests = {
 			});
 		return response;
 	},
+	getSearchPhrases: async (obj) => {
+		const response = await instance
+			.get("/admin/phrases/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	addSearchPhrase: async (txt) => {
+		let obj = { phrase: txt };
+		const response = await instance
+			.post("/admin/phrases/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	deleteSearchPhrase: async (id) => {
+		const response = await instance
+			.delete(`/admin/phrases/delete/${id}`)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 };
 
 export default Requests;

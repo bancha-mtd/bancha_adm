@@ -163,3 +163,8 @@ export interface RefundItem {
 	id: number;
 	title: string;
 }
+
+export interface SearchPhraseItem {
+	id: number;
+	contents: string;
+}

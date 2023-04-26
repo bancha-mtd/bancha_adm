@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { push } from "svelte-spa-router";
 	import GreyBackgroundButton from "../../atoms/buttons/GreyBackgroundButton.svelte";
 	import SpaceBetween from "../../atoms/layouts/SpaceBetween.svelte";
 	import GreyText from "../../atoms/texts/GreyText.svelte";
@@ -9,26 +10,66 @@
 	import PageSelector from "../../molecules/list/PageSelector.svelte";
 	import Search from "../../molecules/search/Search.svelte";
 	import TransparentSelect from "../../molecules/search/TransparentSelect.svelte";
+	import APIs from "../../utils/APIs";
+	import type { SelectType } from "../../utils/Types";
+	import { onMount } from "svelte";
 
-	let sortStatus: object[] = [
-		{ id: 1, name: "전체" },
-		{ id: 2, name: "진행 중" },
-		{ id: 3, name: "완료" },
+	let sortStatus: SelectType[] = [
+		{ id: 1, name: "전체", value: -1 },
+		{ id: 2, name: "진행 중", value: true },
+		{ id: 3, name: "완료", value: false },
 	];
 
 	let searchQuery: string = "";
-	let selectedStatus: object = sortStatus[0];
+	let selectedStatus: SelectType = sortStatus[0];
 
 	let curPage: number = 1;
 	let maxPage: number = 20;
 	let rangeMin: number = 1;
+	let list = [];
+	let loading = true;
 
-	let addEvent: () => void;
+	onMount(() => {
+		getEvents(1);
+	});
+
+	const getEvents = (page: number) => {
+		loading = true;
+
+		let option = { pageSize: 10 };
+		option["pageNum"] = page;
+		if (searchQuery !== "") {
+			option["title"] = searchQuery;
+		}
+		if (selectedStatus.value === -1) {
+			option["useYn"] = selectedStatus.value;
+		}
+
+		APIs.getManager(option).then((res) => {
+			if (res.status === 200) {
+				list = res.data.content;
+				maxPage = res.data.totalPages;
+				loading = false;
+			} else {
+				alert("불러오기 에러!");
+			}
+		});
+		curPage = page;
+	};
+	const search = () => {
+		getEvents(1);
+		curPage = 1;
+		rangeMin = 1;
+	};
+
+	let addEvent: () => void = () => {
+		push("/event/new");
+	};
 </script>
 
 <SearchLayout>
 	<SpaceBetween gap="20px" alignItems="end">
-		<Search onEnter={() => console.log(searchQuery)} value={searchQuery} />
+		<Search onEnter={search} value={searchQuery} />
 		<TransparentSelect lists={sortStatus} selected={selectedStatus} />
 	</SpaceBetween>
 	<GreyBackgroundButton

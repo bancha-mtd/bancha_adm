@@ -23,7 +23,7 @@
 		fontSize="16px">수정</GreyBackgroundButton
 	>
 </SearchLayout>
-<DetailPanelLayout padding={true}>
+<DetailPanelLayout padding={true} marginBottom={true}>
 	<DetailRow title="키워드" head={true}>
 		<BorderedInput fontSize="16px" width="80%" bind:value={text} />
 	</DetailRow>
