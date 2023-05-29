@@ -1,7 +1,9 @@
 <script lang="ts">
+  import type { SelectType } from "../../utils/Types";
+
 	export let name: string;
-	export let value: any;
-	export let lists: any[];
+	export let value: SelectType;
+	export let lists: SelectType[];
 	export let width: string = "150px";
 	export let height: string = "50px";
 	export let fontSize: string = "18px";
@@ -16,8 +18,8 @@
 				type="radio"
 				{name}
 				value={element}
-				on:change={(e) => {
-					value = e.currentTarget.value;
+				on:change={() => {
+					value = element;
 				}}
 			/>
 			{element.name}</label
