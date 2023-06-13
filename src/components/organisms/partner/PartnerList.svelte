@@ -89,6 +89,7 @@
 		curPage = page;
 	};
 	let addPartner = () => {
+		
 		push("/partner/new");
 	};
 

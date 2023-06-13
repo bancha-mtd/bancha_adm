@@ -12,7 +12,8 @@
 	import LabeledBorderedInput from "../../molecules/detail/LabeledBorderedInput.svelte";
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
-
+	import APIs from "../../utils/APIs";
+	
 	export let itemId: string;
 
 	let partnerGrade = [
@@ -111,7 +112,49 @@
 		profileImg: "",
 		thumb1: [],
 	};
+	const add = () => {
+		let itemformat = {
+			partnerId : item.id,
+			password : item.password,
+			bizname : item.nickname,
+			ceoName : item.ceo,
+			managerId : item.manager,
+			certification : true,
+			bizNumber : item.bizNumber,
+			bankNumber : item.bizAccountBank,
+			subTitle : item.partnerInfoTitle,
+			description : item.partnerInfo,
+			cellphone : item.phone,
+			address : item.address,
+			pees : item.fee,
+			useYn : true,
+			remark : "",
+			state : 0,
 
+		};
+
+		let frm = new FormData();
+		frm.append(
+			"partner",
+			new Blob([JSON.stringify(itemformat)], { type: "application/json" })
+		);
+		frm.append("thumbnail", "test");
+		frm.append("image", "test");
+		APIs.editEvent(frm).then((res) => {
+			if (res.status === 200) {
+				alert("수정 완료");
+			} else {
+				alert("오류가 발생했습니다.");
+			}
+			const formDataObject = {};
+			for (const [key, value] of frm) {
+			formDataObject[key] = value;
+			}
+
+			console.log(JSON.stringify(formDataObject));
+		return;
+	});
+	}
 	const modifyItem = () => {
 		console.log(item);
 		return;

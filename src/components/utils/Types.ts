@@ -145,9 +145,9 @@ export interface FAQItem {
 export interface EventItem {
 	id: number;
 	title: string;
-	startDate: string;
+	fromDate: string;
 	endDate: string;
-	views: number;
+	viewCnt: number;
 }
 
 export interface BannerItem {

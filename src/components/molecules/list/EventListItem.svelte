@@ -7,16 +7,16 @@
 	export let item: EventItem = {
 		id: -1,
 		title: "제목",
-		startDate: "시작",
+		fromDate: "시작",
 		endDate: "끝",
-		views: 0,
+		viewCnt: 0,
 	};
 </script>
 
 <ListItemLayout>
 	<Text width="15%">{item.id}</Text>
 	<LinkedText to="/event/{item.id}" width="40%">{item.title}</LinkedText>
-	<Text width="15%">{item.startDate}</Text>
+	<Text width="15%">{item.fromDate}</Text>
 	<Text width="15%">{item.endDate}</Text>
-	<Text width="15%">{item.views}</Text>
+	<Text width="15%">{item.viewCnt}</Text>
 </ListItemLayout>

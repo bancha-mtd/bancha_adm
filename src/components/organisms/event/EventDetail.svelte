@@ -10,36 +10,95 @@
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 	import type { SelectType } from "../../utils/Types";
 	import Radio from "../../molecules/detail/Radio.svelte";
+    import FlexCol from "../../atoms/layouts/FlexCol.svelte";
+    import Image from "../../atoms/images/Image.svelte";
+	import APIs from "../../utils/APIs";
+	import { onMount } from 'svelte';
 
 	export let itemId: string;
+	let tfile: Blob;
+	let dfile: Blob;
 
-	let place: SelectType[] = [
-		{ id: 1, name: "메인 배너", value: 1 },
-		{ id: 2, name: "이벤트 배너 1", value: 2 },
-		{ id: 3, name: "메인 배너", value: 3 },
-	];
+	const tfileHandler = (e) => {
+		tfile = e.target.files[0];
+		item.titleImg = URL.createObjectURL(tfile);
+	};
+	const dfileHandler = (e) => {
+		dfile = e.target.files[0];
+		item.detailImg = URL.createObjectURL(dfile);
+	};
+
 	let item = {
 		id: -1,
 		title: "",
-		active: {},
-		activePlace: place[0],
-		startDate: "",
+		fromDate: "",
 		endDate: "",
 		detailImg: "",
 		titleImg: "",
+		useYn : true,
 	};
 
+	
 	const deleteItem = () => {
 		return;
 	};
 	const addItem = () => {
-		console.log(item);
+		delete item.titleImg;
+		delete item.detailImg;
+		delete item.id;
+		delete item.useYn;
+
+		let frm = new FormData();
+		frm.append("thumbnail", tfile);
+		frm.append("image", dfile);
+		frm.append(
+			"req",
+			new Blob([JSON.stringify(item)], { type: "application/json" })
+		);
+
+		APIs.addEvent(frm).then((res) => {
+			if (res.status === 200) {
+				alert("등록 완료");
+			} else {
+				alert("오류가 발생했습니다.");
+			}
+		});
 		return;
 	};
+
+	let eventId;
+	onMount(() => {
+	const urlParts = window.location.href.split('/');
+	eventId = urlParts[urlParts.length - 1];
+	});
+
 	const modifyItem = () => {
-		console.log(item);
+		delete item.titleImg;
+		delete item.detailImg;
+		delete item.id;
+
+		let frm = new FormData();
+		frm.append(
+			"req",
+			new Blob([JSON.stringify(item)], { type: "application/json" })
+		);
+		frm.append("thumbnail", tfile);
+		frm.append("image", dfile);
+
+		APIs.editEvent(frm, eventId).then((res) => {
+			if (res.status === 200) {
+				alert("수정 완료");
+			} else {
+				alert("오류가 발생했습니다.");
+			}
+			const formDataObject = {};
+			for (const [key, value] of frm) {
+			formDataObject[key] = value;
+			}
+			//console.log(JSON.stringify(formDataObject));
 		return;
-	};
+	});
+}
 </script>
 
 <SpaceEnd gap="10px" marginBottom="20px">
@@ -53,8 +112,8 @@
 		width="50px"
 		height="30px"
 		fontSize="16px"
-		onClick={item.id !== -1 ? modifyItem : addItem}
-		>{#if item.id !== -1}수정{:else}등록{/if}</GreyBackgroundButton
+		onClick={eventId !== "new" ? modifyItem : addItem}
+		>{#if eventId !== "new"}수정{:else}등록{/if}</GreyBackgroundButton
 	>
 </SpaceEnd>
 <DetailPanelLayout height="calc(100vh - 190px)">
@@ -69,32 +128,12 @@
 	<DetailRow title="제목">
 		<BorderedInput fontSize="16px" width="80%" bind:value={item.title} />
 	</DetailRow>
-	<DetailRow title="노출">
-		<Radio
-			name="active"
-			bind:value={item.active}
-			height="30px"
-			width="80px"
-			fontSize="16px"
-			lists={[
-				{ id: 1, name: "예" },
-				{ id: 0, name: "아니오" },
-			]}
-		/>
-	</DetailRow>
-	<DetailRow title="노출위치">
-		<Select
-			lists={place}
-			bind:selected={item.activePlace}
-			fontSize="16px"
-			height="30px"
-		/>
-	</DetailRow>
+
 	<DetailRow title="시작일자">
 		<BorderedInput
 			fontSize="16px"
 			type="datetime-local"
-			bind:value={item.startDate}
+			bind:value={item.fromDate}
 		/>
 	</DetailRow>
 	<DetailRow title="종료일자">
@@ -105,19 +144,25 @@
 		/>
 	</DetailRow>
 	<DetailRow title="상세페이지">
-		<BorderedInput
-			fontSize="16px"
-			width="500px"
-			type="file"
-			bind:value={item.detailImg}
-		/>
+		<FlexCol
+			><Image width="70%" height="350px" src={item.detailImg} />
+			<input
+				accept="image/*"
+				type="file"
+				bind:value={dfile}
+				on:change={dfileHandler}
+			/>
+		</FlexCol>
 	</DetailRow>
 	<DetailRow title="제목이미지">
-		<BorderedInput
-			fontSize="16px"
-			width="500px"
+		<FlexCol
+		><Image width="70%" height="350px" src={item.titleImg} />
+		<input
+			accept="image/*"
 			type="file"
-			bind:value={item.titleImg}
+			bind:value={tfile}
+			on:change={tfileHandler}
 		/>
+	</FlexCol>
 	</DetailRow>
 </DetailPanelLayout>

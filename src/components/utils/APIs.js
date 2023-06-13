@@ -156,9 +156,39 @@ const Requests = {
 			});
 		return response;
 	},
+	addItem : async (obj) => {
+		const response = await instance
+			.post("/admin/product/add/v2", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+
+	getGroupdeal: async (obj) => {
+		const response = await instance
+			.post("/admin/product/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+
+
 	getExhibition: async (obj) => {
 		const response = await instance
 			.post("/admin/product/plan/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	addExhibition: async (obj) => {
+		const response = await instance
+			.post("/admin/product/plan/add", obj)
 			.catch((e) => {
 				console.log(e);
 				return e.response;
@@ -271,6 +301,15 @@ const Requests = {
 			});
 		return response;
 	},
+	addPartner: async (obj) => {
+		const response = await instance
+			.post("/admin/partner/partner/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getManager: async (obj) => {
 		const response = await instance
 			.post("/admin/manager/list", obj)
@@ -338,6 +377,33 @@ const Requests = {
 			});
 		return response;
 	},
+	getEvent: async (obj) => {
+		const response = await instance
+			.post("/admin/event/list", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	addEvent: async (obj) => {
+		const response = await instance
+			.post("/admin/event/add", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
+	editEvent: async (obj, id) => {
+		const response = await instance
+			.post(`/admin/event/edit/${id}`, obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getBanner: async (obj) => {
 		const response = await instance
 			.post("/admin/banner/list", obj)
@@ -347,7 +413,7 @@ const Requests = {
 			});
 		return response;
 	},
-	getBannerDetail: async (id) => {
+	getBannerDetail: async (id, obj) => {
 		const response = await instance.get(`/admin/banner/${id}`).catch((e) => {
 			console.log(e);
 			return e.response;
@@ -400,6 +466,7 @@ const Requests = {
 			});
 		return response;
 	},
+	
 };
 
 export default Requests;

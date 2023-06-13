@@ -13,6 +13,7 @@
 	import APIs from "../../utils/APIs";
 	import type { SelectType } from "../../utils/Types";
 	import { onMount } from "svelte";
+	import Loading from "../../molecules/loading/Loading.svelte";
 
 	let sortStatus: SelectType[] = [
 		{ id: 1, name: "전체", value: -1 },
@@ -36,20 +37,15 @@
 	const getEvents = (page: number) => {
 		loading = true;
 
-		let option = { pageSize: 10 };
+		let option = { pageSize: 10, pageNum: 1 };
 		option["pageNum"] = page;
-		if (searchQuery !== "") {
-			option["title"] = searchQuery;
-		}
-		if (selectedStatus.value === -1) {
-			option["useYn"] = selectedStatus.value;
-		}
 
-		APIs.getManager(option).then((res) => {
+		APIs.getEvent(option).then((res) => {
 			if (res.status === 200) {
 				list = res.data.content;
 				maxPage = res.data.totalPages;
 				loading = false;
+				console.log(res)
 			} else {
 				alert("불러오기 에러!");
 			}
@@ -88,7 +84,13 @@
 		<GreyText width="15%">종료일자</GreyText>
 		<GreyText width="15%">조회수</GreyText>
 	</ListItemLayout>
-	<EventListItem />
+	{#if loading}
+		<Loading />
+	{:else}
+		{#each list as item}
+			<EventListItem {item} />
+		{/each}
+	{/if}
 </ListLayout>
 
 <PageSelector {curPage} {maxPage} {rangeMin} />

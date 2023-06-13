@@ -16,11 +16,36 @@
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 	import BoldText from "../../atoms/texts/BoldText.svelte";
 	import type { SelectType } from "../../utils/Types";
-  import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
-
+	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
+  	import APIs from "../../utils/APIs";
 	export let itemId: string;
+	import Image from "../../atoms/images/Image.svelte";
+	import { onMount } from 'svelte';
 
-	let managers: string[];
+	let tfile: Blob;
+	let dfile: Blob;
+	const tfileHandler = (e) => {
+		tfile = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile);
+	};
+	const dfileHandler = (e) => {
+		dfile = e.target.files[0];
+		item.detailImage= URL.createObjectURL(dfile);
+	};
+	let categoryNames = [];
+	let refundTypes = [];
+	let bizNames = [];
+	let managers = [];
+
+	onMount(async () => {
+    const response = await fetch('http://3.38.18.168/admin/product/add-product-form');
+    const data = await response.json();
+    categoryNames = Object.entries(data.categoryNames);
+    refundTypes = Object.entries(data.refundTypes);
+    bizNames = Object.entries(data.bizNames);
+    managers = Object.entries(data.managers);
+  });
+
 	let partners: string[];
 	let categories: SelectType[] = [{ id: -1, name: "", value: -1 }];
 	let targets: SelectType[] = [{id: 1, name: "키즈", value: "kids"}, {id: 2, name: "키즈패밀리", value: "kidsfamily"}, {id: 3, name: "부모", value: "parent"}];
@@ -32,15 +57,11 @@
 				{ id: 1, name: "예약 확정 대기", value: 1 },
 				{ id: 2, name: "예약 자동 확정", value: 2 },
 			];
-	let refundTypes: SelectType[] = [
-				{ id: 1, name: "환불 불가", value: 1 },
-				{ id: 2, name: "당일 환불 100%", value: 2 },
-				{ id: 2, name: "1일전 환불 100%", value: 3 },
-				{ id: 2, name: "3일전 환불 100%", value: 4 },
-				{ id: 2, name: "7일전 환불 100%", value: 5 },]
+
 	let discountedPercentage = 0;
 	let item = {
-		id: -1,
+		id: "",
+		partnerId: -1,
 		manager: "",
 		partner: "",
 		category1: categories[0],
@@ -82,15 +103,130 @@
 		sigungu: "",
 		postcode: "",
 		address: "",
-		refundType: refundTypes[0]
+		refundType: refundTypes[0],
+
+		facilities: ""
 	};
 
 	const deleteItem = () => {
 		return;
 	};
 	const addItem = () => {
-		console.log(item);
+		const combinedValue = `${item.peopleStandard} 기준 ${item.peopleMin}인 ~ ${item.peopleMax}인`;
+
+		
+
+		let newitem = {
+			categoryIds: [
+				"2"
+			],
+			product: {
+				partnerId: 1064, // *파트너 ID 고정(있어야하는듯)
+				title: item.title,
+				subTitle: item.subtitle,
+				basicUserInfo: "최소 1명, 최대 4명", // 위 컴바인 벨류 수정필요
+				autoConfirm: true, // 뭔지 모름
+				reservationDay: "1111110", // *숫자 7개 고정 월~일 되는거1 안되는거 0 처리하기
+				facilities: item.facilities, 
+				address: item.address,
+				postNum: item.postcode,
+				addr: item.sigungu,
+				programContentText: "프로그램 요약",
+				include: "포함",
+				exclude: "불포함",
+				recommendAge: "12세",
+				productText: "상품 상세 설명", //인풋은 구현 api 수정후 연결
+				useYn: true,
+				remark: "string",
+				useMinute: 120,
+				checkList: "체크해주세요", // 공지사항 연결하면 될듯
+				latitude: "0",
+				longitude: "0",
+				refundTypeId: 0,
+				refundImageUrl: "string", // 파일이라 구현 x api 수정후 구현
+				prePrice: 55000,
+				afterPrice: 50000,
+				maxAge: 15,
+				minAge: 10,
+				random_show: "n", // 뭐 넣어야할지 모르겠음
+				managerId: 590,
+				manualLabel: "", // 이것도 모르겠음
+				programSummary: "요약", // ..?
+				target: "키즈패밀리",
+				isBanchaPlaning: true,
+				isDiscounted: true,
+				randomShow: "y" // ㅁㄴㅇㄹ
+			},
+			excludingDateList: [
+				"2023-07-26"
+			],
+			saleList: [
+				{
+				options: [
+					{
+					time: "옵션1",
+					price: 20000,
+					stock: 10,
+					seq: 1,
+					additionalOptions: [
+						{
+						title: "옵션1-1",
+						price: 5000,
+						stock: 10
+						},
+						{
+						title: "옵션1-2",
+						price: 10000,
+						stock: 10
+						}
+					]
+					},
+					{
+					time: "옵션2",
+					price: 25000,
+					stock: 10,
+					seq: 1,
+					additionalOptions: [
+						{
+						title: "옵션2-1",
+						price: 7000,
+						stock: 10
+						},
+						{
+						title: "옵션2-2",
+						price: 12000,
+						stock: 10
+						},
+					],
+					},
+				],
+				},
+			],
+		};
+		let frm = new FormData();
+		frm.append(
+			"req",
+			new Blob([JSON.stringify(newitem)], { type: "application/json" })
+		);
+		frm.append("productDescriptionImg",dfile)
+		frm.append("thumbnailImages", dfile)
+
+		APIs.addItem(frm).then((res) => {
+			if (res.status === 200) {
+				alert("등록 완료");
+			} else {
+				alert("오류가 발생했습니다.");
+			}
+		});
+		for (const pair of frm.entries()) {
+  		//console.log(pair[0], pair[1]);
+		}
+		console.log(JSON.stringify(newitem));
+		console.log(frm.get("productDescriptionImg"));
+		console.log(frm.get("thumbnailImages"));
 		return;
+
+
 	};
 	const modifyItem = () => {
 		console.log(item);
@@ -133,8 +269,8 @@
 		width="50px"
 		height="30px"
 		fontSize="16px"
-		onClick={item.manager !== "" ? modifyItem : addItem}
-		>{item.manager !== "" ? "수정" : "등록"}</GreyBackgroundButton
+		onClick={addItem}
+		>등록</GreyBackgroundButton
 	>
 	<YellowBackgroundButton
 		onClick={preview}
@@ -156,15 +292,25 @@
 		/>
 	</DetailRow>
 	<DetailRow title="담당자">
-		<BorderedInput list="manager" bind:value={item.manager} />
-		<!-- <datalist id="manager">
-			<option value="이나" /><option value="아리" /><option
-				value="메이"
-			/><option value="딘" /></datalist
-		> -->
-	</DetailRow>
-	<DetailRow title="파트너">
-		<BorderedInput list="partner" bind:value={item.partner} />
+		<select bind:value={item.manager}>
+		  <option value="">담당자 선택</option>
+		  {#each managers as [id, name]}
+			<option value={id}>{name}</option>
+		  {/each}
+		</select>
+	  </DetailRow>
+	  
+	  <DetailRow title="파트너">
+		<select bind:value={item.partner}>
+		  <option value="">파트너 선택</option>
+		  {#each Object.entries(bizNames) as [id, name]}
+			<option value={id}>{name}</option>
+		  {/each}
+		</select>
+	  </DetailRow>
+	  
+	<DetailRow title="시설 종류">
+		<BorderedInput list="facilities" bind:value={item.facilities} />
 		<!-- <datalist id="manager">
 			<option value="이나" /><option value="아리" /><option
 				value="메이"
@@ -275,7 +421,7 @@
 			/>
 		</SpaceAround>
 	</DetailRow>
-	<DetailRow title="소요시간">
+	<DetailRow title="소요시">
 		<LabeledBorderedInput pre="" post="시간" bind:value={item.estimatedTime} />
 	</DetailRow>
 	<DetailRow title="자동확정여부">
@@ -375,8 +521,16 @@
 		<div />
 	</DetailRow>
 	<div class="title"><BoldText fontSize="20px">상세정보</BoldText></div>
-	<DetailRow title="상세 이미지" >
-		<BorderedInput type="file" bind:value={item.detailImage} width="500px" />
+	<DetailRow title="상세 이미지">
+		<FlexCol
+		><Image width="70%" height="350px" src={item.detailImage} />
+		<input
+			accept="image/*"
+			type="file"
+			bind:value={dfile}
+			on:change={dfileHandler}
+		/>
+	</FlexCol>
 	</DetailRow>
 	<DetailRow title="선생님 소개">
 		<BorderedTextArea bind:value={item.teacherIntro} height="300px" />
@@ -406,13 +560,14 @@
 		</FlexCol>
 	</DetailRow>
 	<DetailRow title="취소 및 환불규정">
-		<Select
-				lists={refundTypes}
-				selected={item.refundType}
-				fontSize="16px"
-				height="30px"
-			/>
-	</DetailRow>
+		<select bind:value={item.refundType}>
+		  <option value="">규정 선택</option>
+		  {#each refundTypes as [id, text]}
+			<option value={id}>{text}</option>
+		  {/each}
+		</select>
+	  </DetailRow>
+	  
 	
 </DetailPanelLayout>
 
