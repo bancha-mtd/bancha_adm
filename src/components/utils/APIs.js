@@ -156,7 +156,14 @@ const Requests = {
 			});
 		return response;
 	},
-	addItem : async (obj) => {
+	getItemDetail: async (id, obj) => {
+		const response = await instance.get(`/admin/product/${id}`).catch((e) => {
+			console.log(e);
+			return e.response;
+		});
+		return response;
+	},
+	addItem: async (obj) => {
 		const response = await instance
 			.post("/admin/product/add/v2", obj)
 			.catch((e) => {
@@ -165,7 +172,15 @@ const Requests = {
 			});
 		return response;
 	},
-
+	editItem: async (obj) => {
+		const response = await instance
+			.post("/admin/product/edit", obj)
+			.catch((e) => {
+				console.log(e);
+				return e.response;
+			});
+		return response;
+	},
 	getGroupdeal: async (obj) => {
 		const response = await instance
 			.post("/admin/product/list", obj)
@@ -466,7 +481,7 @@ const Requests = {
 			});
 		return response;
 	},
-	
+
 };
 
 export default Requests;
