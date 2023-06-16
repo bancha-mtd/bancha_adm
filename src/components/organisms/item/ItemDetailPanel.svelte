@@ -17,46 +17,82 @@
 	import BoldText from "../../atoms/texts/BoldText.svelte";
 	import type { SelectType } from "../../utils/Types";
 	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
-  	import APIs from "../../utils/APIs";
+	import APIs from "../../utils/APIs";
 	export let itemId: string;
 	import Image from "../../atoms/images/Image.svelte";
-	import { onMount } from 'svelte';
+	import { onMount } from "svelte";
+	import BorderedList from "../../atoms/lists/BorderedList.svelte";
+	import RandomItemPanel from "../category/RandomItemPanel.svelte";
+	import Flex from "../../atoms/layouts/Flex.svelte";
+	import { construct_svelte_component } from "svelte/internal";
 
-	let tfile: Blob;
 	let dfile: Blob;
-	const tfileHandler = (e) => {
-		tfile = e.target.files[0];
-		item.detailImage = URL.createObjectURL(tfile);
-	};
+	let tfile1: Blob;
+	let tfile2: Blob;
+	let tfile3: Blob;
+	let tfile4: Blob;
+	let tfile5: Blob;
 	const dfileHandler = (e) => {
 		dfile = e.target.files[0];
-		item.detailImage= URL.createObjectURL(dfile);
+		item.detailImage = URL.createObjectURL(dfile);
 	};
+
+	const tfileHandler1 = (e) => {
+		tfile1 = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile1);
+	};
+	const tfileHandler2 = (e) => {
+		tfile2 = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile2);
+	};
+	const tfileHandler3 = (e) => {
+		tfile3 = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile3);
+	};
+	const tfileHandler4 = (e) => {
+		tfile4 = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile4);
+	};
+	const tfileHandler5 = (e) => {
+		tfile5 = e.target.files[0];
+		item.detailImage = URL.createObjectURL(tfile5);
+	};
+
 	let categoryNames = [];
 	let refundTypes = [];
 	let bizNames = [];
 	let managers = [];
 
 	onMount(async () => {
-    const response = await fetch('http://3.38.18.168/admin/product/add-product-form');
-    const data = await response.json();
-    categoryNames = Object.entries(data.categoryNames);
-    refundTypes = Object.entries(data.refundTypes);
-    bizNames = Object.entries(data.bizNames);
-    managers = Object.entries(data.managers);
-  });
+		const response = await fetch(
+			"http://3.38.18.168/admin/product/add-product-form"
+		);
+		const data = await response.json();
+		categoryNames = Object.entries(data.categoryNames);
+		refundTypes = Object.entries(data.refundTypes);
+		bizNames = Object.entries(data.bizNames); // 파트너
+		managers = Object.entries(data.managers); // 담당자
+	});
 
 	let partners: string[];
 	let categories: SelectType[] = [{ id: -1, name: "", value: -1 }];
-	let targets: SelectType[] = [{id: 1, name: "키즈", value: "kids"}, {id: 2, name: "키즈패밀리", value: "kidsfamily"}, {id: 3, name: "부모", value: "parent"}];
-	let types: SelectType[]=[
-				{ id: 1, name: "반차 기획", value: 1 },
-				{ id: 2, name: "판매자 기획", value: 2 },
-			];
-	let autoConfirms:SelectType[] = [
-				{ id: 1, name: "예약 확정 대기", value: 1 },
-				{ id: 2, name: "예약 자동 확정", value: 2 },
-			];
+	let targets: SelectType[] = [
+		{ id: 1, name: "키즈", value: "kids" },
+		{ id: 2, name: "키즈패밀리", value: "kidsfamily" },
+		{ id: 3, name: "부모", value: "parent" },
+	];
+	let types: SelectType[] = [
+		{ id: 1, name: "반차 기획", value: 1 },
+		{ id: 2, name: "판매자 기획", value: 2 },
+	];
+	let randoms: SelectType[] = [
+		{ id: 1, name: "노출", value: 1 },
+		{ id: 2, name: "숨김", value: 2 },
+	];
+	let autoConfirms: SelectType[] = [
+		{ id: 1, name: "예약 확정 대기", value: 1 },
+		{ id: 2, name: "예약 자동 확정", value: 2 },
+	];
 
 	let discountedPercentage = 0;
 	let item = {
@@ -105,7 +141,130 @@
 		address: "",
 		refundType: refundTypes[0],
 
-		facilities: ""
+		facilities: "",
+		lat: "",
+		long: "",
+		summary: "",
+		random: randoms[0],
+		excludingDate: "",
+	};
+
+	let optiontitle1 = "";
+	let optiontitle2 = "";
+	let optiontitle3 = "";
+	let additionaltitle = "";
+
+	const maxOptions = 10;
+
+	let options = [{ value: "", details: [""] }];
+	let options2 = [{ value: "", details: [""] }];
+	let options3 = [{ value: "", details: [""] }];
+	let options4 = [{ value: "", details: [""] }]; // 추가 옵션
+
+	function addDetail(option, index) {
+		if (option[index].details.length < maxOptions) {
+			option[index].details = [...option[index].details, ""];
+		}
+		options = [...options];
+		options2 = [...options2];
+		options3 = [...options3];
+		options4 = [...options4];
+	}
+
+	function removeDetail(option, optionIndex, detailIndex) {
+		if (option[optionIndex].details.length > 1) {
+			option[optionIndex].details = option[optionIndex].details.filter(
+				(_, i) => i !== detailIndex
+			);
+		}
+		options = [...options];
+		options2 = [...options2];
+		options3 = [...options3];
+		options4 = [...options4];
+	}
+
+	let tableData = [];
+	let tableData2 = [];
+	let showTable = false;
+	let showTable2 = false;
+
+	function generateTable() {
+		const option1Details = options[0].details.filter(
+			(detail) => detail.trim() !== ""
+		);
+		const option2Details = options2[0].details.filter(
+			(detail) => detail.trim() !== ""
+		);
+		const option3Details = options3[0].details.filter(
+			(detail) => detail.trim() !== ""
+		);
+
+		tableData = [];
+		for (let i = 0; i < option1Details.length; i++) {
+			for (let j = 0; j < option2Details.length; j++) {
+				for (let k = 0; k < option3Details.length; k++) {
+					const option1Detail = option1Details[i];
+					const option2Detail = option2Details[j];
+					const option3Detail = option3Details[k];
+
+					tableData.push({
+						optionValue: `${option1Detail} > ${option2Detail} > ${option3Detail}`,
+						price: "",
+						stock: "",
+					});
+				}
+			}
+		}
+		showTable = true;
+	}
+
+	function generateTable2() {
+		const option4Details = options4[0].details.filter(
+			(detail) => detail.trim() !== ""
+		);
+
+		tableData2 = [];
+		for (let i = 0; i < option4Details.length; i++) {
+			const option4Detail = option4Details[i];
+
+			tableData2.push({
+				title: `${option4Detail}`,
+				price: "",
+				stock: "",
+			});
+		}
+		showTable2 = true;
+	}
+
+	function handlePriceInput(event, itemIndex) {
+		tableData[itemIndex].price = event.target.value;
+	}
+
+	function handleStockInput(event, itemIndex) {
+		tableData[itemIndex].stock = event.target.value;
+	}
+	let lastSegment = "";
+
+	onMount(() => {
+		const url = window.location.href;
+		const segments = url.split("/");
+		lastSegment = segments[segments.length - 1];
+		if (itemId !== "new") getItem();
+		itemId = lastSegment;
+	});
+
+	const getItem = () => {
+		APIs.getItemDetail(itemId).then((res) => {
+			const responseData = res.data;
+			const allowedKeys = Object.keys(item);
+			for (const key in responseData) {
+				if (allowedKeys.includes(key)) {
+					item[key] = responseData[key];
+				}
+			}
+			console.log(responseData);
+			console.log(item);
+		});
 	};
 
 	const deleteItem = () => {
@@ -114,102 +273,64 @@
 	const addItem = () => {
 		const combinedValue = `${item.peopleStandard} 기준 ${item.peopleMin}인 ~ ${item.peopleMax}인`;
 
-		
-
 		let newitem = {
-			categoryIds: [
-				"2"
-			],
+			categoryIds: ["2"],
 			product: {
-				partnerId: 1064, // *파트너 ID 고정(있어야하는듯)
+				partnerId: 1046, // 테스트용이라 고정
 				title: item.title,
 				subTitle: item.subtitle,
-				basicUserInfo: "최소 1명, 최대 4명", // 위 컴바인 벨류 수정필요
-				autoConfirm: true, // 뭔지 모름
+				basicUserInfo: combinedValue,
+				autoConfirm: item.autoConfirm.value,
 				reservationDay: "1111110", // *숫자 7개 고정 월~일 되는거1 안되는거 0 처리하기
-				facilities: item.facilities, 
+				facilities: item.facilities,
 				address: item.address,
 				postNum: item.postcode,
 				addr: item.sigungu,
-				programContentText: "프로그램 요약",
-				include: "포함",
-				exclude: "불포함",
-				recommendAge: "12세",
-				productText: "상품 상세 설명", //인풋은 구현 api 수정후 연결
-				useYn: true,
-				remark: "string",
-				useMinute: 120,
-				checkList: "체크해주세요", // 공지사항 연결하면 될듯
-				latitude: "0",
-				longitude: "0",
-				refundTypeId: 0,
+				programContentText: item.itemPoint,
+				include: item.includes,
+				exclude: item.excludes,
+				recommendAge: item.ageStandard,
+				productText: "", // 보류
+				useYn: true, // 라디오 버튼 활성화 비활성화
+				remark: "string", // 보류
+				useMinute: item.estimatedTime,
+				checkList: item.notice, // 공지사항 붙여둠
+				latitude: item.lat,
+				longitude: item.long,
+				refundTypeId: 0, // 아래거 할때 같이할게
 				refundImageUrl: "string", // 파일이라 구현 x api 수정후 구현
-				prePrice: 55000,
-				afterPrice: 50000,
-				maxAge: 15,
-				minAge: 10,
-				random_show: "n", // 뭐 넣어야할지 모르겠음
-				managerId: 590,
-				manualLabel: "", // 이것도 모르겠음
-				programSummary: "요약", // ..?
-				target: "키즈패밀리",
+				prePrice: item.price,
+				afterPrice: item.discountedPrice,
+				maxAge: item.ageMax,
+				minAge: item.ageMin,
+				managerId: 590, // 테스트 끝나면 매니저 id 넣기
+				manualLabel: item.label,
+				programSummary: "", // 보류
+				target: item.target.name,
 				isBanchaPlaning: true,
 				isDiscounted: true,
-				randomShow: "y" // ㅁㄴㅇㄹ
+				randomShow: item.random.name, // 노출 숨김 넣어둠
 			},
 			excludingDateList: [
-				"2023-07-26"
+				"2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
 			],
-			saleList: [
-				{
-				options: [
-					{
-					time: "옵션1",
-					price: 20000,
-					stock: 10,
-					seq: 1,
-					additionalOptions: [
-						{
-						title: "옵션1-1",
-						price: 5000,
-						stock: 10
-						},
-						{
-						title: "옵션1-2",
-						price: 10000,
-						stock: 10
-						}
-					]
-					},
-					{
-					time: "옵션2",
-					price: 25000,
-					stock: 10,
-					seq: 1,
-					additionalOptions: [
-						{
-						title: "옵션2-1",
-						price: 7000,
-						stock: 10
-						},
-						{
-						title: "옵션2-2",
-						price: 12000,
-						stock: 10
-						},
-					],
-					},
-				],
-				},
-			],
+			saleList: {
+				optionTitleKeys: [optiontitle1, optiontitle2, optiontitle3],
+				options: tableData,
+			},
+			additionalOptionList: tableData2,
 		};
 		let frm = new FormData();
 		frm.append(
 			"req",
 			new Blob([JSON.stringify(newitem)], { type: "application/json" })
 		);
-		frm.append("productDescriptionImg",dfile)
-		frm.append("thumbnailImages", dfile)
+		frm.append("productDescriptionImg", dfile); // 상품상세 이미지 프론트 추가해야함
+		frm.append("thumbnailImages", tfile1);
+		frm.append("thumbnailImages", tfile2);
+		frm.append("thumbnailImages", tfile3);
+		frm.append("thumbnailImages", tfile4);
+		frm.append("thumbnailImages", tfile5);
 
 		APIs.addItem(frm).then((res) => {
 			if (res.status === 200) {
@@ -218,17 +339,14 @@
 				alert("오류가 발생했습니다.");
 			}
 		});
-		for (const pair of frm.entries()) {
-  		//console.log(pair[0], pair[1]);
-		}
 		console.log(JSON.stringify(newitem));
-		console.log(frm.get("productDescriptionImg"));
-		console.log(frm.get("thumbnailImages"));
+		for (const pair of frm.entries()) {
+			console.log(pair);
+		}
 		return;
-
-
 	};
 	const modifyItem = () => {
+		let frm = new FormData();
 		console.log(item);
 		return;
 	};
@@ -239,7 +357,6 @@
 		(100 * (Number(item.price) - Number(item.discountedPrice))) /
 		Number(item.price);
 
-		
 	function findAddr() {
 		new daum.Postcode({
 			oncomplete: function (data) {
@@ -269,8 +386,7 @@
 		width="50px"
 		height="30px"
 		fontSize="16px"
-		onClick={addItem}
-		>등록</GreyBackgroundButton
+		onClick={addItem}>등록</GreyBackgroundButton
 	>
 	<YellowBackgroundButton
 		onClick={preview}
@@ -293,22 +409,22 @@
 	</DetailRow>
 	<DetailRow title="담당자">
 		<select bind:value={item.manager}>
-		  <option value="">담당자 선택</option>
-		  {#each managers as [id, name]}
-			<option value={id}>{name}</option>
-		  {/each}
+			<option value="">담당자 선택</option>
+			{#each managers as [id, name]}
+				<option value={id}>{name}</option>
+			{/each}
 		</select>
-	  </DetailRow>
-	  
-	  <DetailRow title="파트너">
+	</DetailRow>
+
+	<DetailRow title="파트너">
 		<select bind:value={item.partner}>
-		  <option value="">파트너 선택</option>
-		  {#each Object.entries(bizNames) as [id, name]}
-			<option value={id}>{name}</option>
-		  {/each}
+			<option value="">파트너 선택</option>
+			{#each Object.entries(bizNames) as [id, name]}
+				<option value={id}>{name}</option>
+			{/each}
 		</select>
-	  </DetailRow>
-	  
+	</DetailRow>
+
 	<DetailRow title="시설 종류">
 		<BorderedInput list="facilities" bind:value={item.facilities} />
 		<!-- <datalist id="manager">
@@ -341,11 +457,11 @@
 	</DetailRow>
 	<DetailRow title="타겟">
 		<Select
-				lists={targets}
-				selected={item.target}
-				fontSize="16px"
-				height="30px"
-			/>
+			lists={targets}
+			selected={item.target}
+			fontSize="16px"
+			height="30px"
+		/>
 	</DetailRow>
 	<DetailRow title="유형">
 		<Radio
@@ -356,14 +472,35 @@
 			lists={types}
 		/>
 	</DetailRow>
+	<DetailRow title="유형">
+		<Radio
+			name="random"
+			bind:value={item.random}
+			height="30px"
+			fontSize="16px"
+			lists={randoms}
+		/>
+	</DetailRow>
 	<DetailRow title="상품명">
-		<BorderedInput alignCenter={false} width="80%" bind:value={item.title} />
+		<BorderedInput
+			alignCenter={false}
+			width="80%"
+			bind:value={item.title}
+		/>
 	</DetailRow>
 	<DetailRow title="부제목">
-		<BorderedInput alignCenter={false} width="80%" bind:value={item.subtitle} />
+		<BorderedInput
+			alignCenter={false}
+			width="80%"
+			bind:value={item.subtitle}
+		/>
 	</DetailRow>
 	<DetailRow title="해시태그">
-		<BorderedInput alignCenter={false} width="80%" bind:value={item.hashtags} />
+		<BorderedInput
+			alignCenter={false}
+			width="80%"
+			bind:value={item.hashtags}
+		/>
 	</DetailRow>
 	<DetailRowLayout>
 		<div class="half">
@@ -422,7 +559,11 @@
 		</SpaceAround>
 	</DetailRow>
 	<DetailRow title="소요시">
-		<LabeledBorderedInput pre="" post="시간" bind:value={item.estimatedTime} />
+		<LabeledBorderedInput
+			pre=""
+			post="시간"
+			bind:value={item.estimatedTime}
+		/>
 	</DetailRow>
 	<DetailRow title="자동확정여부">
 		<Radio
@@ -463,47 +604,49 @@
 			>미사용 시 빈칸으로 유지</LightGreyText
 		>
 	</DetailRow>
+
 	<DetailRow title="썸네일">
 		<FlexCol gap="10px">
-			<LabeledBorderedInput
-				pre="1번"
-				post=""
-				width="700px"
-				preWidth="70px"
-				bind:value={item.thumbnail01}
+			<Image width="70%" height="350px" src={item.thumbnail01} />
+			<input
+				type="file"
+				accept="image/*"
+				bind:value={tfile1}
+				on:change={tfileHandler1}
 			/>
-			<LabeledBorderedInput
-				pre="2번"
-				post=""
-				width="700px"
-				preWidth="70px"
-				bind:value={item.thumbnail02}
+			<Image width="70%" height="350px" src={item.thumbnail02} /><input
+				type="file"
+				accept="image/*"
+				bind:value={tfile2}
+				on:change={tfileHandler2}
 			/>
-			<LabeledBorderedInput
-				pre="3번"
-				post=""
-				width="700px"
-				preWidth="70px"
-				bind:value={item.thumbnail03}
+			<Image width="70%" height="350px" src={item.thumbnail03} />
+			<input
+				type="file"
+				accept="image/*"
+				bind:value={tfile3}
+				on:change={tfileHandler3}
 			/>
-			<LabeledBorderedInput
-				pre="4번"
-				post=""
-				width="700px"
-				preWidth="70px"
-				bind:value={item.thumbnail04}
+			<Image width="70%" height="350px" src={item.thumbnail04} />
+			<input
+				type="file"
+				accept="image/*"
+				bind:value={tfile4}
+				on:change={tfileHandler4}
 			/>
-			<LabeledBorderedInput
-				pre="5번"
-				post=""
-				width="700px"
-				preWidth="70px"
-				bind:value={item.thumbnail04}
+			<Image width="70%" height="350px" src={item.thumbnail05} />
+			<input
+				type="file"
+				accept="image/*"
+				bind:value={tfile5}
+				on:change={tfileHandler5}
 			/>
 		</FlexCol>
 	</DetailRow>
 
-	<div class="title"><BoldText fontSize="20px">캘린더(옵션 및 재고)</BoldText></div>
+	<div class="title">
+		<BoldText fontSize="20px">캘린더(옵션 및 재고)</BoldText>
+	</div>
 	<DetailRow title="요일">
 		<CheckBox
 			name="activeDay"
@@ -515,22 +658,268 @@
 		/>
 	</DetailRow>
 	<DetailRow title="예외일정">
+		<BorderedTextArea bind:value={item.excludingDate} height="30px" />
 		<div />
 	</DetailRow>
-	<DetailRow title="예외일정">
-		<div />
+
+	<DetailRow title="옵션1">
+		<BorderedInput bind:value={optiontitle1} fontSize="16px" />
+		<div style="width:20px" />
+
+		{#each options as option, optionIndex}
+			<div>
+				<FlexCol gap="10px" />
+
+				{#each option.details as detail, detailIndex}
+					<div>
+						<BorderedInput
+							bind:value={detail}
+							placeholder="상세 정보"
+							width="500px"
+						/>
+
+						{#if detailIndex === option.details.length - 1}
+							{#if option.details.length < maxOptions}
+								<button
+									on:click={() =>
+										addDetail(options, optionIndex)}
+									>+</button
+								>
+							{/if}
+						{:else}
+							<button
+								on:click={() =>
+									removeDetail(
+										options,
+										optionIndex,
+										detailIndex
+									)}>x</button
+							>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/each}
 	</DetailRow>
+
+	<DetailRow title="옵션2">
+		<BorderedInput bind:value={optiontitle2} fontSize="16px" />
+		<div style="width:20px" />
+
+		{#each options2 as option, optionIndex}
+			<div>
+				<FlexCol gap="10px" />
+
+				{#each option.details as detail, detailIndex}
+					<div>
+						<BorderedInput
+							bind:value={detail}
+							placeholder="상세 정보"
+							width="500px"
+						/>
+
+						{#if detailIndex === option.details.length - 1}
+							{#if option.details.length < maxOptions}
+								<button
+									on:click={() =>
+										addDetail(options2, optionIndex)}
+									>+</button
+								>
+							{/if}
+						{:else}
+							<button
+								on:click={() =>
+									removeDetail(
+										options2,
+										optionIndex,
+										detailIndex
+									)}>x</button
+							>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</DetailRow>
+
+	<DetailRow title="옵션3">
+		<BorderedInput bind:value={optiontitle3} fontSize="16px" />
+		<div style="width:20px" />
+
+		{#each options3 as option, optionIndex}
+			<div>
+				<FlexCol gap="10px" />
+
+				{#each option.details as detail, detailIndex}
+					<div>
+						<BorderedInput
+							bind:value={detail}
+							placeholder="상세 정보"
+							width="500px"
+						/>
+
+						{#if detailIndex === option.details.length - 1}
+							{#if option.details.length < maxOptions}
+								<button
+									on:click={() =>
+										addDetail(options3, optionIndex)}
+									>+</button
+								>
+							{/if}
+						{:else}
+							<button
+								on:click={() =>
+									removeDetail(
+										options3,
+										optionIndex,
+										detailIndex
+									)}>x</button
+							>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</DetailRow>
+	<div class="centered">
+		<GreyBackgroundButton
+			fontSize="12px"
+			height="30px"
+			width="150px"
+			onClick={generateTable}>테이블 생성</GreyBackgroundButton
+		>
+	</div>
+	<br />
+	{#if showTable && tableData.length > 0}
+		<table>
+			<thead>
+				<tr>
+					<th>옵션</th>
+					<th>가격</th>
+					<th>재고</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each tableData as item, itemIndex}
+					<tr>
+						<td>{item.optionValue}</td>
+						<td>
+							<input
+								type="text"
+								value={item.price || ""}
+								on:input={(event) =>
+									handlePriceInput(event, itemIndex)}
+							/>
+						</td>
+						<td>
+							<input
+								type="text"
+								value={item.stock || ""}
+								on:input={(event) =>
+									handleStockInput(event, itemIndex)}
+							/>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{/if}
+
+	<DetailRow title="추가 옵션">
+		<BorderedInput bind:value={additionaltitle} fontSize="16px" />
+		<div style="width:20px" />
+
+		{#each options4 as option, optionIndex}
+			<div>
+				<FlexCol gap="10px" />
+
+				{#each option.details as detail, detailIndex}
+					<div>
+						<BorderedInput
+							bind:value={detail}
+							placeholder="상세 정보"
+							width="500px"
+						/>
+
+						{#if detailIndex === option.details.length - 1}
+							{#if option.details.length < maxOptions}
+								<button
+									on:click={() =>
+										addDetail(options4, optionIndex)}
+									>+</button
+								>
+							{/if}
+						{:else}
+							<button
+								on:click={() =>
+									removeDetail(
+										options4,
+										optionIndex,
+										detailIndex
+									)}>x</button
+							>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</DetailRow>
+
+	<div class="centered">
+		<GreyBackgroundButton
+			fontSize="12px"
+			height="30px"
+			width="150px"
+			onClick={generateTable2}>테이블 생성</GreyBackgroundButton
+		>
+	</div>
+	<br />
+	{#if showTable2 && tableData2.length > 0}
+		<table>
+			<thead>
+				<tr>
+					<th>옵션</th>
+					<th>가격</th>
+					<th>재고</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each tableData2 as item, itemIndex}
+					<tr>
+						<td>{item.title}</td>
+						<td>
+							<input
+								type="text"
+								value={item.price || ""}
+								on:input={(event) =>
+									handlePriceInput(event, itemIndex)}
+							/>
+						</td>
+						<td>
+							<input
+								type="text"
+								value={item.stock || ""}
+								on:input={(event) =>
+									handleStockInput(event, itemIndex)}
+							/>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	{/if}
+
 	<div class="title"><BoldText fontSize="20px">상세정보</BoldText></div>
 	<DetailRow title="상세 이미지">
 		<FlexCol
-		><Image width="70%" height="350px" src={item.detailImage} />
-		<input
-			accept="image/*"
-			type="file"
-			bind:value={dfile}
-			on:change={dfileHandler}
-		/>
-	</FlexCol>
+			><Image width="70%" height="350px" src={item.detailImage} />
+			<input
+				accept="image/*"
+				type="file"
+				bind:value={dfile}
+				on:change={dfileHandler}
+			/>
+		</FlexCol>
 	</DetailRow>
 	<DetailRow title="선생님 소개">
 		<BorderedTextArea bind:value={item.teacherIntro} height="300px" />
@@ -541,34 +930,40 @@
 	<DetailRow title="시간표">
 		<BorderedTextArea bind:value={item.timeTable} height="300px" />
 	</DetailRow>
-	<DetailRow title="체크리스트">
-		<BorderedTextArea bind:value={item.checkList} height="300px" />
-	</DetailRow>
 	<div class="title"><BoldText fontSize="20px">기타정보</BoldText></div>
 	<DetailRow title="위치">
 		<FlexCol gap="10px">
-			<div><BorderedInput
-				bind:value={item.postcode}
-				click={findAddr}
-				fontSize="16px"
-			/>	<BorderedInput bind:value={item.sigungu} fontSize="16px" /></div>
-			<BorderedInput
-					bind:value={item.address}
+			<div>
+				<BorderedInput
+					bind:value={item.postcode}
+					click={findAddr}
 					fontSize="16px"
-					width="600px"
 				/>
+				<BorderedInput bind:value={item.sigungu} fontSize="16px" />
+			</div>
+			<BorderedInput
+				bind:value={item.address}
+				fontSize="16px"
+				width="600px"
+			/>
+		</FlexCol>
+	</DetailRow>
+	<DetailRow title="위도/경도">
+		<FlexCol gap="10px">
+			<div>
+				<BorderedInput bind:value={item.lat} fontSize="16px" />
+				<BorderedInput bind:value={item.long} fontSize="16px" />
+			</div>
 		</FlexCol>
 	</DetailRow>
 	<DetailRow title="취소 및 환불규정">
 		<select bind:value={item.refundType}>
-		  <option value="">규정 선택</option>
-		  {#each refundTypes as [id, text]}
-			<option value={id}>{text}</option>
-		  {/each}
+			<option value="">규정 선택</option>
+			{#each refundTypes as [id, text]}
+				<option value={id}>{text}</option>
+			{/each}
 		</select>
-	  </DetailRow>
-	  
-	
+	</DetailRow>
 </DetailPanelLayout>
 
 <style>
@@ -581,5 +976,21 @@
 		background-color: #b9b9b9;
 		color: white;
 		padding: 20px;
+	}
+	table {
+		border-collapse: collapse;
+	}
+
+	th,
+	td {
+		border: 1px solid black;
+		padding: 8px;
+	}
+	.centered {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100vh;
 	}
 </style>
