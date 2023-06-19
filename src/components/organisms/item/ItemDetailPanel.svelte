@@ -65,7 +65,7 @@
 
   onMount(async () => {
     const response = await fetch(
-      "http://3.38.18.168/admin/product/add-product-form"
+      "https://adminmtd.bancha.kr/admin/product/add-product-form"
     );
     const data = await response.json();
     categoryNames = Object.entries(data.categoryNames);
