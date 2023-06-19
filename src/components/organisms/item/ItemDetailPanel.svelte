@@ -62,20 +62,35 @@
   let refundTypes = [];
   let bizNames = [];
   let managers = [];
+  let categories: SelectType[] = [];
 
   onMount(async () => {
-    const response = await fetch(
-      "https://adminmtd.bancha.kr/admin/product/add-product-form"
-    );
-    const data = await response.json();
-    categoryNames = Object.entries(data.categoryNames);
-    refundTypes = Object.entries(data.refundTypes);
-    bizNames = Object.entries(data.bizNames); // 파트너
-    managers = Object.entries(data.managers); // 담당자
+    const data = await APIs.getItemForm();
+    categoryNames = Object.entries(data.data.categoryNames);
+    refundTypes = Object.entries(data.data.refundTypes);
+    bizNames = Object.entries(data.data.bizNames); // 파트너
+    managers = Object.entries(data.data.managers); // 담당자
+    //// 테스트 중 catergory랑 같은 형태로 배열 선언해야 value값 제대로 뽑아오기 가능
+    //DB 수정후 req 요청보낼때 등록해야함
+    /*console.log("수정전"); 
+    console.log(bizNames); 
+    console.log(managers);
+
+        for (const [id, name] of bizNames) {
+      const bizId = parseInt(id, 10);
+      bizNames.push({ id, name, value: bizId });
+    }
+    console.log("비즈네임");
+    console.log(bizNames);
+    */
+    for (const [id, name] of categoryNames) {
+      const categoryId = parseInt(id, 10);
+      categories.push({ id: categoryId, name: name, value: categoryId });
+    }
   });
 
   let partners: string[];
-  let categories: SelectType[] = [{ id: -1, name: "", value: -1 }];
+
   let targets: SelectType[] = [
     { id: 1, name: "키즈", value: "kids" },
     { id: 2, name: "키즈패밀리", value: "kidsfamily" },
@@ -100,9 +115,9 @@
     partnerId: -1,
     manager: "",
     partner: "",
-    category1: categories[0],
-    category2: categories[0],
-    category3: categories[0],
+    category1: "",
+    category2: "",
+    category3: "",
     target: targets[0],
     type: types[0],
     title: "",
@@ -187,7 +202,6 @@
   let tableData2 = [];
   let showTable = false;
   let showTable2 = false;
-
   function generateTable() {
     const option1Details = options[0].details.filter(
       (detail) => detail.trim() !== ""
@@ -200,22 +214,53 @@
     );
 
     tableData = [];
-    for (let i = 0; i < option1Details.length; i++) {
-      for (let j = 0; j < option2Details.length; j++) {
-        for (let k = 0; k < option3Details.length; k++) {
+
+    if (option1Details.length > 0) {
+      if (option2Details.length > 0 && option3Details.length > 0) {
+        for (let i = 0; i < option1Details.length; i++) {
+          for (let j = 0; j < option2Details.length; j++) {
+            for (let k = 0; k < option3Details.length; k++) {
+              const option1Detail = option1Details[i];
+              const option2Detail = option2Details[j];
+              const option3Detail = option3Details[k];
+
+              tableData.push({
+                optionValue: `${option1Detail} > ${option2Detail} > ${option3Detail}`,
+                price: "",
+                stock: "",
+              });
+            }
+          }
+        }
+      } else if (option2Details.length > 0) {
+        for (let i = 0; i < option1Details.length; i++) {
+          for (let j = 0; j < option2Details.length; j++) {
+            const option1Detail = option1Details[i];
+            const option2Detail = option2Details[j];
+
+            tableData.push({
+              optionValue: `${option1Detail} > ${option2Detail}`,
+              price: "",
+              stock: "",
+            });
+          }
+        }
+      } else {
+        for (let i = 0; i < option1Details.length; i++) {
           const option1Detail = option1Details[i];
-          const option2Detail = option2Details[j];
-          const option3Detail = option3Details[k];
 
           tableData.push({
-            optionValue: `${option1Detail} > ${option2Detail} > ${option3Detail}`,
+            optionValue: option1Detail,
             price: "",
             stock: "",
           });
         }
       }
+
+      showTable = true;
+    } else {
+      showTable = false;
     }
-    showTable = true;
   }
 
   function generateTable2() {
@@ -262,8 +307,8 @@
           item[key] = responseData[key];
         }
       }
-      console.log(responseData);
-      console.log(item);
+      //console.log(responseData);
+      //console.log(item);
     });
   };
 
@@ -272,16 +317,19 @@
   };
   const addItem = () => {
     const combinedValue = `${item.peopleStandard} 기준 ${item.peopleMin}인 ~ ${item.peopleMax}인`;
+    let activeDayString = item.activeDay
+      .map((day) => (day ? "1" : "0"))
+      .join("");
 
     let newitem = {
       categoryIds: ["2"],
       product: {
-        partnerId: 1046, // 테스트용이라 고정
+        partnerId: 1046, // DB수정후 등록할 예정
         title: item.title,
         subTitle: item.subtitle,
         basicUserInfo: combinedValue,
         autoConfirm: item.autoConfirm.value,
-        reservationDay: "1111110", // *숫자 7개 고정 월~일 되는거1 안되는거 0 처리하기
+        reservationDay: activeDayString,
         facilities: item.facilities,
         address: item.address,
         postNum: item.postcode,
@@ -292,18 +340,18 @@
         recommendAge: item.ageStandard,
         productText: "", // 보류
         useYn: true, // 라디오 버튼 활성화 비활성화
-        remark: "string", // 보류
+        remark: "string", // 일단 냅둠
         useMinute: item.estimatedTime,
         checkList: item.notice, // 공지사항 붙여둠
         latitude: item.lat,
         longitude: item.long,
-        refundTypeId: 0, // 아래거 할때 같이할게
-        refundImageUrl: "string", // 파일이라 구현 x api 수정후 구현
+        refundTypeId: item.refundType,
+        refundImageUrl: "string", // 미구현api 일단 냅둠
         prePrice: item.price,
         afterPrice: item.discountedPrice,
         maxAge: item.ageMax,
         minAge: item.ageMin,
-        managerId: 590, // 테스트 끝나면 매니저 id 넣기
+        managerId: 590, // DB수정후 등록할 예정
         manualLabel: item.label,
         programSummary: "", // 보류
         target: item.target.name,
@@ -410,7 +458,7 @@
   <DetailRow title="담당자">
     <select bind:value={item.manager}>
       <option value="">담당자 선택</option>
-      {#each managers as [id, name]}
+      {#each Object.entries(managers) as [id, name]}
         <option value={id}>{name}</option>
       {/each}
     </select>
@@ -424,35 +472,29 @@
       {/each}
     </select>
   </DetailRow>
-
   <DetailRow title="시설 종류">
     <BorderedInput list="facilities" bind:value={item.facilities} />
-    <!-- <datalist id="manager">
-			<option value="이나" /><option value="아리" /><option
-				value="메이"
-			/><option value="딘" /></datalist
-		> -->
   </DetailRow>
   <DetailRow title="카테고리">
     <SpaceAround gap="30px">
-      <Select
-        lists={categories}
-        selected={item.category1}
-        fontSize="16px"
-        height="30px"
-      />
-      <Select
-        lists={categories}
-        selected={item.category2}
-        fontSize="16px"
-        height="30px"
-      />
-      <Select
-        lists={categories}
-        selected={item.category3}
-        fontSize="16px"
-        height="30px"
-      />
+      <select bind:value={item.category1}>
+        <option value="">카테고리1 선택</option>
+        {#each Object.entries(categoryNames) as [id, name]}
+          <option value={id}>{name}</option>
+        {/each}
+      </select>
+      <select bind:value={item.category2}>
+        <option value="">카테고리2 선택</option>
+        {#each Object.entries(categoryNames) as [id, name]}
+          <option value={id}>{name}</option>
+        {/each}
+      </select>
+      <select bind:value={item.category3}>
+        <option value="">카테고리3 선택</option>
+        {#each Object.entries(categoryNames) as [id, name]}
+          <option value={id}>{name}</option>
+        {/each}
+      </select>
     </SpaceAround>
   </DetailRow>
   <DetailRow title="타겟">
@@ -591,40 +633,66 @@
 
   <DetailRow title="썸네일">
     <FlexCol gap="10px">
-      <Image width="70%" height="350px" src={item.thumbnail01} />
-      <input
-        type="file"
-        accept="image/*"
-        bind:value={tfile1}
-        on:change={tfileHandler1}
-      />
-      <Image width="70%" height="350px" src={item.thumbnail02} /><input
-        type="file"
-        accept="image/*"
-        bind:value={tfile2}
-        on:change={tfileHandler2}
-      />
-      <Image width="70%" height="350px" src={item.thumbnail03} />
-      <input
-        type="file"
-        accept="image/*"
-        bind:value={tfile3}
-        on:change={tfileHandler3}
-      />
-      <Image width="70%" height="350px" src={item.thumbnail04} />
-      <input
-        type="file"
-        accept="image/*"
-        bind:value={tfile4}
-        on:change={tfileHandler4}
-      />
-      <Image width="70%" height="350px" src={item.thumbnail05} />
-      <input
-        type="file"
-        accept="image/*"
-        bind:value={tfile5}
-        on:change={tfileHandler5}
-      />
+      <Flex gap="10px">
+        <input
+          type="file"
+          accept="image/*"
+          bind:value={tfile1}
+          on:change={tfileHandler1}
+        />
+        {#if item.thumbnail01 != null}
+          <Image width="70%" height="350px" src={item.thumbnail01} />
+        {/if}
+      </Flex>
+
+      <Flex gap="10px">
+        <input
+          type="file"
+          accept="image/*"
+          bind:value={tfile2}
+          on:change={tfileHandler2}
+        />
+        {#if item.thumbnail02 != null}
+          <Image width="70%" height="350px" src={item.thumbnail02} />
+        {/if}
+      </Flex>
+
+      <Flex gap="10px">
+        <input
+          type="file"
+          accept="image/*"
+          bind:value={tfile3}
+          on:change={tfileHandler3}
+        />
+        {#if item.thumbnail03 != null}<Image
+            width="70%"
+            height="350px"
+            src={item.thumbnail03}
+          />{/if}
+      </Flex>
+
+      <Flex gap="10px">
+        <input
+          type="file"
+          accept="image/*"
+          bind:value={tfile4}
+          on:change={tfileHandler4}
+        />
+        {#if item.thumbnail04 != null}
+          <Image width="70%" height="350px" src={item.thumbnail04} />
+        {/if}
+      </Flex>
+
+      <Flex gap="10px">
+        <input
+          type="file"
+          accept="image/*"
+          bind:value={tfile5}
+          on:change={tfileHandler5}
+        />
+        {#if item.thumbnail05 != null}
+          <Image width="70%" height="350px" src={item.thumbnail05} />{/if}
+      </Flex>
     </FlexCol>
   </DetailRow>
 
@@ -642,8 +710,7 @@
     />
   </DetailRow>
   <DetailRow title="예외일정">
-    <BorderedTextArea bind:value={item.excludingDate} height="30px" />
-    <div />
+    <BorderedInput bind:value={item.excludingDate} width="500px" />
   </DetailRow>
 
   <DetailRow title="옵션1">
@@ -651,36 +718,36 @@
       <BorderedInput bind:value={optiontitle1} fontSize="16px" />
       <FlexCol gap="10px">
         {#each options as option, optionIndex}
-          <div>
-            {#each option.details as detail, detailIndex}
-              <div>
-                <BorderedInput
-                  bind:value={detail}
-                  placeholder="상세 정보"
-                  width="500px"
-                />
+          {#each option.details as detail, detailIndex}
+            <Flex gap="10px">
+              <BorderedInput
+                bind:value={detail}
+                placeholder="상세 정보"
+                width="700px"
+              />
 
-                {#if detailIndex === option.details.length - 1}
-                  {#if option.details.length < maxOptions}
-                    <GreyBackgroundButton
-                      width="50px"
-                      height="30px"
-                      onClick={() => addDetail(options, optionIndex)}
-                      >추가</GreyBackgroundButton
-                    >
-                  {/if}
-                {:else}
+              {#if detailIndex === option.details.length - 1}
+                {#if option.details.length < maxOptions}
                   <GreyBackgroundButton
                     width="50px"
                     height="30px"
-                    onClick={() =>
-                      removeDetail(options, optionIndex, detailIndex)}
-                    >삭제</GreyBackgroundButton
+                    fontSize="14px"
+                    onClick={() => addDetail(options, optionIndex)}
+                    >추가</GreyBackgroundButton
                   >
                 {/if}
-              </div>
-            {/each}
-          </div>
+              {:else}
+                <GreyBackgroundButton
+                  width="50px"
+                  height="30px"
+                  fontSize="14px"
+                  onClick={() =>
+                    removeDetail(options, optionIndex, detailIndex)}
+                  >삭제</GreyBackgroundButton
+                >
+              {/if}
+            </Flex>
+          {/each}
         {/each}</FlexCol
       ></Flex
     >
@@ -692,36 +759,36 @@
 
       <FlexCol gap="10px">
         {#each options2 as option, optionIndex}
-          <div>
-            {#each option.details as detail, detailIndex}
-              <div>
-                <BorderedInput
-                  bind:value={detail}
-                  placeholder="상세 정보"
-                  width="500px"
-                />
+          {#each option.details as detail, detailIndex}
+            <Flex gap="10px">
+              <BorderedInput
+                bind:value={detail}
+                placeholder="상세 정보"
+                width="700px"
+              />
 
-                {#if detailIndex === option.details.length - 1}
-                  {#if option.details.length < maxOptions}
-                    <GreyBackgroundButton
-                      width="50px"
-                      height="30px"
-                      onClick={() => addDetail(options2, optionIndex)}
-                      >추가</GreyBackgroundButton
-                    >
-                  {/if}
-                {:else}
+              {#if detailIndex === option.details.length - 1}
+                {#if option.details.length < maxOptions}
                   <GreyBackgroundButton
                     width="50px"
                     height="30px"
-                    onClick={() =>
-                      removeDetail(options2, optionIndex, detailIndex)}
-                    >삭제</GreyBackgroundButton
+                    fontSize="14px"
+                    onClick={() => addDetail(options2, optionIndex)}
+                    >추가</GreyBackgroundButton
                   >
                 {/if}
-              </div>
-            {/each}
-          </div>
+              {:else}
+                <GreyBackgroundButton
+                  width="50px"
+                  height="30px"
+                  fontSize="14px"
+                  onClick={() =>
+                    removeDetail(options2, optionIndex, detailIndex)}
+                  >삭제</GreyBackgroundButton
+                >
+              {/if}
+            </Flex>
+          {/each}
         {/each}</FlexCol
       ></Flex
     >
@@ -733,43 +800,43 @@
 
       <FlexCol gap="10px">
         {#each options3 as option, optionIndex}
-          <div>
-            {#each option.details as detail, detailIndex}
-              <div>
-                <BorderedInput
-                  bind:value={detail}
-                  placeholder="상세 정보"
-                  width="500px"
-                />
+          {#each option.details as detail, detailIndex}
+            <Flex gap="10px">
+              <BorderedInput
+                bind:value={detail}
+                placeholder="상세 정보"
+                width="700px"
+              />
 
-                {#if detailIndex === option.details.length - 1}
-                  {#if option.details.length < maxOptions}
-                    <GreyBackgroundButton
-                      width="50px"
-                      height="30px"
-                      onClick={() => addDetail(options3, optionIndex)}
-                      >추가</GreyBackgroundButton
-                    >
-                  {/if}
-                {:else}
+              {#if detailIndex === option.details.length - 1}
+                {#if option.details.length < maxOptions}
                   <GreyBackgroundButton
                     width="50px"
                     height="30px"
-                    onClick={() =>
-                      removeDetail(options3, optionIndex, detailIndex)}
-                    >삭제</GreyBackgroundButton
+                    fontSize="14px"
+                    onClick={() => addDetail(options3, optionIndex)}
+                    >추가</GreyBackgroundButton
                   >
                 {/if}
-              </div>
-            {/each}
-          </div>
+              {:else}
+                <GreyBackgroundButton
+                  width="50px"
+                  height="30px"
+                  fontSize="14px"
+                  onClick={() =>
+                    removeDetail(options3, optionIndex, detailIndex)}
+                  >삭제</GreyBackgroundButton
+                >
+              {/if}
+            </Flex>
+          {/each}
         {/each}</FlexCol
       ></Flex
     >
   </DetailRow>
   <div class="centered">
     <GreyBackgroundButton
-      fontSize="12px"
+      fontSize="14px"
       height="30px"
       width="150px"
       onClick={generateTable}>테이블 생성</GreyBackgroundButton
@@ -781,15 +848,15 @@
       <thead>
         <tr>
           <th>옵션</th>
-          <th>가격</th>
-          <th>재고</th>
+          <th style="width:200px">가격</th>
+          <th style="width:200px">재고</th>
         </tr>
       </thead>
       <tbody>
         {#each tableData as item, itemIndex}
           <tr>
             <td class="optionValue">{item.optionValue}</td>
-            <td>
+            <td style="width:200px">
               <input
                 class="stock"
                 type="text"
@@ -797,7 +864,7 @@
                 on:input={(event) => handlePriceInput(event, itemIndex)}
               />
             </td>
-            <td>
+            <td style="width:200px">
               <input
                 class="stock"
                 type="text"
@@ -817,36 +884,36 @@
 
       <FlexCol gap="10px">
         {#each options4 as option, optionIndex}
-          <div>
-            {#each option.details as detail, detailIndex}
-              <div>
-                <BorderedInput
-                  bind:value={detail}
-                  placeholder="상세 정보"
-                  width="500px"
-                />
+          {#each option.details as detail, detailIndex}
+            <Flex gap="10px">
+              <BorderedInput
+                bind:value={detail}
+                placeholder="상세 정보"
+                width="700px"
+              />
 
-                {#if detailIndex === option.details.length - 1}
-                  {#if option.details.length < maxOptions}
-                    <GreyBackgroundButton
-                      width="50px"
-                      height="30px"
-                      onClick={() => addDetail(options4, optionIndex)}
-                      >추가</GreyBackgroundButton
-                    >
-                  {/if}
-                {:else}
+              {#if detailIndex === option.details.length - 1}
+                {#if option.details.length < maxOptions}
                   <GreyBackgroundButton
                     width="50px"
                     height="30px"
-                    onClick={() =>
-                      removeDetail(options4, optionIndex, detailIndex)}
-                    >삭제</GreyBackgroundButton
+                    fontSize="14px"
+                    onClick={() => addDetail(options4, optionIndex)}
+                    >추가</GreyBackgroundButton
                   >
                 {/if}
-              </div>
-            {/each}
-          </div>
+              {:else}
+                <GreyBackgroundButton
+                  width="50px"
+                  height="30px"
+                  fontSize="14px"
+                  onClick={() =>
+                    removeDetail(options4, optionIndex, detailIndex)}
+                  >삭제</GreyBackgroundButton
+                >
+              {/if}
+            </Flex>
+          {/each}
         {/each}
       </FlexCol></Flex
     >
@@ -854,7 +921,7 @@
 
   <div class="centered">
     <GreyBackgroundButton
-      fontSize="12px"
+      fontSize="14px"
       height="30px"
       width="150px"
       onClick={generateTable2}>테이블 생성</GreyBackgroundButton
@@ -866,15 +933,15 @@
       <thead>
         <tr>
           <th>옵션</th>
-          <th>가격</th>
-          <th>재고</th>
+          <th style="width:200px">가격</th>
+          <th style="width:200px">재고</th>
         </tr>
       </thead>
       <tbody>
         {#each tableData2 as item, itemIndex}
           <tr>
             <td class="optionValue">{item.title}</td>
-            <td>
+            <td style="width:200px">
               <input
                 class="stock"
                 type="text"
@@ -882,7 +949,7 @@
                 on:input={(event) => handlePriceInput(event, itemIndex)}
               />
             </td>
-            <td>
+            <td style="width:10%">
               <input
                 class="stock"
                 type="text"
@@ -962,10 +1029,15 @@
   }
 
   table {
-    border-collapse: collapse;
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
+    border-spacing: 10px;
+    border: 1px solid white;
+    margin-bottom: 20px;
   }
   .optionValue {
-    background-color: #cecece;
+    background-color: #eeeeee;
     border-radius: 10px;
     padding: 10px;
   }
@@ -973,6 +1045,7 @@
     border: 1px solid #cecece;
     font-size: 16px;
     padding: 10px;
+    width: 200px;
   }
   .centered {
     display: flex;
@@ -980,5 +1053,6 @@
     align-items: center;
     width: 100%;
     height: 100vh;
+    margin: 10px 0 10px 0;
   }
 </style>

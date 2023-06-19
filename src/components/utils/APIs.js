@@ -147,6 +147,12 @@ const Requests = {
       });
     return response;
   },
+  getItemForm: async () => {
+    const response = await instance.get("/admin/product/add-product-form").catch((e) => {
+      return e.response;
+    });
+    return response;
+  },
   getItem: async (obj) => {
     const response = await instance
       .post("/admin/product/list", obj)
