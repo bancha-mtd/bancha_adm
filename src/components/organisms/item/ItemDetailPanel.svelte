@@ -39,23 +39,23 @@
 
   const tfileHandler1 = (e) => {
     tfile1 = e.target.files[0];
-    item.detailImage = URL.createObjectURL(tfile1);
+    item.thumbnail01 = URL.createObjectURL(tfile1);
   };
   const tfileHandler2 = (e) => {
     tfile2 = e.target.files[0];
-    item.detailImage = URL.createObjectURL(tfile2);
+    item.thumbnail02 = URL.createObjectURL(tfile2);
   };
   const tfileHandler3 = (e) => {
     tfile3 = e.target.files[0];
-    item.detailImage = URL.createObjectURL(tfile3);
+    item.thumbnail03 = URL.createObjectURL(tfile3);
   };
   const tfileHandler4 = (e) => {
     tfile4 = e.target.files[0];
-    item.detailImage = URL.createObjectURL(tfile4);
+    item.thumbnail04 = URL.createObjectURL(tfile4);
   };
   const tfileHandler5 = (e) => {
     tfile5 = e.target.files[0];
-    item.detailImage = URL.createObjectURL(tfile5);
+    item.thumbnail05 = URL.createObjectURL(tfile5);
   };
 
   let categoryNames = [];
