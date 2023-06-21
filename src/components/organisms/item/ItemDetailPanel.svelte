@@ -61,6 +61,7 @@
   let categoryNames = [];
   let refundTypes = [];
   let bizNames = [];
+  let bizpartner: SelectType[] = [];
   let managers = [];
   let categories: SelectType[] = [];
 
@@ -70,19 +71,10 @@
     refundTypes = Object.entries(data.data.refundTypes);
     bizNames = Object.entries(data.data.bizNames); // 파트너
     managers = Object.entries(data.data.managers); // 담당자
-    //// 테스트 중 catergory랑 같은 형태로 배열 선언해야 value값 제대로 뽑아오기 가능
-    //DB 수정후 req 요청보낼때 등록해야함
-    /*console.log("수정전"); 
-    console.log(bizNames); 
-    console.log(managers);
-
-        for (const [id, name] of bizNames) {
-      const bizId = parseInt(id, 10);
-      bizNames.push({ id, name, value: bizId });
+    for (const [key, value] of Object.entries(bizNames)) {
+      bizpartner.push({ id: value[0], name: value[1], value: value[0] });
     }
-    console.log("비즈네임");
-    console.log(bizNames);
-    */
+
     for (const [id, name] of categoryNames) {
       const categoryId = parseInt(id, 10);
       categories.push({ id: categoryId, name: name, value: categoryId });
@@ -110,9 +102,11 @@
   ];
 
   let discountedPercentage = 0;
+  /*
   let item = {
     id: "",
     partnerId: -1,
+    managerId: -1,
     manager: "",
     partner: "",
     category1: "",
@@ -162,8 +156,71 @@
     summary: "",
     random: randoms[0],
     excludingDate: "",
-  };
+  };*/
+  let item = {
+    id: "",
+    partnerId: -1,
+    managerId: -1,
+    manager: "",
+    partner: "",
+    category1: "",
+    category2: "",
+    category3: "",
+    target: targets[0],
+    type: types[0],
+    title: "",
+    subtitle: "",
+    hashtags: "",
+    peopleStandard: "",
+    peopleMin: "",
+    peopleMax: "",
+    programSummary: "",
+    ageStandard: "",
+    ageMin: "",
+    ageMax: "",
+    estimatedTime: "",
+    autoConfirm: autoConfirms[0],
+    activeDay: [false, false, false, false, false, false, false],
+    itemPoint: "",
+    includes: "",
+    excludes: "",
+    price: "",
+    discountedPrice: "",
+    label: "",
+    notice: "",
+    thumbnail01: null,
+    thumbnail02: null,
+    thumbnail03: null,
+    thumbnail04: null,
+    thumbnail05: null,
 
+    detailImage: "",
+    teacherIntro: "",
+    curriculum: "",
+    timeTable: "",
+    checkList: "",
+
+    sigungu: "",
+    postcode: "",
+    address: "",
+    refundType: refundTypes[0],
+
+    facilities: "",
+    lat: "",
+    long: "",
+    summary: "",
+    random: randoms[0],
+    excludingDate: "",
+
+    productText: "",
+    remark: "",
+    refundImageUrl: "",
+    isBanchaPlaning: true,
+    isDiscounted: true,
+    excludingDateList: [
+      "2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
+    ],
+  };
   let optiontitle1 = "";
   let optiontitle2 = "";
   let optiontitle3 = "";
@@ -196,6 +253,35 @@
     options2 = [...options2];
     options3 = [...options3];
     options4 = [...options4];
+  }
+
+  function handleManageSelection(event) {
+    const selectedId = event.target.value;
+    const selectedValue = managers[selectedId];
+    item.managerId = parseInt(selectedValue[0], 10);
+  }
+
+  function handlePartnerSelection(event) {
+    const selectedId = event.target.value;
+    const selectedValue = bizNames[selectedId];
+    item.partnerId = parseInt(selectedValue[0], 10);
+  }
+  let c1, c2, c3: "";
+
+  function handleCartegorySelection1(event) {
+    const selectedId = event.target.value;
+    const selectedValue = categories[selectedId];
+    c1 = selectedValue.value;
+  }
+  function handleCartegorySelection2(event) {
+    const selectedId = event.target.value;
+    const selectedValue = categories[selectedId];
+    c2 = selectedValue.value;
+  }
+  function handleCartegorySelection3(event) {
+    const selectedId = event.target.value;
+    const selectedValue = categories[selectedId];
+    c3 = selectedValue.value;
   }
 
   let tableData = [];
@@ -320,11 +406,58 @@
     let activeDayString = item.activeDay
       .map((day) => (day ? "1" : "0"))
       .join("");
-
+    /*
     let newitem = {
-      categoryIds: ["2"],
+      categoryIds: [item.category1, item.category3, item.category3],
       product: {
-        partnerId: 1046, // DB수정후 등록할 예정
+        partnerId: item.partnerId,
+        title: item.title,
+        subTitle: item.subtitle,
+        basicUserInfo: combinedValue,
+        autoConfirm: item.autoConfirm.value,
+        reservationDay: activeDayString,
+        facilities: item.facilities,
+        address: item.address,
+        postNum: item.postcode,
+        addr: item.sigungu,
+        programContentText: item.itemPoint,
+        include: item.includes,
+        exclude: item.excludes,
+        recommendAge: item.ageStandard,
+        productText: item.productText, // 보류
+        useYn: true, // 라디오 버튼 활성화 비활성화
+        remark: item.remark, // 일단 냅둠
+        useMinute: item.estimatedTime,
+        checkList: item.notice, // 공지사항 붙여둠
+        latitude: item.lat,
+        longitude: item.long,
+        refundTypeId: item.refundType,
+        refundImageUrl: item.refundImageUrl, // 미구현api 일단 냅둠
+        prePrice: item.price,
+        afterPrice: item.discountedPrice,
+        maxAge: item.ageMax,
+        minAge: item.ageMin,
+        managerId: item.managerId, // DB수정후 등록할 예정
+        manualLabel: item.label,
+        programSummary: item.programSummary, // 보류
+        target: item.target.name,
+        isBanchaPlaning: item.isBanchaPlaning,
+        isDiscounted: item.isDiscounted,
+        randomShow: item.random.name, // 노출 숨김 넣어둠
+      },
+      excludingDateList: [
+        "2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
+      ],
+      saleList: {
+        optionTitleKeys: [optiontitle1, optiontitle2, optiontitle3],
+        options: tableData,
+      },
+      additionalOptionList: tableData2,
+    };*/
+    let newitem = {
+      categoryIds: [c1, c2, c3],
+      product: {
+        partnerId: item.partnerId,
         title: item.title,
         subTitle: item.subtitle,
         basicUserInfo: combinedValue,
@@ -351,7 +484,7 @@
         afterPrice: item.discountedPrice,
         maxAge: item.ageMax,
         minAge: item.ageMin,
-        managerId: 590, // DB수정후 등록할 예정
+        managerId: item.managerId, // DB수정후 등록할 예정
         manualLabel: item.label,
         programSummary: "", // 보류
         target: item.target.name,
@@ -373,6 +506,7 @@
       "req",
       new Blob([JSON.stringify(newitem)], { type: "application/json" })
     );
+
     frm.append("productDescriptionImg", dfile); // 상품상세 이미지 프론트 추가해야함
     frm.append("thumbnailImages", tfile1);
     frm.append("thumbnailImages", tfile2);
@@ -456,7 +590,7 @@
     />
   </DetailRow>
   <DetailRow title="담당자">
-    <select bind:value={item.manager}>
+    <select bind:value={item.manager} on:change={handleManageSelection}>
       <option value="">담당자 선택</option>
       {#each Object.entries(managers) as [id, name]}
         <option value={id}>{name}</option>
@@ -465,7 +599,7 @@
   </DetailRow>
 
   <DetailRow title="파트너">
-    <select bind:value={item.partner}>
+    <select bind:value={item.partner} on:change={handlePartnerSelection}>
       <option value="">파트너 선택</option>
       {#each Object.entries(bizNames) as [id, name]}
         <option value={id}>{name}</option>
@@ -477,19 +611,19 @@
   </DetailRow>
   <DetailRow title="카테고리">
     <SpaceAround gap="30px">
-      <select bind:value={item.category1}>
+      <select bind:value={item.category1} on:change={handleCartegorySelection1}>
         <option value="">카테고리1 선택</option>
         {#each Object.entries(categoryNames) as [id, name]}
           <option value={id}>{name}</option>
         {/each}
       </select>
-      <select bind:value={item.category2}>
+      <select bind:value={item.category2} on:change={handleCartegorySelection2}>
         <option value="">카테고리2 선택</option>
         {#each Object.entries(categoryNames) as [id, name]}
           <option value={id}>{name}</option>
         {/each}
       </select>
-      <select bind:value={item.category3}>
+      <select bind:value={item.category3} on:change={handleCartegorySelection3}>
         <option value="">카테고리3 선택</option>
         {#each Object.entries(categoryNames) as [id, name]}
           <option value={id}>{name}</option>
@@ -709,8 +843,12 @@
       lists={["월", "화", "수", "목", "금", "토", "일"]}
     />
   </DetailRow>
+
   <DetailRow title="예외일정">
     <BorderedInput bind:value={item.excludingDate} width="500px" />
+    <GreyBackgroundButton width="80px" height="30px" fontSize="14px"
+      >달력 선택</GreyBackgroundButton
+    >
   </DetailRow>
 
   <DetailRow title="옵션1">
