@@ -374,6 +374,13 @@
   function handleStockInput(event, itemIndex) {
     tableData[itemIndex].stock = event.target.value;
   }
+  function handlePriceInput2(event, itemIndex) {
+    tableData2[itemIndex].price = event.target.value;
+  }
+
+  function handleStockInput2(event, itemIndex) {
+    tableData2[itemIndex].stock = event.target.value;
+  }
   let lastSegment = "";
 
   onMount(() => {
@@ -525,6 +532,7 @@
     for (const pair of frm.entries()) {
       console.log(pair);
     }
+
     return;
   };
   const modifyItem = () => {
@@ -1084,7 +1092,7 @@
                 class="stock"
                 type="text"
                 value={item.price || ""}
-                on:input={(event) => handlePriceInput(event, itemIndex)}
+                on:input={(event) => handlePriceInput2(event, itemIndex)}
               />
             </td>
             <td style="width:10%">
@@ -1092,7 +1100,7 @@
                 class="stock"
                 type="text"
                 value={item.stock || ""}
-                on:input={(event) => handleStockInput(event, itemIndex)}
+                on:input={(event) => handleStockInput2(event, itemIndex)}
               />
             </td>
           </tr>
