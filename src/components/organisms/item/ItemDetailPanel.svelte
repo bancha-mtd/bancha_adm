@@ -400,8 +400,18 @@
           item[key] = responseData[key];
         }
       }
-      //console.log(responseData);
-      //console.log(item);
+      const product = responseData.product;
+      for (const key in product) {
+        if (allowedKeys.includes(key)) {
+          item[key] = product[key];
+        }
+      }
+      console.log(product);
+      item.notice = product.programContentText;
+      item.detailImage = product.productImageUrl;
+      item.subtitle = product.subTitle;
+      item.price = product.prePrice;
+      item.discountedPrice = product.afterPrice;
     });
   };
 
@@ -413,91 +423,44 @@
     let activeDayString = item.activeDay
       .map((day) => (day ? "1" : "0"))
       .join("");
-    /*
-    let newitem = {
-      categoryIds: [item.category1, item.category3, item.category3],
-      product: {
-        partnerId: item.partnerId,
-        title: item.title,
-        subTitle: item.subtitle,
-        basicUserInfo: combinedValue,
-        autoConfirm: item.autoConfirm.value,
-        reservationDay: activeDayString,
-        facilities: item.facilities,
-        address: item.address,
-        postNum: item.postcode,
-        addr: item.sigungu,
-        programContentText: item.itemPoint,
-        include: item.includes,
-        exclude: item.excludes,
-        recommendAge: item.ageStandard,
-        productText: item.productText, // 보류
-        useYn: true, // 라디오 버튼 활성화 비활성화
-        remark: item.remark, // 일단 냅둠
-        useMinute: item.estimatedTime,
-        checkList: item.notice, // 공지사항 붙여둠
-        latitude: item.lat,
-        longitude: item.long,
-        refundTypeId: item.refundType,
-        refundImageUrl: item.refundImageUrl, // 미구현api 일단 냅둠
-        prePrice: item.price,
-        afterPrice: item.discountedPrice,
-        maxAge: item.ageMax,
-        minAge: item.ageMin,
-        managerId: item.managerId, // DB수정후 등록할 예정
-        manualLabel: item.label,
-        programSummary: item.programSummary, // 보류
-        target: item.target.name,
-        isBanchaPlaning: item.isBanchaPlaning,
-        isDiscounted: item.isDiscounted,
-        randomShow: item.random.name, // 노출 숨김 넣어둠
-      },
-      excludingDateList: [
-        "2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
-      ],
-      saleList: {
-        optionTitleKeys: [optiontitle1, optiontitle2, optiontitle3],
-        options: tableData,
-      },
-      additionalOptionList: tableData2,
-    };*/
+
     let newitem = {
       categoryIds: [c1, c2, c3],
       product: {
-        partnerId: item.partnerId,
-        title: item.title,
-        subTitle: item.subtitle,
-        basicUserInfo: combinedValue,
-        autoConfirm: item.autoConfirm.value,
-        reservationDay: activeDayString,
-        facilities: item.facilities,
-        address: item.address,
-        postNum: item.postcode,
-        addr: item.sigungu,
-        programContentText: item.itemPoint,
-        include: item.includes,
-        exclude: item.excludes,
-        recommendAge: item.ageStandard,
+        partnerId: item.partnerId || "",
+        title: item.title || "",
+        subTitle: item.subtitle || "",
+        //basicUserInfo: combinedValue || "",
+        autoConfirm: item.autoConfirm.value || "",
+        reservationDay: activeDayString || "",
+        facilities: item.facilities || "",
+        address: item.address || "",
+        postNum: item.postcode || "",
+        addr: item.sigungu || "",
+        programContentText: item.itemPoint || "",
+        include: item.includes || "",
+        exclude: item.excludes || "",
+        recommendAge: item.ageStandard || "",
         productText: "", // 보류
         useYn: true, // 라디오 버튼 활성화 비활성화
         remark: "string", // 일단 냅둠
-        useMinute: item.estimatedTime,
-        checkList: item.notice, // 공지사항 붙여둠
-        latitude: item.lat,
-        longitude: item.long,
-        refundTypeId: item.refundType,
+        useMinute: item.estimatedTime || "",
+        checkList: item.notice || "", // 공지사항 붙여둠
+        latitude: item.lat || "",
+        longitude: item.long || "",
+        refundTypeId: item.refundType || "",
         refundImageUrl: "string", // 미구현api 일단 냅둠
-        prePrice: item.price,
-        afterPrice: item.discountedPrice,
-        maxAge: item.ageMax,
-        minAge: item.ageMin,
-        managerId: item.managerId, // DB수정후 등록할 예정
-        manualLabel: item.label,
+        prePrice: item.price || "",
+        afterPrice: item.discountedPrice || "",
+        maxAge: item.ageMax || "",
+        minAge: item.ageMin || "",
+        managerId: item.managerId || "", // DB수정후 등록할 예정
+        manualLabel: item.label || "",
         programSummary: "", // 보류
-        target: item.target.name,
+        target: item.target.name || "",
         isBanchaPlaning: true,
         isDiscounted: true,
-        randomShow: item.random.name, // 노출 숨김 넣어둠
+        randomShow: item.random.name || "", // 노출 숨김 넣어둠
       },
       excludingDateList: [
         "2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
@@ -543,9 +506,10 @@
   const preview = () => {
     return;
   };
-  $: discountedPercentage =
+  $: discountedPercentage = Math.round(
     (100 * (Number(item.price) - Number(item.discountedPrice))) /
-    Number(item.price);
+      Number(item.price)
+  );
 
   function findAddr() {
     new daum.Postcode({
@@ -614,9 +578,7 @@
       {/each}
     </select>
   </DetailRow>
-  <DetailRow title="시설 종류">
-    <BorderedInput list="facilities" bind:value={item.facilities} />
-  </DetailRow>
+
   <DetailRow title="카테고리">
     <SpaceAround gap="30px">
       <select bind:value={item.category1} on:change={handleCartegorySelection1}>
@@ -656,7 +618,7 @@
       lists={types}
     />
   </DetailRow>
-  <DetailRow title="유형">
+  <DetailRow title="랜덤 노출여부">
     <Radio
       name="random"
       bind:value={item.random}
@@ -671,8 +633,13 @@
   <DetailRow title="부제목">
     <BorderedInput alignCenter={false} width="80%" bind:value={item.subtitle} />
   </DetailRow>
-  <DetailRow title="해시태그">
-    <BorderedInput alignCenter={false} width="80%" bind:value={item.hashtags} />
+  <DetailRow title="해쉬 태그">
+    <BorderedInput
+      alignCenter={false}
+      width="80%"
+      list="facilities"
+      bind:value={item.facilities}
+    />
   </DetailRow>
   <DetailRowLayout>
     <div class="half">
@@ -708,31 +675,6 @@
       />
     </SpaceAround>
   </DetailRow>
-  <DetailRow title="적정연령">
-    <SpaceAround gap="30px">
-      <LabeledBorderedInput
-        width="50px"
-        bind:value={item.ageStandard}
-        pre=""
-        post="세"
-      />
-      <LabeledBorderedInput
-        width="50px"
-        bind:value={item.ageMin}
-        pre="(최소"
-        post="세"
-      />
-      <LabeledBorderedInput
-        width="50px"
-        bind:value={item.ageMax}
-        pre="최대"
-        post="세)"
-      />
-    </SpaceAround>
-  </DetailRow>
-  <DetailRow title="소요시">
-    <LabeledBorderedInput pre="" post="시간" bind:value={item.estimatedTime} />
-  </DetailRow>
   <DetailRow title="자동확정여부">
     <Radio
       name="autoConfirm"
@@ -741,6 +683,26 @@
       fontSize="16px"
       lists={autoConfirms}
     />
+  </DetailRow>
+
+  <DetailRow title="소요시간">
+    <LabeledBorderedInput pre="" post="분" bind:value={item.estimatedTime} />
+  </DetailRow>
+  <DetailRow title="연령">
+    <SpaceAround gap="30px">
+      <LabeledBorderedInput
+        width="50px"
+        bind:value={item.ageMin}
+        pre="최소"
+        post="세"
+      />
+      <LabeledBorderedInput
+        width="50px"
+        bind:value={item.ageMax}
+        pre="최대"
+        post="세"
+      />
+    </SpaceAround>
   </DetailRow>
   <DetailRow title="체험포인트">
     <BorderedTextArea bind:value={item.itemPoint} />
@@ -853,10 +815,39 @@
   </DetailRow>
 
   <DetailRow title="예외일정">
-    <BorderedInput bind:value={item.excludingDate} width="500px" />
-    <GreyBackgroundButton width="80px" height="30px" fontSize="14px"
-      >달력 선택</GreyBackgroundButton
-    >
+    <Flex gap="10px">
+      <BorderedInput bind:value={item.excludingDate} width="500px" />
+
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/nanocal@0.4.0/dist/nanocal.css"
+      />
+
+      <button id="showCalendarButton">달력 보기</button>
+      <div id="nanocal" />
+
+      <script type="module">
+        // JavaScript 코드
+        import Nanocal from "https://unpkg.com/nanocal@0.4.0/dist/nanocal.min.js";
+
+        const showCalendarButton =
+          document.getElementById("showCalendarButton");
+        const nanocalContainer = document.getElementById("nanocal");
+        let nanocalInstance = null;
+
+        showCalendarButton.addEventListener("click", () => {
+          if (!nanocalInstance) {
+            nanocalInstance = new Nanocal({ target: nanocalContainer });
+            nanocalInstance.$on("selectedDay", ({ detail: day }) =>
+              console.log(day)
+            );
+          } else {
+            nanocalInstance.$destroy();
+            nanocalInstance = null;
+          }
+        });
+      </script>
+    </Flex>
   </DetailRow>
 
   <DetailRow title="옵션1">
@@ -1110,7 +1101,7 @@
   {/if}
 
   <div class="title"><BoldText fontSize="20px">상세정보</BoldText></div>
-  <DetailRow title="상세 이미지">
+  <DetailRow title="인트로 이미지">
     <FlexCol
       ><Image width="70%" height="350px" src={item.detailImage} />
       <input
@@ -1120,15 +1111,6 @@
         on:change={dfileHandler}
       />
     </FlexCol>
-  </DetailRow>
-  <DetailRow title="선생님 소개">
-    <BorderedTextArea bind:value={item.teacherIntro} height="300px" />
-  </DetailRow>
-  <DetailRow title="커리큘럼">
-    <BorderedTextArea bind:value={item.curriculum} height="300px" />
-  </DetailRow>
-  <DetailRow title="시간표">
-    <BorderedTextArea bind:value={item.timeTable} height="300px" />
   </DetailRow>
   <div class="title"><BoldText fontSize="20px">기타정보</BoldText></div>
   <DetailRow title="위치">
