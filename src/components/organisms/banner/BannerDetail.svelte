@@ -149,7 +149,11 @@
 		/>
 	</DetailRow>
 	<DetailRow title="노출순위">
-		<BorderedInput type="number" fontSize="16px" bind:value={item.priority} />
+		<BorderedInput
+			type="number"
+			fontSize="16px"
+			bind:value={item.priority}
+		/>
 	</DetailRow>
 	<DetailRow title="시작일자">
 		<GreyText width="170px" fontSize="16px"

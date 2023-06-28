@@ -92,6 +92,10 @@
     { id: 1, name: "반차 기획", value: 1 },
     { id: 2, name: "판매자 기획", value: 2 },
   ];
+  let yn: SelectType[] = [
+    { id: 1, name: "공개", value: true },
+    { id: 2, name: "비공개 ", value: false },
+  ];
   let randoms: SelectType[] = [
     { id: 1, name: "노출", value: 1 },
     { id: 2, name: "숨김", value: 2 },
@@ -102,63 +106,10 @@
   ];
 
   let discountedPercentage = 0;
-  /*
+
   let item = {
-    id: "",
-    partnerId: -1,
-    managerId: -1,
-    manager: "",
-    partner: "",
-    category1: "",
-    category2: "",
-    category3: "",
-    target: targets[0],
-    type: types[0],
-    title: "",
-    subtitle: "",
-    hashtags: "",
-    peopleStandard: "",
-    peopleMin: "",
-    peopleMax: "",
-    ageStandard: "",
-    ageMin: "",
-    ageMax: "",
-    estimatedTime: "",
-    autoConfirm: autoConfirms[0],
-    activeDay: [false, false, false, false, false, false, false],
-    itemPoint: "",
-    includes: "",
-    excludes: "",
-    price: "",
-    discountedPrice: "",
-    label: "",
-    notice: "",
-    thumbnail01: null,
-    thumbnail02: null,
-    thumbnail03: null,
-    thumbnail04: null,
-    thumbnail05: null,
-
-    detailImage: "",
-    teacherIntro: "",
-    curriculum: "",
-    timeTable: "",
-    checkList: "",
-
-    sigungu: "",
-    postcode: "",
-    address: "",
-    refundType: refundTypes[0],
-
-    facilities: "",
-    lat: "",
-    long: "",
-    summary: "",
-    random: randoms[0],
-    excludingDate: "",
-  };*/
-  let item = {
-    id: "",
+    id: -1,
+    useYn: yn[0],
     partnerId: -1,
     managerId: -1,
     manager: "",
@@ -178,16 +129,16 @@
     ageStandard: "",
     ageMin: "",
     ageMax: "",
-    estimatedTime: "",
+    useMinute: "",
     autoConfirm: autoConfirms[0],
     activeDay: [false, false, false, false, false, false, false],
     itemPoint: "",
-    includes: "",
-    excludes: "",
+    include: "",
+    exclude: "",
     price: "",
     discountedPrice: "",
     label: "",
-    notice: "",
+    checkList: "",
     thumbnail01: null,
     thumbnail02: null,
     thumbnail03: null,
@@ -407,7 +358,7 @@
         }
       }
       console.log(product);
-      item.notice = product.programContentText;
+      item.checkList = product.programContentText;
       item.detailImage = product.productImageUrl;
       item.subtitle = product.subTitle;
       item.price = product.prePrice;
@@ -438,14 +389,14 @@
         postNum: item.postcode || "",
         addr: item.sigungu || "",
         programContentText: item.itemPoint || "",
-        include: item.includes || "",
-        exclude: item.excludes || "",
+        include: item.include || "",
+        exclude: item.exclude || "",
         recommendAge: item.ageStandard || "",
         productText: "", // 보류
-        useYn: true, // 라디오 버튼 활성화 비활성화
+        useYn: item.useYn.value, // 라디오 버튼 활성화 비활성화
         remark: "string", // 일단 냅둠
-        useMinute: item.estimatedTime || "",
-        checkList: item.notice || "", // 공지사항 붙여둠
+        useMinute: item.useMinute || "",
+        checkList: item.checkList || "", // 공지사항 붙여둠
         latitude: item.lat || "",
         longitude: item.long || "",
         refundTypeId: item.refundType || "",
@@ -491,16 +442,88 @@
         alert("오류가 발생했습니다.");
       }
     });
-    console.log(JSON.stringify(newitem));
-    for (const pair of frm.entries()) {
-      console.log(pair);
-    }
+    //console.log(JSON.stringify(newitem));
 
     return;
   };
   const modifyItem = () => {
+    const combinedValue = `${item.peopleStandard} 기준 ${item.peopleMin}인 ~ ${item.peopleMax}인`;
+    let activeDayString = item.activeDay
+      .map((day) => (day ? "1" : "0"))
+      .join("");
+
+    let newitem = {
+      categoryIds: [c1, c2, c3],
+      product: {
+        id: itemId,
+        partnerId: item.partnerId || "",
+        title: item.title || "",
+        subTitle: item.subtitle || "",
+        //basicUserInfo: combinedValue || "",
+        autoConfirm: item.autoConfirm.value || "",
+        reservationDay: activeDayString || "",
+        facilities: item.facilities || "",
+        address: item.address || "",
+        postNum: item.postcode || "",
+        addr: item.sigungu || "",
+        programContentText: item.itemPoint || "",
+        include: item.include || "",
+        exclude: item.exclude || "",
+        recommendAge: item.ageStandard || "",
+        productText: "", // 보류
+        useYn: item.useYn.value,
+        remark: "string", // 일단 냅둠
+        useMinute: item.useMinute || "",
+        checkList: item.checkList || "", // 공지사항 붙여둠
+        latitude: item.lat || "",
+        longitude: item.long || "",
+        refundTypeId: item.refundType || "",
+        refundImageUrl: "string", // 미구현api 일단 냅둠
+        prePrice: item.price || "",
+        afterPrice: item.discountedPrice || "",
+        maxAge: item.ageMax || "",
+        minAge: item.ageMin || "",
+        managerId: item.managerId || "",
+        manualLabel: item.label || "",
+        programSummary: "", // 보류
+        target: item.target.name || "",
+        isBanchaPlaning: true,
+        isDiscounted: true,
+        randomShow: item.random.name || "", // 노출 숨김 넣어둠
+      },
+      excludingDateList: [
+        "2023-07-26", // 방식 확정후 넣어야함
+      ],
+      saleList: {
+        optionTitleKeys: [optiontitle1, optiontitle2, optiontitle3],
+        options: tableData,
+      },
+      additionalOptionList: tableData2,
+    };
     let frm = new FormData();
-    console.log(item);
+    frm.append(
+      "req",
+      new Blob([JSON.stringify(newitem)], { type: "application/json" })
+    );
+
+    frm.append("productDescriptionImg", dfile);
+    frm.append("thumbnailImages", tfile1);
+    frm.append("thumbnailImages", tfile2);
+    frm.append("thumbnailImages", tfile3);
+    frm.append("thumbnailImages", tfile4);
+    frm.append("thumbnailImages", tfile5);
+
+    APIs.modifyItem(frm).then((res) => {
+      if (res.status === 200) {
+        alert("등록 완료");
+      } else {
+        alert("오류가 발생했습니다.");
+      }
+    });
+    console.log(JSON.stringify(newitem));
+    for (const pair of frm.entries()) {
+      console.log(pair);
+    }
     return;
   };
   const preview = () => {
@@ -530,23 +553,20 @@
 </svelte:head>
 
 <SpaceEnd gap="10px" marginBottom="20px">
-  <div>{itemId}</div>
-  {#if item.manager !== ""}
-    <GreyBackgroundButton height="30px" fontSize="16px" onClick={deleteItem}
-      >삭제</GreyBackgroundButton
+  {#if item.id !== -1}
+    <GreyBackgroundButton
+      width="50px"
+      height="30px"
+      fontSize="16px"
+      onClick={deleteItem}>삭제</GreyBackgroundButton
     >
   {/if}
   <GreyBackgroundButton
     width="50px"
     height="30px"
     fontSize="16px"
-    onClick={addItem}>등록</GreyBackgroundButton
-  >
-  <YellowBackgroundButton
-    onClick={preview}
-    width="80px"
-    height="30px"
-    fontSize="16px">미리보기</YellowBackgroundButton
+    onClick={item.id !== -1 ? modifyItem : addItem}
+    >{item.id !== -1 ? "수정" : "등록"}</GreyBackgroundButton
   >
 </SpaceEnd>
 <DetailPanelLayout height="calc(100vh - 190px)">
@@ -559,6 +579,15 @@
       fontSize="16px"
       disabled={true}
       value={item.id.toLocaleString()}
+    />
+  </DetailRow>
+  <DetailRow title="노출 여부">
+    <Radio
+      name="type"
+      bind:value={item.useYn}
+      height="30px"
+      fontSize="16px"
+      lists={yn}
     />
   </DetailRow>
   <DetailRow title="담당자">
@@ -686,7 +715,7 @@
   </DetailRow>
 
   <DetailRow title="소요시간">
-    <LabeledBorderedInput pre="" post="분" bind:value={item.estimatedTime} />
+    <LabeledBorderedInput pre="" post="분" bind:value={item.useMinute} />
   </DetailRow>
   <DetailRow title="연령">
     <SpaceAround gap="30px">
@@ -714,19 +743,19 @@
         post=""
         width="700px"
         preWidth="70px"
-        bind:value={item.includes}
+        bind:value={item.include}
       />
       <LabeledBorderedInput
         pre="불포함"
         post=""
         width="700px"
         preWidth="70px"
-        bind:value={item.excludes}
+        bind:value={item.exclude}
       />
     </FlexCol>
   </DetailRow>
   <DetailRow title="공지사항">
-    <BorderedTextArea bind:value={item.notice} height="300px" />
+    <BorderedTextArea bind:value={item.checkList} height="300px" />
   </DetailRow>
   <DetailRow title="라벨">
     <BorderedInput bind:value={item.label} />

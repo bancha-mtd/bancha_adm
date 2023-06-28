@@ -10,10 +10,10 @@
 	import LightGreyText from "../../atoms/texts/LightGreyText.svelte";
 	import type { SelectType } from "../../utils/Types";
 	import Radio from "../../molecules/detail/Radio.svelte";
-    import FlexCol from "../../atoms/layouts/FlexCol.svelte";
-    import Image from "../../atoms/images/Image.svelte";
+	import FlexCol from "../../atoms/layouts/FlexCol.svelte";
+	import Image from "../../atoms/images/Image.svelte";
 	import APIs from "../../utils/APIs";
-	import { onMount } from 'svelte';
+	import { onMount } from "svelte";
 
 	export let itemId: string;
 	let tfile: Blob;
@@ -29,16 +29,15 @@
 	};
 
 	let item = {
-		id: -1,
+		id: "new",
 		title: "",
 		fromDate: "",
 		endDate: "",
 		detailImg: "",
 		titleImg: "",
-		useYn : true,
+		useYn: true,
 	};
 
-	
 	const deleteItem = () => {
 		return;
 	};
@@ -68,22 +67,38 @@
 
 	let eventId;
 	onMount(() => {
-	const urlParts = window.location.href.split('/');
-	eventId = urlParts[urlParts.length - 1];
+		const urlParts = window.location.href.split("/");
+		eventId = urlParts[urlParts.length - 1];
+
+		if (eventId !== "new") getItemDetail();
 	});
+
+	const getItemDetail = () => {
+		APIs.getEventDetail(eventId).then((res) => {
+			const responseData = res.data;
+			const allowedKeys = Object.keys(item);
+
+			item.id = responseData.id;
+			item.title = responseData.title;
+			item.fromDate = responseData.fromDate;
+			item.endDate = responseData.endDate;
+			item.detailImg = responseData.imageUrl;
+			item.titleImg = responseData.thumbnailUrl;
+		});
+	};
 
 	const modifyItem = () => {
 		delete item.titleImg;
 		delete item.detailImg;
-		delete item.id;
+		//delete item.useYn;
 
 		let frm = new FormData();
 		frm.append(
 			"req",
 			new Blob([JSON.stringify(item)], { type: "application/json" })
 		);
-		frm.append("thumbnail", tfile);
-		frm.append("image", dfile);
+		frm.append("thumbnail", item.titleImg);
+		frm.append("image", item.detailImg);
 
 		APIs.editEvent(frm, eventId).then((res) => {
 			if (res.status === 200) {
@@ -91,22 +106,18 @@
 			} else {
 				alert("오류가 발생했습니다.");
 			}
-			const formDataObject = {};
-			for (const [key, value] of frm) {
-			formDataObject[key] = value;
-			}
-			//console.log(JSON.stringify(formDataObject));
-		return;
-	});
-}
+			console.log(JSON.stringify(item));
+			return;
+		});
+	};
 </script>
 
 <SpaceEnd gap="10px" marginBottom="20px">
 	<div>{itemId}</div>
-	{#if item.id !== -1}
+	{#if item.id !== "new"}
 		<GreyBackgroundButton height="30px" fontSize="16px" onClick={deleteItem}
 			>삭제</GreyBackgroundButton
-		>
+		>``
 	{/if}
 	<GreyBackgroundButton
 		width="50px"
@@ -122,7 +133,7 @@
 			height="30px"
 			fontSize="16px"
 			disabled={true}
-			value={item.id.toLocaleString()}
+			value={item.id}
 		/>
 	</DetailRow>
 	<DetailRow title="제목">
@@ -156,13 +167,13 @@
 	</DetailRow>
 	<DetailRow title="제목이미지">
 		<FlexCol
-		><Image width="70%" height="350px" src={item.titleImg} />
-		<input
-			accept="image/*"
-			type="file"
-			bind:value={tfile}
-			on:change={tfileHandler}
-		/>
-	</FlexCol>
+			><Image width="70%" height="350px" src={item.titleImg} />
+			<input
+				accept="image/*"
+				type="file"
+				bind:value={tfile}
+				on:change={tfileHandler}
+			/>
+		</FlexCol>
 	</DetailRow>
 </DetailPanelLayout>

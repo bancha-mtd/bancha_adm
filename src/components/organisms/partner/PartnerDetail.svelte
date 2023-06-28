@@ -13,7 +13,9 @@
 	import LinkedText from "../../atoms/links/LinkedText.svelte";
 	import BorderedTextArea from "../../atoms/inputs/BorderedTextArea.svelte";
 	import APIs from "../../utils/APIs";
-	
+	import DetailRow from "../../molecules/detail/DetailRow.svelte";
+	import Image from "../../atoms/images/Image.svelte";
+	import FlexCol from "../../atoms/layouts/FlexCol.svelte";
 	export let itemId: string;
 
 	let partnerGrade = [
@@ -110,53 +112,63 @@
 		partnerInfoTitle: "",
 		partnerInfo: "",
 		profileImg: "",
+		partnerImg: "",
 		thumb1: [],
 	};
+
+	let file: Blob;
+	let file2: Blob;
+	const fileHandler = (e) => {
+		file = e.target.files[0];
+		item.profileImg = URL.createObjectURL(file);
+	};
+	const fileHandler2 = (e) => {
+		file2 = e.target.files[0];
+		item.partnerImg = URL.createObjectURL(file2);
+	};
+
 	const add = () => {
 		let itemformat = {
-			partnerId : item.id,
-			password : item.password,
-			bizname : item.nickname,
-			ceoName : item.ceo,
-			managerId : item.manager,
-			certification : true,
-			bizNumber : item.bizNumber,
-			bankNumber : item.bizAccountBank,
-			subTitle : item.partnerInfoTitle,
-			description : item.partnerInfo,
-			cellphone : item.phone,
-			address : item.address,
-			pees : item.fee,
-			useYn : true,
-			remark : "",
-			state : 0,
-
+			partner: {
+				partnerId: item.email,
+				password: item.password,
+				bizName: "", //??
+				ceoName: item.ceo,
+				managerId: 0,
+				certification: true,
+				bizNumber: item.bizNumber,
+				bankNumber: item.bizAccount,
+				subTitle: item.partnerInfoTitle,
+				description: item.partnerInfo,
+				cellphone: item.phone,
+				address: item.addressDetail,
+				pees: 0, // ??
+				useYn: true,
+				remark: "string", // ??
+				state: 0, // ??
+			},
 		};
 
 		let frm = new FormData();
 		frm.append(
-			"partner",
+			"req",
 			new Blob([JSON.stringify(itemformat)], { type: "application/json" })
 		);
-		frm.append("thumbnail", "test");
-		frm.append("image", "test");
-		APIs.editEvent(frm).then((res) => {
+		frm.append("profileImg", item.profileImg);
+		frm.append("partnerImg", item.partnerImg);
+
+		APIs.addPartner(frm).then((res) => {
 			if (res.status === 200) {
-				alert("수정 완료");
+				alert("등록 완료");
 			} else {
 				alert("오류가 발생했습니다.");
 			}
-			const formDataObject = {};
-			for (const [key, value] of frm) {
-			formDataObject[key] = value;
-			}
-
-			console.log(JSON.stringify(formDataObject));
-		return;
-	});
-	}
+			return;
+		});
+		//console.log(JSON.stringify(itemformat));
+	};
 	const modifyItem = () => {
-		console.log(item);
+		//console.log(item);
 		return;
 	};
 
@@ -181,10 +193,11 @@
 <SpaceBetween marginBottom="20px">
 	<BoldText fontSize="18px">파트너 정보</BoldText>
 	<GreyBackgroundButton
-		onClick={modifyItem}
+		onClick={item.id !== "new" ? modifyItem : add}
 		width="60px"
 		height="30px"
-		fontSize="16px">{itemId === "new" ? "등록" : "수정"}</GreyBackgroundButton
+		fontSize="16px"
+		>{itemId === "new" ? "등록" : "수정"}</GreyBackgroundButton
 	>
 </SpaceBetween>
 <DesignedDetailLayout>
@@ -243,10 +256,18 @@
 	</Flex>
 	<Flex>
 		<GreyBgTitledRow title="연락처 1">
-			<BorderedInput bind:value={item.phone} fontSize="16px" width="200px" />
+			<BorderedInput
+				bind:value={item.phone}
+				fontSize="16px"
+				width="200px"
+			/>
 		</GreyBgTitledRow>
 		<GreyBgTitledRow title="연락처 2">
-			<BorderedInput bind:value={item.phoneSub} fontSize="16px" width="200px" />
+			<BorderedInput
+				bind:value={item.phoneSub}
+				fontSize="16px"
+				width="200px"
+			/>
 		</GreyBgTitledRow>
 		<GreyBgTitledRow title="유선 전화">
 			<BorderedInput
@@ -363,3 +384,27 @@
 <SpaceBetween marginBottom="20px">
 	<BoldText fontSize="18px">프로필 이미지</BoldText>
 </SpaceBetween>
+
+<DetailRow title="프로필 이미지">
+	<FlexCol
+		><Image width="70%" height="350px" src={item.profileImg} />
+		<input
+			accept="image/*"
+			type="file"
+			bind:value={file}
+			on:change={fileHandler}
+		/>
+	</FlexCol>
+</DetailRow>
+
+<DetailRow title="파트너 이미지">
+	<FlexCol
+		><Image width="70%" height="350px" src={item.partnerImg} />
+		<input
+			accept="image/*"
+			type="file"
+			bind:value={file2}
+			on:change={fileHandler2}
+		/>
+	</FlexCol>
+</DetailRow>

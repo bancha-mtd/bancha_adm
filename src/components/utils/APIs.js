@@ -178,6 +178,15 @@ const Requests = {
       });
     return response;
   },
+  modifyItem: async (obj) => {
+    const response = await instance
+      .post("/admin/product/edit", obj)
+      .catch((e) => {
+        console.log(e);
+        return e.response;
+      });
+    return response;
+  },
   editItem: async (obj) => {
     const response = await instance
       .post("/admin/product/edit", obj)
@@ -323,7 +332,7 @@ const Requests = {
   },
   addPartner: async (obj) => {
     const response = await instance
-      .post("/admin/partner/partner/add", obj)
+      .post("/admin/partner/add", obj)
       .catch((e) => {
         console.log(e);
         return e.response;
@@ -420,6 +429,13 @@ const Requests = {
         console.log(e);
         return e.response;
       });
+    return response;
+  },
+  getEventDetail: async (id, obj) => {
+    const response = await instance.get(`/admin/event/${id}`).catch((e) => {
+      console.log(e);
+      return e.response;
+    });
     return response;
   },
   getBanner: async (obj) => {
