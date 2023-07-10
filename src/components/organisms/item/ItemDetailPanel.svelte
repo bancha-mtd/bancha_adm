@@ -118,17 +118,17 @@
     category2: "",
     category3: "",
     target: targets[0],
-    type: types[0],
+    isBanchaPlaning: types[0],
     title: "",
-    subtitle: "",
+    subTitle: "",
     hashtags: "",
     peopleStandard: "",
     peopleMin: "",
     peopleMax: "",
     programSummary: "",
-    ageStandard: "",
-    ageMin: "",
-    ageMax: "",
+    recommendAge: "",
+    minAge: "",
+    maxAge: "",
     useMinute: "",
     autoConfirm: autoConfirms[0],
     activeDay: [false, false, false, false, false, false, false],
@@ -149,16 +149,15 @@
     teacherIntro: "",
     curriculum: "",
     timeTable: "",
-    checkList: "",
 
-    sigungu: "",
+    addr: "",
     postcode: "",
     address: "",
-    refundType: refundTypes[0],
+    refundTypeId: refundTypes[0],
 
     facilities: "",
-    lat: "",
-    long: "",
+    latitude: "",
+    longitude: "",
     summary: "",
     random: randoms[0],
     excludingDate: "",
@@ -166,7 +165,6 @@
     productText: "",
     remark: "",
     refundImageUrl: "",
-    isBanchaPlaning: true,
     isDiscounted: true,
     excludingDateList: [
       "2023-07-26", // item.excludingDate 날짜 방식 확정후 넣음
@@ -358,9 +356,8 @@
         }
       }
       console.log(product);
-      item.checkList = product.programContentText;
+      item.itemPoint = product.programContentText;
       item.detailImage = product.productImageUrl;
-      item.subtitle = product.subTitle;
       item.price = product.prePrice;
       item.discountedPrice = product.afterPrice;
     });
@@ -380,36 +377,36 @@
       product: {
         partnerId: item.partnerId || "",
         title: item.title || "",
-        subTitle: item.subtitle || "",
-        //basicUserInfo: combinedValue || "",
+        subTitle: item.subTitle || "",
+        basicUserInfo: combinedValue || "",
         autoConfirm: item.autoConfirm.value || "",
         reservationDay: activeDayString || "",
         facilities: item.facilities || "",
         address: item.address || "",
         postNum: item.postcode || "",
-        addr: item.sigungu || "",
+        addr: item.addr || "",
         programContentText: item.itemPoint || "",
         include: item.include || "",
         exclude: item.exclude || "",
-        recommendAge: item.ageStandard || "",
+        recommendAge: item.recommendAge || "",
         productText: "", // 보류
         useYn: item.useYn.value, // 라디오 버튼 활성화 비활성화
         remark: "string", // 일단 냅둠
         useMinute: item.useMinute || "",
         checkList: item.checkList || "", // 공지사항 붙여둠
-        latitude: item.lat || "",
-        longitude: item.long || "",
-        refundTypeId: item.refundType || "",
+        latitude: item.latitude || "",
+        longitude: item.longitude || "",
+        refundTypeId: item.refundTypeId || "",
         refundImageUrl: "string", // 미구현api 일단 냅둠
         prePrice: item.price || "",
         afterPrice: item.discountedPrice || "",
-        maxAge: item.ageMax || "",
-        minAge: item.ageMin || "",
+        maxAge: item.maxAge || "",
+        minAge: item.minAge || "",
         managerId: item.managerId || "", // DB수정후 등록할 예정
         manualLabel: item.label || "",
         programSummary: "", // 보류
         target: item.target.name || "",
-        isBanchaPlaning: true,
+        isBanchaPlaning: item.isBanchaPlaning,
         isDiscounted: true,
         randomShow: item.random.name || "", // 노출 숨김 넣어둠
       },
@@ -442,78 +439,15 @@
         alert("오류가 발생했습니다.");
       }
     });
-    //console.log(JSON.stringify(newitem));
+    console.log(JSON.stringify(newitem));
 
     return;
   };
   const modifyItem = () => {
-    const combinedValue = `${item.peopleStandard} 기준 ${item.peopleMin}인 ~ ${item.peopleMax}인`;
-    let activeDayString = item.activeDay
-      .map((day) => (day ? "1" : "0"))
-      .join("");
+    
+    console.log(item);
 
-    let newitem = {
-      categoryIds: [c1, c2, c3],
-      product: {
-        id: itemId,
-        partnerId: item.partnerId || "",
-        title: item.title || "",
-        subTitle: item.subtitle || "",
-        //basicUserInfo: combinedValue || "",
-        autoConfirm: item.autoConfirm.value || "",
-        reservationDay: activeDayString || "",
-        facilities: item.facilities || "",
-        address: item.address || "",
-        postNum: item.postcode || "",
-        addr: item.sigungu || "",
-        programContentText: item.itemPoint || "",
-        include: item.include || "",
-        exclude: item.exclude || "",
-        recommendAge: item.ageStandard || "",
-        productText: "", // 보류
-        useYn: item.useYn.value,
-        remark: "string", // 일단 냅둠
-        useMinute: item.useMinute || "",
-        checkList: item.checkList || "", // 공지사항 붙여둠
-        latitude: item.lat || "",
-        longitude: item.long || "",
-        refundTypeId: item.refundType || "",
-        refundImageUrl: "string", // 미구현api 일단 냅둠
-        prePrice: item.price || "",
-        afterPrice: item.discountedPrice || "",
-        maxAge: item.ageMax || "",
-        minAge: item.ageMin || "",
-        managerId: item.managerId || "",
-        manualLabel: item.label || "",
-        programSummary: "", // 보류
-        target: item.target.name || "",
-        isBanchaPlaning: true,
-        isDiscounted: true,
-        randomShow: item.random.name || "", // 노출 숨김 넣어둠
-      },
-      excludingDateList: [
-        "2023-07-26", // 방식 확정후 넣어야함
-      ],
-      saleList: {
-        optionTitleKeys: [optiontitle1, optiontitle2, optiontitle3],
-        options: tableData,
-      },
-      additionalOptionList: tableData2,
-    };
-    let frm = new FormData();
-    frm.append(
-      "req",
-      new Blob([JSON.stringify(newitem)], { type: "application/json" })
-    );
-
-    frm.append("productDescriptionImg", dfile);
-    frm.append("thumbnailImages", tfile1);
-    frm.append("thumbnailImages", tfile2);
-    frm.append("thumbnailImages", tfile3);
-    frm.append("thumbnailImages", tfile4);
-    frm.append("thumbnailImages", tfile5);
-
-    APIs.modifyItem(frm).then((res) => {
+    /*APIs.modifyItem(frm).then((res) => {
       if (res.status === 200) {
         alert("등록 완료");
       } else {
@@ -524,7 +458,7 @@
     for (const pair of frm.entries()) {
       console.log(pair);
     }
-    return;
+    return;*/
   };
   const preview = () => {
     return;
@@ -539,7 +473,7 @@
       oncomplete: function (data) {
         console.log(data);
         item.postcode = data.zonecode;
-        item.sigungu = data.sigungu;
+        item.addr = data.sigungu;
         item.address = data.roadAddress;
       },
     }).open();
@@ -640,8 +574,8 @@
   </DetailRow>
   <DetailRow title="유형">
     <Radio
-      name="type"
-      bind:value={item.type}
+      name="type123"
+      bind:value={item.isBanchaPlaning}
       height="30px"
       fontSize="16px"
       lists={types}
@@ -660,7 +594,7 @@
     <BorderedInput alignCenter={false} width="80%" bind:value={item.title} />
   </DetailRow>
   <DetailRow title="부제목">
-    <BorderedInput alignCenter={false} width="80%" bind:value={item.subtitle} />
+    <BorderedInput alignCenter={false} width="80%" bind:value={item.subTitle} />
   </DetailRow>
   <DetailRow title="해쉬 태그">
     <BorderedInput
@@ -721,13 +655,13 @@
     <SpaceAround gap="30px">
       <LabeledBorderedInput
         width="50px"
-        bind:value={item.ageMin}
+        bind:value={item.minAge}
         pre="최소"
         post="세"
       />
       <LabeledBorderedInput
         width="50px"
-        bind:value={item.ageMax}
+        bind:value={item.maxAge}
         pre="최대"
         post="세"
       />
@@ -1150,7 +1084,7 @@
           click={findAddr}
           fontSize="16px"
         />
-        <BorderedInput bind:value={item.sigungu} fontSize="16px" />
+        <BorderedInput bind:value={item.addr} fontSize="16px" />
       </div>
       <BorderedInput bind:value={item.address} fontSize="16px" width="600px" />
     </FlexCol>
@@ -1158,13 +1092,13 @@
   <DetailRow title="위도/경도">
     <FlexCol gap="10px">
       <div>
-        <BorderedInput bind:value={item.lat} fontSize="16px" />
-        <BorderedInput bind:value={item.long} fontSize="16px" />
+        <BorderedInput bind:value={item.latitude} fontSize="16px" />
+        <BorderedInput bind:value={item.longitude} fontSize="16px" />
       </div>
     </FlexCol>
   </DetailRow>
   <DetailRow title="취소 및 환불규정">
-    <select bind:value={item.refundType}>
+    <select bind:value={item.refundTypeId}>
       <option value="">규정 선택</option>
       {#each refundTypes as [id, text]}
         <option value={id}>{text}</option>

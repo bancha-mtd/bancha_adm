@@ -28,6 +28,11 @@
 		item.detailImg = URL.createObjectURL(dfile);
 	};
 
+	let randoms: SelectType[] = [
+		{ id: 1, name: "노출", value: 1 },
+		{ id: 2, name: "숨김", value: 2 },
+	];
+
 	let item = {
 		id: "new",
 		title: "",
@@ -35,7 +40,7 @@
 		endDate: "",
 		detailImg: "",
 		titleImg: "",
-		useYn: true,
+		useYn: randoms[0],
 	};
 
 	const deleteItem = () => {
@@ -138,6 +143,15 @@
 	</DetailRow>
 	<DetailRow title="제목">
 		<BorderedInput fontSize="16px" width="80%" bind:value={item.title} />
+	</DetailRow>
+	<DetailRow title="랜덤 노출여부">
+		<Radio
+			name="random"
+			bind:value={item.useYn}
+			height="30px"
+			fontSize="16px"
+			lists={randoms}
+		/>
 	</DetailRow>
 
 	<DetailRow title="시작일자">

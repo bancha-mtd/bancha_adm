@@ -86,13 +86,13 @@
 		{ value: 60, id: 60, name: "토스뱅크" },
 	];
 	let item = {
-		id: itemId,
+		id: itemId, //
 		email: "",
-		password: "",
-		grade: partnerGrade[0],
+		password: "", //
+		grade: partnerGrade[0], //
 		ceo: "",
 		manager: "",
-		nickname: "",
+		nickname: "", //
 		postcode: "",
 		sigungu: "",
 		address: "",
@@ -129,29 +129,27 @@
 
 	const add = () => {
 		let itemformat = {
-			partner: {
-				partnerId: item.email,
-				password: item.password,
-				bizName: "", //??
-				ceoName: item.ceo,
-				managerId: 0,
-				certification: true,
-				bizNumber: item.bizNumber,
-				bankNumber: item.bizAccount,
-				subTitle: item.partnerInfoTitle,
-				description: item.partnerInfo,
-				cellphone: item.phone,
-				address: item.addressDetail,
-				pees: 0, // ??
-				useYn: true,
-				remark: "string", // ??
-				state: 0, // ??
-			},
+			partnerId: item.email,
+			password: item.password,
+			bizName: item.nickname,
+			ceoName: item.ceo,
+			managerId: 0,
+			certification: true,
+			bizNumber: item.bizNumber,
+			bankNumber: item.bizAccount,
+			subTitle: item.partnerInfoTitle,
+			description: item.partnerInfo,
+			cellphone: item.phone,
+			address: item.addressDetail,
+			pees: 0,
+			useYn: true,
+			remark: "string", // ??
+			state: 0, // ??
 		};
 
 		let frm = new FormData();
 		frm.append(
-			"req",
+			"partner",
 			new Blob([JSON.stringify(itemformat)], { type: "application/json" })
 		);
 		frm.append("profileImg", item.profileImg);
@@ -165,7 +163,7 @@
 			}
 			return;
 		});
-		//console.log(JSON.stringify(itemformat));
+		console.log(JSON.stringify(itemformat));
 	};
 	const modifyItem = () => {
 		//console.log(item);
@@ -397,7 +395,7 @@
 	</FlexCol>
 </DetailRow>
 
-<DetailRow title="파트너 이미지">
+<DetailRow title="파트너 이미지(test)">
 	<FlexCol
 		><Image width="70%" height="350px" src={item.partnerImg} />
 		<input
@@ -406,5 +404,28 @@
 			bind:value={file2}
 			on:change={fileHandler2}
 		/>
+	</FlexCol>
+</DetailRow>
+<DetailRow title="파트너 이미지(연결x)">
+	<FlexCol gap="10px">
+		<Flex gap="10px">
+			<input type="file" accept="image/*" />
+		</Flex>
+
+		<Flex gap="10px">
+			<input type="file" accept="image/*" />
+		</Flex>
+
+		<Flex gap="10px">
+			<input type="file" accept="image/*" />
+		</Flex>
+
+		<Flex gap="10px">
+			<input type="file" accept="image/*" />
+		</Flex>
+
+		<Flex gap="10px">
+			<input type="file" accept="image/*" />
+		</Flex>
 	</FlexCol>
 </DetailRow>
