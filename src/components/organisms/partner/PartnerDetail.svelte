@@ -143,7 +143,7 @@
 			address: item.addressDetail,
 			pees: 0,
 			useYn: true,
-			remark: "string", // ??
+			remark: "", // ??
 			state: 0, // ??
 		};
 
