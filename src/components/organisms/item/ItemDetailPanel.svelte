@@ -84,9 +84,9 @@
   let partners: string[];
 
   let targets: SelectType[] = [
-    { id: 1, name: "키즈", value: "kids" },
-    { id: 2, name: "키즈패밀리", value: "kidsfamily" },
-    { id: 3, name: "부모", value: "parent" },
+    { id: 1, name: "키즈", value: 1 },
+    { id: 2, name: "키즈패밀리", value: 2 },
+    { id: 3, name: "부모", value: 3 },
   ];
   let types: SelectType[] = [
     { id: 1, name: "반차 기획", value: 1 },
@@ -117,7 +117,7 @@
     category1: "",
     category2: "",
     category3: "",
-    target: targets[0],
+    target: "",
     isBanchaPlaning: types[0],
     title: "",
     subTitle: "",
@@ -210,6 +210,10 @@
     item.managerId = parseInt(selectedValue[0], 10);
   }
 
+  let targetselect = "";
+  function handleTargetSelection(event) {
+    targetselect = targets[event.target.value - 1].name;
+  }
   function handlePartnerSelection(event) {
     const selectedId = event.target.value;
     const selectedValue = bizNames[selectedId];
@@ -405,8 +409,8 @@
         managerId: item.managerId || "", // DB수정후 등록할 예정
         manualLabel: item.label || "",
         programSummary: "", // 보류
-        target: item.target.name || "",
-        isBanchaPlaning: item.isBanchaPlaning,
+        target: targetselect || "",
+        isBanchaPlaning: item.isBanchaPlaning.value,
         isDiscounted: true,
         randomShow: item.random.name || "", // 노출 숨김 넣어둠
       },
@@ -440,11 +444,10 @@
       }
     });
     console.log(JSON.stringify(newitem));
-
+    console.log(item.target);
     return;
   };
   const modifyItem = () => {
-    
     console.log(item);
 
     /*APIs.modifyItem(frm).then((res) => {
@@ -565,12 +568,12 @@
     </SpaceAround>
   </DetailRow>
   <DetailRow title="타겟">
-    <Select
-      lists={targets}
-      selected={item.target}
-      fontSize="16px"
-      height="30px"
-    />
+    <select bind:value={item.target} on:change={handleTargetSelection}>
+      <option value="">타겟 선택</option>
+      {#each targets as target}
+        <option value={target.id}>{target.name}</option>
+      {/each}
+    </select>
   </DetailRow>
   <DetailRow title="유형">
     <Radio
