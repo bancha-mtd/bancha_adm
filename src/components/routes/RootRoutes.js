@@ -3,6 +3,7 @@ import ExhibitionDetailPage from "../pages/item/ExhibitionDetailPage.svelte";
 import ExhibitionListPage from "../pages/item/ExhibitionListPage.svelte";
 import GroupDealDetailPage from "../pages/item/GroupDealDetailPage.svelte";
 import GroupDealListPage from "../pages/item/GroupDealListPage.svelte";
+import ItemAddPage from "../pages/item/ItemAddPage.svelte";
 import ItemDetailPage from "../pages/item/ItemDetailPage.svelte";
 import ItemListPage from "../pages/item/ItemListPage.svelte";
 import SectionDetailPage from "../pages/item/SectionDetailPage.svelte";
@@ -42,71 +43,72 @@ import RefundDetailPage from "../pages/setting/RefundDetailPage.svelte";
 import RefundListPage from "../pages/setting/RefundListPage.svelte";
 
 const routes = {
-	"/": LoginPage,
-	"/main": MainPage,
+  "/": LoginPage,
+  "/main": MainPage,
 
-	"/item": ItemListPage,
-	"/item/:id": ItemDetailPage,
+  "/item": ItemListPage,
+  "/item/add": ItemAddPage,
+  "/item/:id": ItemDetailPage,
 
-	"/category": CategoryListPage,
+  "/category": CategoryListPage,
 
-	"/exhibition": ExhibitionListPage,
-	"/exhibition/:id": ExhibitionDetailPage,
+  "/exhibition": ExhibitionListPage,
+  "/exhibition/:id": ExhibitionDetailPage,
 
-	"/groupdeal": GroupDealListPage,
-	"/groupdeal/:id": GroupDealDetailPage,
+  "/groupdeal": GroupDealListPage,
+  "/groupdeal/:id": GroupDealDetailPage,
 
-	"/section": SectionListPage,
-	"/section/:id": SectionDetailPage,
+  "/section": SectionListPage,
+  "/section/:id": SectionDetailPage,
 
-	"/reservation": ReservationListPage,
-	"/reservation/:id": ReservationDetailPage,
+  "/reservation": ReservationListPage,
+  "/reservation/:id": ReservationDetailPage,
 
-	"/review": ReviewListPage,
-	"/review/:id": ReviewDetailPage,
+  "/review": ReviewListPage,
+  "/review/:id": ReviewDetailPage,
 
-	"/member": MemberListPage,
-	"/member/:id": MemberDetailPage,
+  "/member": MemberListPage,
+  "/member/:id": MemberDetailPage,
 
-	"/partner": PartnerListPage,
-	"/partner/:id": PartnerDetailPage,
+  "/partner": PartnerListPage,
+  "/partner/:id": PartnerDetailPage,
 
-	"/manager": ManagerListPage,
+  "/manager": ManagerListPage,
 
-	"/point": PointRecordListPage,
+  "/point": PointRecordListPage,
 
-	"/message": MessageListPage,
-	"/message/send": MessageSendingPage,
-	"/message/:id": MessageDetailPage,
+  "/message": MessageListPage,
+  "/message/send": MessageSendingPage,
+  "/message/:id": MessageDetailPage,
 
-	"/push": PushAlarmListPage,
-	"/push/:id": PushAlarmDetailPage,
+  "/push": PushAlarmListPage,
+  "/push/:id": PushAlarmDetailPage,
 
-	"/notice": NoticeListPage,
-	"/notice/:id": NoticeDetailPage,
-	"/faq/:id": FaqDetailPage,
+  "/notice": NoticeListPage,
+  "/notice/:id": NoticeDetailPage,
+  "/faq/:id": FaqDetailPage,
 
-	"/event": EventListPage,
-	"/event/:id": EventDetailPage,
+  "/event": EventListPage,
+  "/event/:id": EventDetailPage,
 
-	"/banner": BannerListPage,
-	"/banner/:id": BannerDetailpage,
+  "/banner": BannerListPage,
+  "/banner/:id": BannerDetailpage,
 
-	"/pre": PreScreenListPage,
+  "/pre": PreScreenListPage,
 
-	"/keyword": KeywordPage,
+  "/keyword": KeywordPage,
 
-	"/refund": RefundListPage,
-	"/refund/:id": RefundDetailPage,
+  "/refund": RefundListPage,
+  "/refund/:id": RefundDetailPage,
 
-	"/preset/point": PointPresetPage,
-	"/preset/point/:id": PointPresetDetailPage,
+  "/preset/point": PointPresetPage,
+  "/preset/point/:id": PointPresetDetailPage,
 
-	"/preset/message": MessagePresetPage,
+  "/preset/message": MessagePresetPage,
 
-	"/preset/push": PushPresetPage,
+  "/preset/push": PushPresetPage,
 
-	"*": NotFound,
+  "*": NotFound,
 };
 
 export default routes;

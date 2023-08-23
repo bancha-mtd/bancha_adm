@@ -35,6 +35,7 @@ const instance = axios.create({
 let refreshed = false;
 instance.interceptors.request.use(
   function (config) {
+    console.log(instance.defaults.headers.common["Authorization"]);
     return config;
   },
   async function (error) {
@@ -77,20 +78,20 @@ const Requests = {
       .then((res) => {
         if (res.data.message === "토큰 생성 성공") {
           let tokenInfo = parseJwt(res.data.accessToken);
-
           isLoggedIn.set(true);
           grantType.set(res.data.grantType);
           accessToken.set(res.data.accessToken);
           refreshToken.set(res.data.refreshToken);
+          instance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${res.data.accessToken}`;
+          localStorage.setItem("refreshToken", res.data.refreshToken);
           type.set(tokenInfo.authType);
           nickname.set(tokenInfo.managerName);
           managerId.set(tokenInfo.id);
 
-          localStorage.setItem("refreshToken", res.data.refreshToken);
-
-          instance.defaults.headers.common[
-            "Authorization"
-          ] = `${res.data.grantType} ${res.data.accessToken}`;
+          console.log("Login");
+          console.log(instance.defaults.headers.common["Authorization"]);
         }
         return res;
       })
@@ -101,6 +102,7 @@ const Requests = {
     return response;
   },
   refresh: async (token) => {
+    console.log("Refresh Token");
     const response = await instance
       .post("/refresh", { refreshToken: token })
       .then((res) => {
@@ -148,9 +150,11 @@ const Requests = {
     return response;
   },
   getItemForm: async () => {
-    const response = await instance.get("/admin/product/add-product-form").catch((e) => {
-      return e.response;
-    });
+    const response = await instance
+      .get("/admin/product/add-product-form")
+      .catch((e) => {
+        return e.response;
+      });
     return response;
   },
   getItem: async (obj) => {
@@ -199,6 +203,16 @@ const Requests = {
   getGroupdeal: async (obj) => {
     const response = await instance
       .post("/admin/product/list", obj)
+      .catch((e) => {
+        console.log(e);
+        return e.response;
+      });
+    return response;
+  },
+
+  getReservations: async () => {
+    const response = await instance
+      .get("/admin/reservation/list")
       .catch((e) => {
         console.log(e);
         return e.response;
