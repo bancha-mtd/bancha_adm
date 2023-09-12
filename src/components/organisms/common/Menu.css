@@ -1,0 +1,17 @@
+nav {
+  background-color: white;
+  width: 10dvw;
+  height: calc(100dvh - 50px);
+  overflow: scroll;
+}
+nav::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s linear;
+  margin-top: 20px;
+}
