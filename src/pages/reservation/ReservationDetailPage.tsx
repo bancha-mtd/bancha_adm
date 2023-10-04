@@ -135,6 +135,17 @@ const ReservationDetailPage = () => {
               })}
             </Flex>
           </TitledCell>
+          <TitledCell title="수량">
+            <Flex direction="column" gap="10px" width="66.6666%">
+              {item.summary.reservationOption.map((opt: any, idx: number) => {
+                return (
+                  <Text key={`opt_${idx}`} color="orange">
+                    {opt.quantity}
+                  </Text>
+                );
+              })}
+            </Flex>
+          </TitledCell>
         </Flex>
       </Panel>
     </article>
